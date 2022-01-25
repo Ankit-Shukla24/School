@@ -342,7 +342,7 @@ if(document.querySelector("#signup-form"))
         const data1  = await axios ({
 
          method:'POST',
-         url:'http://127.0.0.1:3000/api/v1/userInfo/signup',
+         url:'/api/v1/userInfo/signup',
          data:data   
         })
 

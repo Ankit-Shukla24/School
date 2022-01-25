@@ -10,7 +10,7 @@
     "build:js":"parcel build ./public/js/script.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "",
-  "license": "ISC",
+  " icense": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "axios": "^0.24.0",
