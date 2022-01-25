@@ -32,6 +32,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
         if(vals[4])
        { obj["dob"] = (vals[4].split(" ")[0]);
+       if(vals[4].split("(")[1])
         obj["dob_in_word"] = vals[4].split("(")[1].replace(")","");}
         if(vals[5])
         {obj["caste"] = vals[5].split(" ")[0];
@@ -60,7 +61,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
         obj["ukg"] = lodash.cloneDeep(passobj);
         }
-        obj["last_class"] = moment(vals[12]).format("L");
+        obj["last_class"] = vals[12];
         
         if(vals[13])
         {obj["leave_date"] =  (vals[13].split(" ")[0]);
@@ -90,6 +91,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         
         if(vals[4])
        { obj["dob"] = (vals[4].split(" ")[0]);
+       if(vals[4].split("(")[1])
         obj["dob_in_word"] = vals[4].split("(")[1].replace(")","");}
         
         if(vals[5])
@@ -138,7 +140,7 @@ console.log(passobj);
 
         obj["five"] = lodash.cloneDeep(passobj);}
 
-        obj["last_class"] = moment(vals[15]).format("L");
+        obj["last_class"] = (vals[15]);
         if(vals[16])
        { obj["leave_date"] =  (vals[16].split(" ")[0]);
         obj["leave_reason"]  = vals[16].slice(10); 
@@ -170,6 +172,7 @@ console.log(passobj);
         
         if(vals[4])
        { obj["dob"] = (vals[4].split(" ")[0]);
+       if(vals[4].split("(")[1])
         obj["dob_in_word"] = vals[4].split("(")[1].replace(")","");
     }
         
@@ -200,7 +203,7 @@ console.log(passobj);
 
         obj["eight"] = lodash.cloneDeep(passobj);}
      
-        obj["last_class"] = moment(vals[13]).format("L");
+        obj["last_class"] = (vals[13]);
         if(vals[14])
        { obj["leave_date"] =  (vals[14].split(" ")[0]);
         obj["leave_reason"]  = vals[14].slice(10); }
@@ -249,7 +252,7 @@ console.log(passobj);
 //         obj["pg"] = lodash.cloneDeep(passobj);}
     
      
-//         obj["last_class"] = moment(vals[11]).format("L");
+//         obj["last_class"] = (vals[11]);
 //         if(vals[12])
 //        { obj["leave_date"] =  (vals[12].split(" ")[0]);
 //         obj["leave_reason"]  = vals[12].slice(10); }

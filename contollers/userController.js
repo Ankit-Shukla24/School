@@ -15,7 +15,7 @@ const newUser =await User.create({
 
 const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{
     expiresIn:process.env.JWT_EXPIRE
-}) 
+})
 
 const cookieOption = {
     expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
@@ -81,7 +81,7 @@ res.locals.user = user;
     }
 catch(err)
 {
-console.log(err);
+next(err);
 }
 
 };

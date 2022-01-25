@@ -319,27 +319,29 @@ exports.srFind= async(req,res)=>{
 
     if(req.params.id1==="lkgtoukg")
     if(req.params.id3!=="NULL")
-data = await lkgToukg.find({sr_no:req.params.id3});
+data =  lkgToukg.find({sr_no:req.params.id3});
     else if(req.params.id2!=="NULL")
-    data =await lkgToukg.find({name:{$regex:"^"+req.params.id2}});
+    data = lkgToukg.find({name:{$regex:"^"+req.params.id2}});
     else
-    data = await lkgToukg.find({});
+    data =  lkgToukg.find({});
 
     if(req.params.id1==="1to5")
     if(req.params.id3!=="NULL")
-data = await oneToFive.find({sr_no:req.params.id3});
+data =  oneToFive.find({sr_no:req.params.id3});
     else if(req.params.id2!=="NULL")
-    data =await oneToFive.find({name:{$regex:"^"+req.params.id2}});
+    data = oneToFive.find({name:{$regex:"^"+req.params.id2}});
     else
-    data = await oneToFive.find({});
+    data =  oneToFive.find({});
 
     if(req.params.id1==="6to8")
     if(req.params.id3!=="NULL")
-data = await sixToeight.find({sr_no:req.params.id3});
+data =  sixToeight.find({sr_no:req.params.id3});
     else if(req.params.id2!=="NULL")
-    data =await sixToeight.find({name:{$regex:"^"+req.params.id2}});
+    data = sixToeight.find({name:{$regex:"^"+req.params.id2}});
     else
-    data = await sixToeight.find({});
+    data =  sixToeight.find({});
+
+    data= await data.sort({sr_no:-1});
 
 res.status(201).render("sr-find",{
     data

@@ -13,7 +13,7 @@ block content
         each student in data
             .student-pallet
                 ul
-                    li= `Sr No.: ${student.sr}`
+                    li= `Sr No.: ${student.sr_no}`
                     li= `Student Name: ${student.name}`
                     li= `Father Name: ${student.father_name}`
                     +datechanger(student.dob)
