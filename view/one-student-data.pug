@@ -1,0 +1,34 @@
+extend base
+
+mixin datechanger(date_change,val)
+    -let data = date_changer
+    
+    -if(date_change!=undefined)
+        -data=date_change.toISOString().split('T')[0];
+    -// console.log(`${data}*`);    
+    input(type="date" class=`month` value=data name=`${val}`) 
+
+
+block content
+    .form-div-data
+        form#get-student-data.get-form
+            label(for="year") Year
+            input#student-year(type="text" value=`${student.year}` name="year")
+            label(for="class") Class
+            input#student-class(type="text" name="class" value=`${student.class}`)
+            label(for="roll_no") Roll No.
+            input#student-roll_no(type="text" name="roll_no" value=`${student.roll_no}`)
+            label(for="student") Student's name
+            input#student-name(type="text" name="student" value=`${student.name}`)
+            label(for="father") Father's name
+            input#student-father(type="text" name="father" value=`${student.father_name}`)
+            label(for="dob") Date of birth
+            input#student-dob(type="date" name="dob" value=student.date_of_birth.toISOString().split('T')[0])
+        .month-palet
+            each val in ['january','february','march','april','may','june','july','august','september','october','november','december']
+                .month-info-palet
+                    -let v=`${val}`;
+                    -v=v[0].toUpperCase()+v.slice(1);
+                        label(for="month" class=`monthLable`)=v
+                        +datechanger(student[`${val}`] ,val)                
+        input#submit-all(type="submit" name="submit" value="Submit")

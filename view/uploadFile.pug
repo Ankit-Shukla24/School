@@ -1,0 +1,13 @@
+extend base
+
+block content
+    .form-div
+        form.get-form.uploader
+            p Enter the required data
+            label(for="type") Enter Type
+            input#type-data(type="text" name="type")
+            label(for="description") Enter description
+            input#desc(type="text" name="description")
+            label(for="file") Select file
+            input.send-file(type="file" name="file" id="fileUp")
+            input#submit-file(type="submit" name="submit" value="Submit")

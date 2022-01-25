@@ -1,0 +1,48 @@
+extend base
+
+mixin datechanger(date_change)
+    -let data = date_changer
+    -if(date_change!=undefined)
+        -data=new Date(date_change).toDateString();
+        td= data
+    -else
+        td= data
+
+    
+
+block content   
+    -let grandtotal = 0*1;
+    .extender
+        table(border="2" class="center")
+            tr
+            th Year 
+            th Class 
+            th Roll No.
+            th Name
+            th Father Name
+            th Date of birth
+            th Fee Date
+            th Month
+            th Fees 
+            -console.log(render_data);
+                each students in render_data
+                    each student in students.data
+                        tr
+                        td=student.year
+                        td=student.class
+                        td=student.roll_no
+                        td=student.name
+                        td=student.father_name
+                        +datechanger(student.date_of_birth)
+                        +datechanger(student.date)
+                        td=student.month[0].toUpperCase()+student.month.slice(1)
+                        td=student.fees
+                    if(students.month===undefined)
+                        span= `Class ${students.class} Total is 💸 ${students.total}` 
+                    if(students.month!==undefined)
+                        span= `Month ${students.month} Total is 💸 ${students.total}`
+                    -grandtotal+=students.total*1;
+                    -console.log(grandtotal);
+                    br
+                span= `Grand Total comes to 💰 ${grandtotal}` 
+        

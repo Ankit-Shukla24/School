@@ -1,0 +1,15 @@
+extend base
+
+block content
+    .form-div
+        form.get-form#signup-form
+            p Enter the required data
+            label(for="username") Username
+            input#username-signup(type="text" name="name" placeholder="username")
+            label(for="username") Email
+            input#email-signup(type="text" name="name" placeholder="email")
+            label(name="password") Password
+            input#password-signup(type="text" name="password" placeholder="password")
+            label(name="password") Confirm Password
+            input#passwordConfirm-signup(type="text" name="confirm-password" placeholder="confirm password")
+            input#submit-signup(type="submit" value="Sign Up")

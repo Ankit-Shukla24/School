@@ -1,0 +1,101 @@
+extend base
+
+block content
+    .form-div-data
+        form.#get-student-sr-data.get-form.left
+            label(for="sr") Sr
+            input#student-sr(type="text" value=`${student.sr}` name="sr") 
+            label(for="sr_no") Sr. No.
+            input#student-sr_no(type="text" value=`${student.sr_no}` name="sr_no")
+            if(student.prev_sr_no)
+            label(for="prev_sr_no") Prev Sr. No.
+            input#student-prev_sr_no(type="text" name="prev_sr_no" value=`${student.prev_sr_no}`)
+            label(for="student") Student's name
+            input#student-sr-name(type="text" name="student" value=`${student.name}`)
+            label(for="dob") Date of birth
+            input#student-sr-dob(type="text" name="dob" value=student.dob)
+            label(for="dob_in_word") Date of birth(in words)
+            input#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
+            label(for="caste") Caste
+            input#student-sr-caste(type="text" name="caste" value=student.caste)
+            label(for="religion") Religion
+            input#student-sr-religion(type="text" name="religion" value=student.religion)
+            label(for="father") Father's name
+            input#student-sr-father(type="text" name="father" value=`${student.father_name}`)
+            label(for="mother") Mother's name
+            input#student-sr-mother(type="text" name="mother" value=`${student.mother_name}`)            
+            label(for="address") Address
+            input#student-sr-address(type="text" name="address" value=student.address)
+            label(for="occupation") Occupation
+            input#student-sr-occupation(type="text" name="occupation" value=student.occupation)
+            if(student.lkg)
+                label(for="lkg_admission") LKG Admission
+                input#student-sr-lkg_admission(type="text" name="lkg_admission" value=student.lkg.admission)
+                label(for="lkg_passing") LKG Passing
+                input#student-sr-lkg_passing(type="text" name="lkg_passing" value=student.lkg.passing)
+            if(student.ukg)
+                label(for="ukg_admission") UKG Admission
+                input#student-sr-ukg_admission(type="text" name="ukg_admission" value=student.ukg.admission)
+                label(for="ukg_passing") UKG Passing
+                input#student-sr-ukg_passing(type="text" name="ukg_passing" value=student.ukg.passing)
+            -console.log(student.one)
+            if(student.one)
+                label(for="one_admission") 1<super>th</super> Admission
+                input#student-sr-one_admission(type="text" name="one_admission" value=student.one.admission)
+                label(for="one_passing") 1 Passing
+                input#student-sr-one_passing(type="text" name="one_passing" value=student.one.passing)
+            if(student.two)
+                label(for="two_admission") 2 Admission
+                input#student-sr-two_admission(type="text" name="two_admission" value=student.two.admission)
+                label(for="two_passing") 2 Passing
+                input#student-sr-two_passing(type="text" name="two_passing" value=student.two.passing)
+            if(student.three)
+                label(for="three_admission") 3 Admission
+                input#student-sr-three_admission(type="text" name="three_admission" value=student.three.admission)
+                label(for="three_passing") 3 Passing
+                input#student-sr-three_passing(type="text" name="three_passing" value=student.three.passing)
+            if(student.four)
+                label(for="four_admission") 4 Admission
+                input#student-sr-four_admission(type="text" name="four_admission" value=student.four.admission)
+                label(for="four_passing") 4 Passing
+                input#student-sr-four_passing(type="text" name="four_passing" value=student.four.passing)
+            if(student.five)
+                label(for="five_admission") 5 Admission
+                input#student-sr-five_admission(type="text" name="five_admission" value=student.five.admission)
+                label(for="five_passing") 5 Passing
+                input#student-sr-five_passing(type="text" name="five_passing" value=student.five.passing)
+            if(student.six)
+                label(for="six_admission") 6 Admission
+                input#student-sr-six_admission(type="text" name="six_admission" value=student.six.admission)
+                label(for="six_passing") 6 Passing
+                input#student-sr-six_passing(type="text" name="six_passing" value=student.six.passing)
+            if(student.seven)
+                label(for="seven_admission") 7 Admission
+                input#student-sr-seven_admission(type="text" name="seven_admission" value=student.seven.admission)
+                label(for="seven_passing") 7 Passing
+                input#student-sr-seven_passing(type="text" name="seven_passing" value=student.seven.passing)
+            if(student.eight)
+                label(for="eight_admission") 8 Admission
+                input#student-sr-eight_admission(type="text" name="eight_admission" value=student.eight.admission)
+                label(for="eight_passing") 8 Passing
+                input#student-sr-eight_passing(type="text" name="eight_passing" value=student.eight.passing)
+            label(for="last_class") Last Class
+            input#student-sr-last_class(type="text" name="last_class" value=student.last_class)
+            label(for="leave_date") Leave Date
+            input#student-sr-leave_date(type="text" name="leave_date" value=student.leave_date)
+            label(for="remark") Remark
+            input#student-sr-remark(type="text" name="remark" value=student.remark)
+            label(for="leave_reason") Leave Reason
+            input#student-sr-leave_reason(type="text" name="leave_reason" value=student.leave_reason)
+            label(for="brother_sister") Brother/Sister
+            input#student-sr-brother_sister(type="text" name="brother_sister" value=student.brother_sister)
+            input#submit-sr(type="submit" value ="Submit")    
+        .margin5
+            if(student.sr==='1 TO 5')    
+                a(href=`/studentInfo/sr-find/lkgtoukg/NULL/${student.prev_sr_no}`)
+                    button.option--btn Prev Sr
+            else if(student.sr==='6 TO 8')
+                a(href=`/studentInfo/sr-find/1to5/NULL/${student.prev_sr_no}`)
+                    button.option--btn Prev Sr 
+            a(href=`/studentInfo/get-one/false/false/${student.name}/${student.father_name}`)
+                button.option--btn Get Fee Record

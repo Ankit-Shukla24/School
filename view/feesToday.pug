@@ -1,0 +1,33 @@
+extend base
+
+mixin datechanger(date_change)
+    -let data = date_changer
+    -if(date_change!=undefined)
+        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'long', year: 'numeric'})
+        td=data
+    -else
+        td=data
+
+    
+block content   
+    .extender
+        table(border="2" class="center")
+            tr
+            th Year 
+            th Class 
+            th Roll No.
+            th Name
+            th Father Name
+            th Date of birth
+            th Month
+            th Fees 
+                each student in data 
+                    tr
+                    td=student.year
+                    td=student.class
+                    td=student.roll_no
+                    td=student.name
+                    td=student.father_name
+                    +datechanger(student.date_of_birth)
+                    td=student.month[0].toUpperCase()+student.month.slice(1)
+                    td=student.fees

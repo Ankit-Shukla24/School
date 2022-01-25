@@ -1,0 +1,27 @@
+extend base
+
+block content
+    .studentInfo-page.extender
+        .option--page
+            a(href="studentInfo/get-all")
+                button.get-all.option--btn Get all student
+            a(href="studentInfo/get-one")
+                button.get-one.option--btn Search Student
+            a(href="studentInfo/add-one")    
+                button.add-one.option--btn Add Student
+            a(href="studentInfo/feesToday")  
+                button.feesToday.option--btn=`Total=${collectionData.amount}`
+            a(href="studentInfo/printExcel")
+                button.excelPrint.option--btn Print Excel
+        .option--page
+            a(href="studentInfo/sr-main")
+                button.get-all.option--btn S.R Search
+            a(href="studentInfo/sr-add")
+                button.add-one.option--btn Add Student to SR 
+            a(href="studentInfo/promote-form")    
+                button.promote-form.option--btn Promote Students
+            a(href="studentInfo/fees-update")
+                button.update-fee.option--btn Update Fees
+            a(href="studentInfo/feesRecord")
+                button.get-fee.option--btn Fees Statistics
+            

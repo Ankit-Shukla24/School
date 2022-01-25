@@ -1,0 +1,14 @@
+header.header 
+    nav.nav.nav--main
+        a.nav--link(href="/") Main Page 
+    .header--logo 
+        img(src="http://pngimg.com/uploads/student/student_PNG25.png" alt="")
+    nav.nav.nav--user 
+    
+        if user 
+            a.nav--link.nav--link--logout.nav--user--link Logout
+            a.nav--link.nav--user--link= `${user.username}` 
+        else 
+            a.nav--link.nav--user--link(href="/login") Login
+            a.nav--link.nav--user--link(href="/signup") Sign Up
+

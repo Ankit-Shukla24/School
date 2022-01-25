@@ -1,0 +1,12 @@
+extend base
+
+block content 
+    .document-display
+        each document in documents 
+            .document-pallet
+                ul
+                    li= `Type: ${document.type}`
+                    li= `Description: ${document.description}`
+                    li= `Date: ${document.date.toString().split(" GMT")[0]}`
+                    a(href=`/data/${document.name}`)
+                        button.get-student-info Get Document

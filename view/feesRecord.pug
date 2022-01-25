@@ -1,0 +1,25 @@
+extend base
+
+block content
+    .form-div
+        form.get-form#fees-record 
+            p
+                label(for="fee-class") Class 
+                input(type="number" name="fee-class" id="class-from" placeholder="class-from")
+                input(type="number" name="fee-class" id="class-to" placeholder="class-to")
+            p.left
+                input.fee-option(type="radio" id="get-by-date-radio" checked name="radio")
+                label(for="fee-date") Date
+                input.fee-option(type="radio" id="get-by-month-radio" name="radio")
+                label(for="fee-month") Month
+            p.get-by-date.right
+                input(type="text" onfocus="(this.type='date')" name="feeOptions" id="date-from" placeholder="date-from")
+                input(type="text" name="feeOptions" id="date-to" onfocus="(this.type='date')" placeholder="date-to")
+            p.get-by-month.invisible.right
+                input(type="number" name="feeOptions" id="month-from" placeholder="month-from")
+                input(type="number" name="feeOptions" id="month-to" placeholder="month-to")
+            p.get-by-month.invisible
+                label(for="fee-year") Session
+                input(type="number" name="fee-year" id="fee-session" placeholder="year")
+            br
+            input(type="submit" value="Search" id="fees-search")

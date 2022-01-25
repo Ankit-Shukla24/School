@@ -1,0 +1,20 @@
+const express =  require('express');
+const studentController = require('./../contollers/studentController');
+const router = express.Router();
+const userController = require("./../contollers/userController");
+const viewController = require("./../contollers/viewController");
+
+// router.use(userController.protect);
+router.route('/').get(studentController.getAll);
+router.route('/get-one/:id').get(studentController.getOne);
+router.route('/updateStudent/:id').patch(studentController.updateStudent);
+router.route('/addStudent').post(studentController.addStudent);
+router.route('/feesStudent').post(studentController.feesStudent);
+router.route('/feesStudent').delete(studentController.delFeesStudent);
+router.route('/searchFeesDate').post(studentController.searchFeesDate);
+router.route('/update-sr/:id1/:id2').patch(studentController.updateSr);
+router.route('/add-sr').post(studentController.addSr);
+router.route('/setFees').post(studentController.setFees);
+router.route("/sr-delete/:id1/:id2").get(studentController.srDelete,viewController.srMain);
+router.route("/promote-student/:id1/:id2/:id3/:id4/:id5").post(studentController.promoteStudent);
+module.exports = router;

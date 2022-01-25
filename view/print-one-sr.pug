@@ -1,0 +1,181 @@
+doctype html
+html 
+    head 
+        block head 
+            meta(charset="UTF-8")
+            meta(name="viewport" content='width=device-width,initial-scale=1.0')
+            link(rel='stylesheet' href="/css/style.css")
+            link(rel="shortcut icon" type="image/png" href="/img/favicon.png")
+            link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+            <link href="https://fonts.googleapis.com/css2?family=Pushster&display=swap" rel="stylesheet">
+            title VSEC || KANPUR 
+
+div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
+    .print-student-sr
+        strong Sr. :
+        span= data.sr
+    .print-student-sr-no
+        strong Sr. No. : 
+        span= data.sr_no
+    .print-student-prev-sr
+        strong Prev Sr. No.: 
+        if(data.prev_sr)
+            span= data.prev_sr
+        else 
+            span= "No record"
+    .print-student-sr-img
+        if(data.image!=="")
+            img.small-invisible(src=`/img/student-pic-${data.image}.jpg` alt="No pic Found")
+        else
+            img.small-invisible(src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png")
+        img.large-invisible(src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png")
+    .print-student-sr-name
+        strong Name : 
+        span= data.name
+    .print-student-sr-dob
+        strong  Date of birth : 
+        span= data.dob
+    .print-student-sr-dob-in-words
+        strong  Date of birth(in words) :  
+        span= data.dob_in_word
+    .print-student-sr-father-name
+        strong Father's Name :  
+        span= data.father_name 
+    .print-student-sr-mother-name
+        strong Mother's Name :  
+        span= data.mother_name
+    .print-student-sr-address
+        strong Address :  
+        span= data.address
+    .print-student-sr-caste
+        strong Caste  :  
+        span= data.caste
+    .print-student-sr-religion
+        strong Religion :  
+        span= data.religion
+    .print-student-sr-occupation
+        strong Occupation :  
+        span= data.occupation
+    if(data.lkg)    
+        .print-student-sr-lkg
+            table
+                tr
+                th(colspan="2") LKG
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.lkg.admission
+                td= data.lkg.passing
+    if(data.ukg)    
+        .print-student-sr-ukg
+            table
+                tr
+                th(colspan="2") UKG
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.ukg.admission
+                td= data.ukg.passing
+    if(data.one)    
+        .print-student-sr-one
+            table
+                tr
+                th(colspan="2") 1st
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.one.admission
+                td= data.one.passing
+    if(data.two)    
+        .print-student-sr-two
+            table
+                tr
+                th(colspan="2") 2nd
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.two.admission
+                td= data.two.passing
+    if(data.three)    
+        .print-student-sr-three
+            table
+                tr
+                th(colspan="2") 3rd
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.three.admission
+                td= data.three.passing
+    if(data.four)    
+        .print-student-sr-four
+            table
+                tr
+                th(colspan="2") 4th
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.four.admission
+                td= data.four.passing
+    if(data.five)    
+        .print-student-sr-five
+            table
+                tr
+                th(colspan="2") 5th
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.five.admission
+                td= data.five.passing
+    if(data.six)    
+        .print-student-sr-six
+            table
+                tr
+                th(colspan="2") 6th
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.six.admission
+                td= data.six.passing 
+    if(data.seven)    
+        .print-student-sr-seven
+            table
+                tr
+                th(colspan="2") 7th
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.seven.admission
+                td= data.seven.passing
+    if(data.eight)    
+        .print-student-sr-eight
+            table
+                tr
+                th(colspan="2") 8th
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.eight.admission
+                td= data.eight.passing
+    .print-student-sr-last-class
+        strong Last Class : 
+        span= data.last_class
+    .print-student-sr-leave-date
+        strong Leave Date : 
+        span= data.leave_date
+    .print-student-sr-leave-reason
+        strong Leave Reason : 
+        span= data.leave_reason
+    .print-student-sr-remark
+        strong Remark : 
+        span= data.remark
+script(src="/js/bundle.js")

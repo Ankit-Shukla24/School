@@ -1,0 +1,213 @@
+extend base
+
+block content
+    if student    
+        .form-div-data
+            a#sr-print(href=`/studentInfo/print-one-sr/${student.sr}/${student.id}` target="_blank")
+                span Print  
+            form#get-student-sr-data.get-form.left.sr-update
+                .image-block.small-invisible
+                    img#student-image(src=`/img/student-pic-${student.image}.jpg` alt=`${student.image}`)
+                    br
+                    span.upload-pic-btn Upload Pic
+                    input.upload-pic(type="file" name="pic" id="picUp" accept="image/*")
+                label.side-pic(for="sr") Sr
+                input.side-pic#student-sr(type="text" value=`${student.sr}` name="sr") 
+                label.side-pic(for="sr_no") Sr. No.
+                input.side-pic#student-sr_no(type="text" value=`${student.sr_no}` name="sr_no")
+                if(student.prev_sr_no)
+                    label.side-pic(for="prev_sr_no") Prev Sr. No.
+                    input.side-pic#student-prev_sr_no(type="text" name="prev_sr_no" value=`${student.prev_sr_no}`)
+                label.side-pic(for="student") Student's name
+                input.side-pic#student-sr-name(type="text" name="student" value=`${student.name}`)
+                label.side-pic(for="dob") Date of birth
+                input.side-pic#student-sr-dob(type="text" name="dob" value=student.dob)
+                label.side-pic(for="dob_in_word") Date of birth(in words)
+                input.side-pic#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
+                label.side-pic(for="caste") Caste
+                input.side-pic#student-sr-caste(type="text" name="caste" value=student.caste)
+                label(for="religion") Religion
+                input#student-sr-religion(type="text" name="religion" value=student.religion)
+                label(for="father") Father's name
+                input#student-sr-father(type="text" name="father" value=`${student.father_name}`)
+                label(for="mother") Mother's name
+                input#student-sr-mother(type="text" name="mother" value=`${student.mother_name}`)            
+                label(for="address") Address
+                input#student-sr-address(type="text" name="address" value=student.address)
+                label(for="occupation") Occupation
+                input#student-sr-occupation(type="text" name="occupation" value=student.occupation)
+                if(student.lkg)
+                    label(for="lkg_admission") LKG Admission
+                    input#student-sr-lkg_admission(type="text" name="lkg_admission" value=student.lkg.admission)
+                    label(for="lkg_passing") LKG Passing
+                    input#student-sr-lkg_passing(type="text" name="lkg_passing" value=student.lkg.passing)
+                if(student.ukg)
+                    label(for="ukg_admission") UKG Admission
+                    input#student-sr-ukg_admission(type="text" name="ukg_admission" value=student.ukg.admission)
+                    label(for="ukg_passing") UKG Passing
+                    input#student-sr-ukg_passing(type="text" name="ukg_passing" value=student.ukg.passing)
+                -console.log(student.one)
+                if(student.one)
+                    label(for="one_admission") 1st Admission
+                    input#student-sr-one_admission(type="text" name="one_admission" value=student.one.admission)
+                    label(for="one_passing") 1st Passing
+                    input#student-sr-one_passing(type="text" name="one_passing" value=student.one.passing)
+                if(student.two)
+                    label(for="two_admission") 2nd Admission
+                    input#student-sr-two_admission(type="text" name="two_admission" value=student.two.admission)
+                    label(for="two_passing") 2nd Passing
+                    input#student-sr-two_passing(type="text" name="two_passing" value=student.two.passing)
+                if(student.three)
+                    label(for="three_admission") 3rd Admission
+                    input#student-sr-three_admission(type="text" name="three_admission" value=student.three.admission)
+                    label(for="three_passing") 3rd Passing
+                    input#student-sr-three_passing(type="text" name="three_passing" value=student.three.passing)
+                if(student.four)
+                    label(for="four_admission") 4th Admission
+                    input#student-sr-four_admission(type="text" name="four_admission" value=student.four.admission)
+                    label(for="four_passing") 4th Passing
+                    input#student-sr-four_passing(type="text" name="four_passing" value=student.four.passing)
+                if(student.five)
+                    label(for="five_admission") 5th Admission
+                    input#student-sr-five_admission(type="text" name="five_admission" value=student.five.admission)
+                    label(for="five_passing") 5th Passing
+                    input#student-sr-five_passing(type="text" name="five_passing" value=student.five.passing)
+                if(student.six)
+                    label(for="six_admission") 6th Admission
+                    input#student-sr-six_admission(type="text" name="six_admission" value=student.six.admission)
+                    label(for="six_passing") 6th Passing
+                    input#student-sr-six_passing(type="text" name="six_passing" value=student.six.passing)
+                if(student.seven)
+                    label(for="seven_admission") 7th Admission
+                    input#student-sr-seven_admission(type="text" name="seven_admission" value=student.seven.admission)
+                    label(for="seven_passing") 7th Passing
+                    input#student-sr-seven_passing(type="text" name="seven_passing" value=student.seven.passing)
+                if(student.eight)
+                    label(for="eight_admission") 8th Admission
+                    input#student-sr-eight_admission(type="text" name="eight_admission" value=student.eight.admission)
+                    label(for="eight_passing") 8th Passing
+                    input#student-sr-eight_passing(type="text" name="eight_passing" value=student.eight.passing)
+                label(for="last_class") Last Class
+                input#student-sr-last_class(type="text" name="last_class" value=student.last_class)
+                label(for="leave_date") Leave Date
+                input#student-sr-leave_date(type="text" name="leave_date" value=student.leave_date)
+                label(for="remark") Remark
+                input#student-sr-remark(type="text" name="remark" value=student.remark)
+                label(for="leave_reason") Leave Reason
+                input#student-sr-leave_reason(type="text" name="leave_reason" value=student.leave_reason)
+                label(for="brother_sister") Brother/Sister
+                input#student-sr-brother_sister(type="text" name="brother_sister" value=student.brother_sister)
+                input#submit-sr(type="submit" value ="Submit")    
+            .doc-palette.small-invisible
+                for docs in student.documents
+                    a.upload-doc-btn(href=`/data/${docs.name}` target="_blank")
+                        span= docs.description 
+                    button.del-doc(id=docs.id name=docs.name) Delete  
+            form.get-form#document-upload-form.left.small-invisible
+                p.center Upload Documents
+                label(for="upload-desc") Description
+                input#upload-desc(type="text" placeholder="Enter description")
+                input#upload-doc(type="file" accept="*" name="docs") 
+                input(type="submit" value="Upload Document" name="submit")
+        .margin5
+            a(href=`/api/v1/studentInfo/sr-delete/${student.sr}/${student.id}`)
+                    button.option--btn.option--btn--small Delete Record
+            if(student.sr==='1 TO 5')    
+                a(href=`/studentInfo/sr-find/lkgtoukg/NULL/${student.prev_sr_no}`)
+                    button.option--btn.option--btn--small Prev Sr
+            else if(student.sr==='6 TO 8')
+                a(href=`/studentInfo/sr-find/1to5/NULL/${student.prev_sr_no}`)
+                    button.option--btn.option--btn--small Prev Sr 
+            a(href=`/studentInfo/get-one/false/false/${student.name}/${student.father_name}`)
+                button.option--btn.option--btn--small Get Fee Record
+        span#student-sr-id= student.id
+    else
+        .form-div-data 
+            form#get-student-sr-data.get-form.left.sr-add
+                p.center Add Student Data
+                label(for="sr") Sr
+                select#student-sr.student-sr-options(name="sr")
+                    option(value="LKG TO UKG") LKG TO UKG
+                    option(value="1 TO 5") 1 TO 5
+                    option(value="6 TO 8") 6 TO 8
+                label(for="prev_sr_no") Prev Sr. No.
+                input#student-prev_sr_no(type="text" name="prev_sr_no" value=NULL placeholder="Enter prev Sr No")
+                label(for="student") Student's name
+                input#student-sr-name(type="text" name="student" placeholder="Enter the name")
+                label(for="dob") Date of birth
+                input#student-sr-dob(type="text" name="dob" placeholder="Enter DOB")
+                label(for="dob_in_word") Date of birth(in words)
+                input#student-sr-dob_in_word(type="text" name="dob_in_word" placeholder="Enter DOB in words")
+                label(for="caste") Caste
+                input#student-sr-caste(type="text" name="caste" placeholder="Enter Caste")
+                label(for="religion") Religion
+                input#student-sr-religion(type="text" name="religion" placeholder="Enter Religion")
+                label(for="father") Father's name
+                input#student-sr-father(type="text" name="father" placeholder="Enter Father's Name")
+                label(for="mother") Mother's name
+                input#student-sr-mother(type="text" name="mother" placeholder="Enter Mother's Name")            
+                label(for="address") Address
+                input#student-sr-address(type="text" name="address" placeholder="Enter Address")
+                label(for="occupation") Occupation
+                input#student-sr-occupation(type="text" name="occupation" placeholder="Enter Occupation")
+                
+                label.pre_primary(for="lkg_admission") LKG Admission
+                input.pre_primary#student-sr-lkg_admission(type="text" name="lkg_admission" placeholder="LKG Admission date")
+                label.pre_primary(for="lkg_passing") LKG Passing
+                input.pre_primary#student-sr-lkg_passing(type="text" name="lkg_passing" placeholder="LKG Admission date")
+                
+                label.pre_primary(for="ukg_admission") UKG Admission
+                input.pre_primary#student-sr-ukg_admission(type="text" name="ukg_admission" placeholder="UKG Admission date")
+                label.pre_primary(for="ukg_passing") UKG Passing
+                input.pre_primary#student-sr-ukg_passing(type="text" name="ukg_passing" placeholder="UKG Admission date")
+        
+                label.primary.invisible(for="one_admission") 1st Admission
+                input.primary.invisible#student-sr-one_admission(type="text" name="one_admission" placeholder="1st Admission date")
+                label.primary.invisible(for="one_passing") 1st Passing
+                input.primary.invisible#student-sr-one_passing(type="text" name="one_passing" placeholder="1st Admission date")
+        
+                label.primary.invisible(for="two_admission") 2nd Admission
+                input.primary.invisible#student-sr-two_admission(type="text" name="two_admission" placeholder="2nd Admission date")
+                label.primary.invisible(for="two_passing") 2nd Passing
+                input.primary.invisible#student-sr-two_passing(type="text" name="two_passing" placeholder="2nd Passing date")
+
+                label.primary.invisible(for="three_admission") 3rd Admission
+                input.primary.invisible#student-sr-three_admission(type="text" name="three_admission" placeholder="3rd Admission date")
+                label.primary.invisible(for="three_passing") 3rd Passing
+                input.primary.invisible#student-sr-three_passing(type="text" name="three_passing" placeholder="3rd Passing date")
+        
+                label.primary.invisible(for="four_admission") 4th Admission
+                input.primary.invisible#student-sr-four_admission(type="text" name="four_admission" placeholder="4th Admission date")
+                label.primary.invisible(for="four_passing") 4th Passing
+                input.primary.invisible#student-sr-four_passing(type="text" name="four_passing" placeholder="4th Passing date")
+        
+                label.primary.invisible(for="five_admission") 5th Admission
+                input.primary.invisible#student-sr-five_admission(type="text" name="five_admission" placeholder="5th Admission date")
+                label.primary.invisible(for="five_passing") 5th Passing
+                input.primary.invisible#student-sr-five_passing(type="text" name="five_passing" placeholder="5th Passing date")
+
+                label.upper_primary.invisible(for="six_admission") 6th Admission
+                input.upper_primary.invisible#student-sr-six_admission(type="text" name="six_admission" placeholder="6th Admission date")
+                label.upper_primary.invisible(for="six_passing") 6th Passing
+                input.upper_primary.invisible#student-sr-six_passing(type="text" name="six_passing" placeholder="6th Passing date")
+
+                label.upper_primary.invisible(for="seven_admission") 7th Admission
+                input.upper_primary.invisible#student-sr-seven_admission(type="text" name="seven_admission" placeholder="7th Admission date")
+                label.upper_primary.invisible(for="seven_passing") 7th Passing
+                input.upper_primary.invisible#student-sr-seven_passing(type="text" name="seven_passing" placeholder="7th Passing date")
+
+                label.upper_primary.invisible(for="eight_admission") 8th Admission
+                input.upper_primary.invisible#student-sr-eight_admission(type="text" name="eight_admission" placeholder="8th Admission date")
+                label.upper_primary.invisible(for="eight_passing") 8th Passing
+                input.upper_primary.invisible#student-sr-eight_passing(type="text" name="eight_passing" placeholder="8th Passing date")
+                label(for="last_class") Last Class
+                input#student-sr-last_class(type="text" name="last_class" placeholder="Last class date")
+                label(for="leave_date") Leave Date
+                input#student-sr-leave_date(type="text" name="leave_date" placeholder="Leave class date")
+                label(for="leave_reason") Leave Reason
+                input#student-sr-leave_reason(type="text" name="leave_reason" placeholder="Leave class reason")
+                label(for="remark") Remark
+                input#student-sr-remark(type="text" name="remark" placeholder="Last class remark")
+                label(for="brother_sister") Brother/Sister
+                input#student-sr-brother_sister(type="text" name="brother_sister" placeholder="Brother/Sister")
+                input#submit-sr(type="submit" value ="Submit")    

@@ -1,0 +1,16 @@
+extend base
+
+block content
+    .form-div
+        form.get-form#get-sr-main
+            p Enter the required data
+            label(for="Enter-section") Enter Section
+            select#sr-main-section(name="Enter-section")
+                option(value="lkgtoukg") LKG TO UKG
+                option(value="1to5") 1 TO 5
+                option(value="6to8") 6 TO 8
+            label(for="Enter-name") Enter Name
+            input#sr-main-name(type="text" name="Enter-name" value="" placeholder="Enter Name")
+            label(for="Enter-srno") Enter Sr.No.
+            input#sr-main-srno(type="number" name="Enter-srno" value="" placeholder="Enter Sr.No.")
+            input#submit-sr-main(type="submit" name="submit" value="Submit")

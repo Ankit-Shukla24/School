@@ -1,0 +1,831 @@
+:root
+{
+    --primary-color:rgb(67, 67, 255);
+    --secondary-color:white;
+    
+}
+.get-form>.side-pic
+{
+    width: 25vw !important;
+}
+
+.large-invisible
+{
+    display: none !important;
+}
+
+select{
+    background-color: inherit;
+    color: black;
+    border-radius: 1rem;
+}
+
+::placeholder
+{
+    color: black;
+}
+
+.margin5
+{
+    margin:5rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input
+{
+    margin-bottom: 0.2rem ;
+    background-color: rgba(0, 0, 255, 0.466);
+    border-radius: 1rem;
+    border: 1px dotted black;
+    color: white;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.extender
+{
+    width: 100%;
+    min-height: 85vh;
+    position: relative;
+}
+
+table{
+    width: 100%;
+}
+
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+}
+
+.invisible
+{
+    display: none !important;
+}
+
+header{
+    min-width:100%;
+    height: 7.5vh;
+    background-color:var(--primary-color);
+    display: flex;
+    flex-direction: rows;
+    align-items: center;
+    color: var(--secondary-color) !important;
+    font-weight:800;
+}
+
+header a
+{
+    color: var(--secondary-color);
+}
+
+.nav--main{
+
+    flex: 3;
+height: 7.5vh;
+}
+
+.nav--link{
+    text-align: left;
+    display: block;
+    margin:1.2rem auto;
+    /* background-color: turquoise; */
+    width: fit-content;
+
+}
+
+.nav--link:hover{
+
+    border-bottom: 0.1rem solid white;
+    margin:1.1rem auto;
+   transform: translateY(-0.2rem);
+}
+
+.header--logo 
+{
+    flex:3;
+    height: 7.5vh;
+    align-content: center;
+}
+
+.header--logo img
+{
+    display: block;
+height: 100%;
+margin: auto;
+}
+
+.header--logo img:hover
+{
+transform:scale3d(2rem);
+}
+
+.nav--user
+{
+    flex:3;
+    background-color: var(--primary-color);
+    height:100%;
+    line-height: 100%;
+    text-align: right;
+    /* padding-left: 3rem; */
+}
+
+
+.nav--user--link
+{
+width:fit-content;
+display: inline-block;
+margin:1.2rem ;
+}
+
+.nav--user--link:hover
+{
+     border-bottom: 0.1rem solid white;
+    margin:1.2rem 1.2rem 1.3rem 1.2rem ;
+   transform: translateY(-0.2rem); 
+}
+
+
+.first--page
+{
+    background: url("https://images.pexels.com/photos/265076/pexels-photo-265076.jpeg?cs=srgb&dl=pexels-pixabay-265076.jpg&fm=jpg") no-repeat center center / cover ;
+height: 85vh;
+width: 100%;
+}
+
+.first--page--cover
+{
+    display: block;
+    height: 50%;
+    width: 100%;
+    
+}
+
+.first--page--options
+{
+    position: absolute;
+    top:25vh;
+    height: 50%;
+    width: 100%;
+}
+
+.first--page--options a
+{
+color: black;
+}
+
+.first--page--list--option
+{
+    display: block;
+    text-align: center;
+    width: 15vw;
+    font-size: 2.5rem;
+    padding: 1rem;
+    transform: skew(-20deg,-20deg);
+    padding-top: 2rem;
+    height:10rem;
+    background:rgba(255, 255, 255, 0.4);
+    margin:auto;
+}
+
+.first--page--list--option:hover
+{
+   width: 33vw;
+padding-left: 10rem;
+padding-right: 10rem;
+   transition: 0.5s ease-in-out;
+   background:rgba(0, 0, 0, 0.5);
+   color: white;
+}
+
+.footer
+{
+    line-height: 7.5vh;
+    text-align: center;
+    width: 100%;
+    color: blanchedalmond;
+    background-color: black;
+}
+
+.option--page
+{
+    width: 100%;
+    height:50vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.option--page--doc
+{
+    width: 100%;
+    height:85vh;
+    background: url("/img/doc-back.jpg") no-repeat center center / cover;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.doc--page
+{
+    position: absolute;
+    top:15vh;
+    width: 100%;
+    height:50vh;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.studentInfo-page
+{
+display: flex;
+width: 100vw;
+height: 85vh;
+flex-direction: row;
+}
+
+.studentInfo-page::before
+{
+    content: "";
+    position: absolute;
+    top:0;
+    z-index: -1;
+    width: 100vw;
+    height: inherit;
+    background: url("https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg?cs=srgb&dl=pexels-pixabay-289737.jpg&fm=jpg")no-repeat center center / cover;
+}
+
+.option--btn
+{
+    font-family: 'Pushster', cursive;
+    display: block;
+    margin: auto;
+    height: 6rem;
+    color: black;
+    font-size: 2rem;
+    width:20rem;
+    background:rgba(255, 255, 255, 0.5);
+    color: var(--primary-color);
+    transform: skew(-20deg,-10deg);
+    
+}
+
+.option--btn:hover
+{
+width: 30rem;
+color:black;
+transition: width 0.5s ease-in-out,color 0s;
+}
+
+.form-div
+{
+    display: flex;
+    height: 85vh;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.get-form
+{
+    padding: 1rem;
+    text-align: center;
+    font-family: 'Pushster', cursive;
+    background-color: blue;
+    color: white;
+    width: fit-content;
+    border-radius:2rem;
+    margin-bottom: 1rem;
+}
+
+.get-form > label,.get-form > input,.get-form > select
+{
+    display: block ;
+    width: 50vw !important;
+    text-align: left ;
+    padding: 0.2rem;
+}
+
+
+.get-form > p
+{
+    font-size: 1.5rem;
+}
+
+.student-display
+{
+    margin: 1rem;
+    display: grid;
+    grid-template-columns:auto auto auto auto auto;
+    row-gap: 1rem;
+    min-height: 80.5vh;
+    column-gap: 1rem;
+}
+
+.student-pallet
+{
+background-color: blue;
+border-radius: 0.5rem;
+color: white;
+height: max-content;
+padding: 1rem;
+}
+
+.student-pallet button
+{
+    display: block;
+    margin: auto;
+    background-color: black;
+    padding: 0.2rem;
+    color: white;
+    border-radius: 1rem;
+}
+
+.month-palet
+{
+    display: grid;
+    grid-column-gap: 50px;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+    margin-bottom: 1rem;
+}
+
+.month-info-palet
+{
+display: block;
+}
+
+.month-info-palet > label+input
+{
+
+    display: block;
+    width:15vw;
+    padding: 0;
+}
+
+.month-info-palet>input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgb(255, 255, 255);
+    display: block;
+     background-color:white;
+    width: 1rem;
+    height: 1rem;
+    padding: 0.1rem;
+    border-radius: 50%;
+}
+.form-div-data 
+{
+    min-height: 85vh;
+    width:fit-content;
+margin: auto;
+padding-top: 1rem;
+text-align: left;
+}
+
+#get-student-data
+{
+    text-align: left;
+}
+
+.form-div-data #get-student-data input
+{
+    
+   margin: 0.2rem auto;
+   padding: 0.2rem;
+}
+
+.form-div-data label
+{
+    display: inline;
+    padding: 0;
+}
+
+/* margin-top: 4rem;
+} */
+
+.document-pallet button
+{
+    display: block;
+    margin: auto;
+    background-color: black;
+    padding: 0.2rem;
+    color: white;
+    border-radius: 1rem;
+}
+.document-display
+{
+    margin: 1rem;
+    display: grid;
+    grid-template-columns:auto auto auto auto;
+    row-gap: 1rem;
+    column-gap: 1rem;
+    min-height: 80.5vh;
+}
+
+.document-pallet
+{
+background-color: blue;
+border-radius: 0.5rem;
+color: white;
+height: 6rem;
+}
+
+.no_change
+{
+    background-color: black;
+    color: white;
+}
+
+#excel-form
+{
+    margin: 20vh auto 1rem auto;
+
+}
+
+#excel-form > input{
+display: inline !important;
+width: 2rem !important;
+}
+
+#fees-record
+{
+    text-align: left;
+    font-size: 0.5rem;
+}
+
+#fees-record label,#fees-record input
+{
+display: inline-block;
+width: 7rem;
+}
+
+#fees-record input
+{
+    margin:  0.5rem;
+    padding: 0.5rem;
+}
+#fees-record p
+{
+    font-size: 1rem;
+}
+
+* input[type="submit"] 
+{
+    margin-top: 0.5rem !important;
+    margin: auto !important;
+    width: 100% !important;
+    display: block !important;
+    text-align:center !important;
+    background-color: black !important;
+    color: white !important;
+    padding: 0.5rem;
+}
+
+* input[type="radio"],* input[type="checkbox"]
+{
+    width: min-content !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.center{
+    text-align: center;
+}
+
+.left
+{
+    text-align: left;
+}
+
+.right{
+    text-align: right;
+}
+
+#get-student-sr-data
+{
+    position: relative;
+}
+
+#get-student-sr-data .image-block
+{
+    position: absolute;
+    top:5vh;
+    right:1vw;
+}
+
+#get-student-sr-data>.image-block>img
+{
+    width: 10rem;
+    height:10rem;
+    display: block;
+margin: auto;
+}
+
+#get-student-sr-data>.image-block>button
+{
+    display: block;
+    margin: auto;
+}
+
+.upload-pic-btn
+{
+    width: max-content;
+    display: block;
+    margin:0.5rem auto;
+    border: 2px;
+    background-color: black;
+    padding: 0.5rem;
+}
+
+.doc-palette
+{
+    display: flex;
+}
+
+.upload-doc-btn
+{
+ flex:1;
+ text-align: center;
+ padding: 0.3rem;
+    margin:0.2rem;
+    border-radius: 10rem;
+    color: white;
+    background-color: black;
+}
+
+.upload-pic-btn:hover
+{
+cursor: pointer;
+}
+
+.upload-pic
+{
+    width: 20rem;
+}
+
+.del-doc
+{
+    background-color: grey;
+    color: white;
+    border: 0;
+    border-radius: 5rem ;
+}
+
+#student-sr-id
+{
+    font-size: 0.5rem;
+}
+
+#sr-print
+{
+    position: absolute;
+    top:7.5vh;
+    right: 0rem;
+}
+
+.print-student-sr
+{
+    grid-area: sr;
+}
+
+.print-student-sr-no
+{
+    grid-area: sr-no;
+}
+
+.print-student-prev-sr
+{
+    grid-area: prev-sr;
+}
+
+.print-student-sr-img
+{
+    grid-area: img;
+}
+
+.print-student-sr-name
+{
+    grid-area: name;
+}
+
+.print-student-sr-father-name
+{
+    grid-area: father-name;
+}
+
+.print-student-sr-mother-name
+{
+    grid-area: mother-name;
+}
+
+.print-student-sr-dob
+{
+    grid-area: dob;
+}
+
+.print-student-sr-dob-in-words
+{
+    grid-area: dob-in-words;
+}
+
+.print-student-sr-address
+{
+    grid-area: address;
+}
+
+.print-student-sr-religion
+{
+    grid-area: religion;
+}
+
+.print-student-sr-caste
+{
+    grid-area: caste;
+}
+
+.print-student-sr-occupation
+{
+    grid-area: occupation;
+}
+
+.print-student-sr-one
+{
+    grid-area: one;
+}
+
+.print-student-sr-two
+{
+    grid-area: two;
+}
+
+.print-student-sr-three
+{
+    grid-area: three;
+}
+
+.print-student-sr-four
+{
+    grid-area: four;
+}
+
+.print-student-sr-five
+{
+    grid-area: five;
+}
+
+.print-student-sr-six
+{
+    grid-area: six;
+}
+
+.print-student-sr-seven
+{
+    grid-area: seven;
+}
+
+.print-student-sr-eight
+{
+    grid-area: eight;
+}
+
+.print-student-sr-lkg
+{
+    grid-area: lkg;
+}
+
+.print-student-sr-ukg
+{
+    grid-area: ukg;
+}
+
+.print-student-sr-last-class
+{
+    grid-area: last-class;
+}
+
+.print-student-sr-leave-date
+{
+    grid-area: leave-date;
+}
+
+.print-student-sr-remark
+{
+    grid-area: remark;
+}
+
+.print-student-sr-leave-reason
+{
+    grid-area: leave-reason;
+}
+
+.print-student-sr-img>img
+{
+    
+    display: block;
+    margin:0 auto;
+    height: 8rem;
+    width: 8rem;
+}
+
+.sr-print-LKGTOUKG
+{
+    display: grid;
+    background-color: black;
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "father-name father-name father-name father-name"
+    "mother-name mother-name mother-name mother-name"
+    "address address address address" 
+    "religion caste occupation occupation"
+    "lkg lkg ukg ukg"
+    "last-class last-class leave-date leave-date"
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 2rem;
+    grid-gap: 2pxpx;
+    border: 0.2rem solid black;
+}
+
+.sr-print-1TO5
+{
+    display: grid;
+    background-color: black;
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "father-name father-name father-name father-name"
+    "mother-name mother-name mother-name mother-name"
+    "address address address address" 
+    "religion caste occupation occupation"
+    "one one two two " 
+    "three three four four"
+    "five five last-class leave-date "
+    "leave-reason leave-reason remark remark"
+    
+    ;
+    margin: 2rem;
+    grid-gap: 2px;
+    border: 0.2rem solid black;
+}
+
+.sr-print-6TO8
+{
+    display: grid;
+    background-color: black;
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "father-name father-name father-name father-name"
+    "mother-name mother-name mother-name mother-name"
+    "address address address address" 
+    "religion caste occupation occupation"
+    "six six seven seven"
+    "eight eight last-class leave-date "
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 2rem;
+    grid-gap: 2px;
+    border: 0.2rem solid black;
+}
+
+
+.sr-print-grid>div
+{
+   background-color: white;
+   border: 0.1rem solid;
+   line-height: 1.5rem;
+}
+
+.sr-print-grid>div strong,span
+{
+ display: inline-block;
+}
+
+.sr-print-grid>div>table th,td,tr
+{
+    border:0.1rem solid black;
+    text-align: center;
+    margin: 0.1rem;
+}
+
+.sr-print-grid>div>table
+{
+    border-collapse: collapse;
+}

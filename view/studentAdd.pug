@@ -1,0 +1,35 @@
+extend base
+
+mixin datechanger()   
+    input(type="date" class=`month`) 
+
+
+block content
+    .form-div-data.add-student
+        form#get-student-data.get-form
+            label(name="year") Year
+            input#student-year(type="text" name="year")
+            br
+            label(name="class") Class
+            input#student-class(type="text" name="class")
+            br
+            label(name="roll_no") Roll No.
+            input#student-roll_no(type="text" name="roll_no")
+            br
+            label(name="student") Student's name
+            input#student-name(type="text" name="name" )
+            br
+            label(name="father") Father's name
+            input#student-father(type="text" name="name" )
+            br
+            label(name="dob") Date of birth
+            input#student-dob(type="date" name="name" )
+            input#submit-all(type="submit" name="add" value="Submit")
+        .month-palet
+            each val in ["january",'february','march','april','may','june','july','august','september','october','november','december']
+                .month-info-palet
+                    -let v=`${val}`;
+                    -v=v[0].toUpperCase()+v.slice(1);
+                        label(name="month" class=`monthLable`)=v
+                        +datechanger()                
+        

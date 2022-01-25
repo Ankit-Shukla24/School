@@ -1,0 +1,19 @@
+extend base
+
+block content
+    .form-div-data
+        form.get-form#excel-form
+            input(type="checkbox" name="session" id="session-check" checked)
+            label(for="session-check") Session
+            input(type="checkbox" name="father_name" id="father-check" checked)
+            label(for="father-check") Father's Name 
+            input(type="checkbox" name="date_of_birth" id="dob-check" checked)
+            label(for="dob-check") D.O.B 
+            input(type="checkbox" name="fees" id="fees-check" checked)
+            label(for="fees-check") Fees Record
+        form.get-form#excel-form-filter
+            label(for="session-filter" id = "session-filter-label") Session
+            input(type="text" id="session-filter")
+            label(for="class-filter") Class
+            input(type="text" id="class-filter")
+            input(type="submit" value="Submit" id="print-excel")

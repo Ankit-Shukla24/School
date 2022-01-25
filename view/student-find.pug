@@ -1,0 +1,23 @@
+extend base
+
+mixin datechanger(date_change)
+    -let data = date_changer
+    -if(date_change!=undefined)
+        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'numeric', year: 'numeric'})
+        li=` Date of birth: ${data}`
+    -else
+        li=` Date of birth: ${data}`
+
+block content 
+    .student-display
+        each student in students 
+            .student-pallet
+                ul
+                    li= `Session: ${student.year}`
+                    li= `Class: ${student.class}`
+                    li= `Roll No.: ${student.roll_no}`
+                    li= `Student Name: ${student.name}`
+                    li= `Father Name: ${student.father_name}`
+                    +datechanger(student.date_of_birth)
+                    a(href=`/studentInfo/get-one/${student._id}`)
+                        button.get-student-info Get student

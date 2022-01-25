@@ -1,0 +1,29 @@
+extend base
+
+mixin datechanger(date_change)
+    -let data = date_changer
+    -if(date_change!=undefined)
+        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'numeric', year: 'numeric'})
+        li=` Date of birth: ${data}`
+    -else
+        li=` Date of birth: ${data}`
+
+block content 
+    .student-display
+        each student in data
+            .student-pallet
+                ul
+                    li= `Sr No.: ${student.sr}`
+                    li= `Student Name: ${student.name}`
+                    li= `Father Name: ${student.father_name}`
+                    +datechanger(student.dob)
+                    -if (student.sr === "LKG TO UKG")
+                        -console.log("ll");
+                        a(href=`/studentInfo/get-one-sr/lkgtoukg/${student._id}`)
+                            button.get-student-info Get student
+                    -if (student.sr === '1 TO 5')
+                        a(href=`/studentInfo/get-one-sr/1to5/${student._id}`)
+                            button.get-student-info Get student
+                    -if (student.sr === "6 TO 8")
+                        a(href=`/studentInfo/get-one-sr/6to8/${student._id}`)
+                            button.get-student-info Get student
