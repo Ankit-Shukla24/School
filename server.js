@@ -8,7 +8,7 @@ const DB=process.env.DATABASE.replace('<PASSWORD>',process.env.PASSWORD);
 
 mongoose.connect(DB).then(()=> console.log('BD Connection Successfull!'));
 
-const port = process.env.port||3000;
+const port = process.env.PORT||3000;
 
 const server = app.listen(port,()=>
 console.log(`App is running on ${port}`));
