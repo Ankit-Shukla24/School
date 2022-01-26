@@ -132,15 +132,19 @@ catch(err)
 }
 
 exports.deleteDocByParams = async (req,res)=>{
-
-    console.log(req.params);
+try
+   { console.log(req.params);
 
     const data = await documents.findOneAndDelete({doc_id:req.params.id})
 
     const del = await drive.files.delete({
         fileId: req.params.id,
       });
-
+}
+catch(err)
+{
+    console.log(err);
+}
       res.status(201).json({
           data
       })
@@ -272,7 +276,7 @@ catch(err)
 
 exports.deleteDoc=async (req,res)=>{
     
-    console.log(req.body)
+try{    console.log(req.body)
 
     const del = await drive.files.delete({
         fileId: req.body.doc_id,
@@ -291,7 +295,11 @@ exports.deleteDoc=async (req,res)=>{
     data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
         new:true
     })
-
+}
+catch(err)
+{
+    console.log(err);
+}
     console.log(data2);
 
     res.status(201).json({

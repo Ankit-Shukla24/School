@@ -15,7 +15,6 @@ block content
                     li= `Type: ${document.type}`
                     li= `Description: ${document.description}`
                     +datechanger(document.date)
-                    .doc-option.center
-                        a(href=document.doc_link target="_blank")
-                            get-doc Get Document   
-                        button.del-doc-school(value=document.doc_id) Delete
+                .doc-option.center
+                    a.get-doc(href=document.doc_link target="_blank") Get Document   
+                    button.del-doc-school(value=document.doc_id) Delete

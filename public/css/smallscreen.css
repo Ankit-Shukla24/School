@@ -95,6 +95,16 @@ flex-direction: column;
     justify-content: space-around;
 }
 
+.option--btn
+{
+    width: 15rem;
+}
+
+.option--btn:hover{
+padding:  0 1.5rem;    
+width: 18rem;
+}
+
 .option--page>a>.option--btn
 {
     font-family: 'Pushster', cursive;
@@ -118,11 +128,6 @@ color:black;
 transition: width 0.3s ease-out,color 0s;
 }
 
-.form-div-data {
-  
-    min-height: max-content;
-}
-
 #fees-record
 {
     width: 85vw;
@@ -130,7 +135,7 @@ transition: width 0.3s ease-out,color 0s;
 
 #fees-record label, #fees-record input {
     display: inline-block;
-    width: 5.5rem;
+    width: 6rem;
 }
 
 .student-display
@@ -196,4 +201,32 @@ transition: 0.3s ease-in-out;
     margin:1.5rem auto;
     height: 8rem;
     width: 8rem;
+}
+
+.form-div
+{
+    width: 82vw;
+    margin: auto;
+}
+
+.form-div-data {
+  
+    min-height: 85vh;
+    width: 82vw;
+}
+
+.form-div-data>form:first-child >label {
+    display: inline-block;
+    width: 0 !important;
+    min-width: 27vw !important;
+}
+
+.form-div-data>form:first-child> input[type="checkbox"]
+{
+    -left: 2rem !important;
+}
+
+.invisible
+{
+    display: none !important;
 }
