@@ -6,6 +6,7 @@ html
             meta(name="viewport" content='width=device-width,initial-scale=1.0')
             link(rel='stylesheet' href="/css/style.css")
             link(rel="shortcut icon" type="image/png" href="/img/favicon.png")
+            link(rel="stylesheet" media="screen and (max-width: 600px)" href="/css/smallscreen.css")
             link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
             <link href="https://fonts.googleapis.com/css2?family=Pushster&display=swap" rel="stylesheet">
             title VSEC || KANPUR 
@@ -24,11 +25,10 @@ div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
         else 
             span= "No record"
     .print-student-sr-img
-        if(data.image!=="")
-            img.small-invisible(src=`/img/student-pic-${data.image}.jpg` alt="No pic Found")
+        if(data.image_img_link!=="")
+            img(src=data.image.img_link alt="No pic Found")
         else
-            img.small-invisible(src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png")
-        img.large-invisible(src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png")
+            img(src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png")
     .print-student-sr-name
         strong Name : 
         span= data.name

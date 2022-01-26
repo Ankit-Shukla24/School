@@ -19,7 +19,7 @@
     display: block;
     text-align: center;
     position: relative;
-    top:30%;
+    top: 15%;
     width: 55vw;
     font-size: 2.5rem;
     padding: 1rem;
@@ -28,6 +28,11 @@
     height: 10rem;
     background: rgba(255, 255, 255, 0.4);
     margin: auto;
+}
+
+.document-display
+{
+   grid-template-columns: auto;
 }
 
 .first--page--list--option:hover
@@ -105,10 +110,6 @@ flex-direction: column;
     transform: skew(-20deg,-10deg);
 }
 
-.small-invisible
-{
-    display: none;
-}
 
 .option--page>a>.option--btn:hover
 {
@@ -142,9 +143,6 @@ transition: width 0.3s ease-out,color 0s;
     margin:3rem auto;
 }
 
-.get-form>.side-pic {
-    width: 100% !important;
-}
 
 .option--btn--small
 {
@@ -155,4 +153,47 @@ width:13rem;
 {
 width:17rem;
 transition: 0.3s ease-in-out;
+}
+
+.form-div-data
+{
+    width: 80vw;
+}
+
+.get-form
+{
+    width: 100%;
+}
+
+.get-form > label, .get-form > input, .get-form > select {
+    display: block;
+    width: 75vw !important;
+    text-align: left;
+    padding: 0.2rem;
+}
+
+#get-student-sr-data .image-block {
+    position: absolute;
+    top: 5vh;
+    right: 5vw;
+}
+
+.upload-pic
+{
+    width: 10rem;
+}
+
+#get-student-sr-data .image-block {
+    position: absolute;
+    top: 5vh;
+    right: 3vw;
+}
+
+.print-student-sr-img>img
+{
+    
+    display: block;
+    margin:1.5rem auto;
+    height: 8rem;
+    width: 8rem;
 }

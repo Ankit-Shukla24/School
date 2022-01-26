@@ -14,7 +14,14 @@ type:String,
     },
     name:{
         type:String
+    },
+    doc_link:{
+        type:String
+    },
+    doc_id:{
+        type:String
     }
+
 })
 
 const documents = mongoose.model('documents',documentSchema);

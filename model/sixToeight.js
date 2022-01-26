@@ -8,8 +8,34 @@ const docs= new mongoose.Schema({
     description:{
         type:String,
         default:""
+    },
+    doc_link:{
+        type:String,
+        default:""
+    },
+    doc_id:{
+        type:String,
+        default:""
     }
 });
+
+const obj_img={};
+
+const img= new mongoose.Schema({
+    img_link:{
+        type:String,
+        default:""
+    },
+    img_id:{
+        type:String,
+        default:""
+    },
+    name:{
+        type:String,
+        default:""
+    }
+});
+
 
 const obj = {
     admission:"",
@@ -35,8 +61,8 @@ const sixToeightschema = new mongoose.Schema({
         default:'6 TO 8'
     },
     image:{
-        type:String,
-        default:""
+        type:img,
+        default:obj_img
     },
 
     prev_sr_no:{

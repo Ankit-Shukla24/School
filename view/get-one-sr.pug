@@ -7,7 +7,7 @@ block content
                 span Print  
             form#get-student-sr-data.get-form.left.sr-update
                 .image-block.small-invisible
-                    img#student-image(src=`/img/student-pic-${student.image}.jpg` alt=`${student.image}`)
+                    img#student-image(src=student.image.img_link)
                     br
                     span.upload-pic-btn Upload Pic
                     input.upload-pic(type="file" name="pic" id="picUp" accept="image/*")
@@ -22,7 +22,7 @@ block content
                 input.side-pic#student-sr-name(type="text" name="student" value=`${student.name}`)
                 label.side-pic(for="dob") Date of birth
                 input.side-pic#student-sr-dob(type="text" name="dob" value=student.dob)
-                label.side-pic(for="dob_in_word") Date of birth(in words)
+                label(for="dob_in_word") Date of birth(in words)
                 input.side-pic#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
                 label.side-pic(for="caste") Caste
                 input.side-pic#student-sr-caste(type="text" name="caste" value=student.caste)
@@ -98,12 +98,16 @@ block content
                 label(for="brother_sister") Brother/Sister
                 input#student-sr-brother_sister(type="text" name="brother_sister" value=student.brother_sister)
                 input#submit-sr(type="submit" value ="Submit")    
-            .doc-palette.small-invisible
+            .doc-palette
                 for docs in student.documents
-                    a.upload-doc-btn(href=`/data/${docs.name}` target="_blank")
-                        span= docs.description 
-                    button.del-doc(id=docs.id name=docs.name) Delete  
-            form.get-form#document-upload-form.left.small-invisible
+                    .docs.center
+                        a.download-doc-btn(href=docs.doc_link target="_blank")
+                            if docs.description!=""
+                                span= docs.description
+                            else 
+                                span Some Document
+                        button.del-doc(id=docs.doc_id name=docs.name) Delete  
+            form.get-form#document-upload-form.left
                 p.center Upload Documents
                 label(for="upload-desc") Description
                 input#upload-desc(type="text" placeholder="Enter description")

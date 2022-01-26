@@ -7,28 +7,120 @@ const studentImageAndDoc = require("./../model/studentImageAndDoc");
 const lkgToukg = require('./../model/lkgToukg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
+const { google } = require('googleapis');
+const { Readable } = require('stream');
 
-const multerStorage = multer.diskStorage({
-    destination:(req,file,cb)=>{
-cb(null,'public/data');
-    },
-    filename:(req,file,cb)=>{
-        console.log(file);
-        const ext = file.mimetype.split('/')[1];
-        cb(null,`${req.body.type}-${req.body.description}-${new Date().toString().split(' ').join('-').split(':')[0]}.${file.originalname.split(".").slice(-1)}`);
-    }
-});
 
+const CLIENT_ID = '887077914114-78vudpk4a76bm2ovachlgvmvvr47stm3.apps.googleusercontent.com';
+const CLIENT_SECRET = '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';
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+
+const REFRESH_TOKEN = '1//049gISelf76saCgYIARAAGAQSNwF-L9IrBeWZVF01P4vPjulurHBjsaHf3BUSFJmcOu_yYhnj6IS2ritoOQxUrh9d1G5a-AkaWvI';
+
+const oauth2Client = new google.auth.OAuth2(
+    CLIENT_ID,
+    CLIENT_SECRET,
+    REDIRECT_URI
+    );
+    
+    oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+    
+    const drive = google.drive({
+        version: 'v3',
+        auth: oauth2Client,
+    });
+    
+    
+const multerStorage = multer.memoryStorage();
+    
 const upload = multer({
     storage:multerStorage
 })
+
+
+const createFile = async (req)=>{
+try{
+
+    const ext = req.file.originalname.split(".").slice(-1)[0];
+    const stream = Readable.from(req.file.buffer);
+    let response 
+    
+    if(req.body.sr)
+    response = await drive.files.create({
+        requestBody: {
+          name: `${req.body.student_name}-${req.body.student_id}-${req.body.desc}.${ext}`,
+          
+          mimeType: req.file.mimeType,
+        },
+        media: {
+          mimeType: req.file.mimeType,
+          body: stream,
+        },
+      });
+  else
+  response = await drive.files.create({
+    requestBody: {
+      name: `${req.body.type}-${req.body.description}-${Date.now().toString()}.${ext}`,
+      
+      mimeType: req.file.mimeType,
+    },
+    media: {
+      mimeType: req.file.mimeType,
+      body: stream,
+    },
+  });
+
+
+      console.log(response.data);
+req.body.response= response.data;
+      const fileId = response.data.id;
+      await drive.permissions.create({
+        fileId: fileId,
+        requestBody: {
+          role: 'reader',
+          type: 'anyone',
+        },
+      });
+
+      const result = await drive.files.get({
+        fileId: fileId,
+        fields: 'webViewLink',
+      });
+
+      req.body.link = result.data;
+
+      
+      console.log(result.data);
+      
+      console.log(error.message);
+  }
+catch(err)
+{
+  console.log(err);
+}
+
+return req;
+
+};
+
+
 
 exports.fileUploader = upload.single('file');
 
 exports.uploadFile = async(req,res) =>{
 
-    req.body.date = Date.now();
-    req.body.name = req.file.filename;
+    req =await createFile(req);
+
+    let dateNow = new Date().toLocaleString().split(",")[0];
+    dateNow+='Z';
+
+    req.body.date =dateNow;
+    req.body.name = req.body.response.name;
+    req.body.doc_id=req.body.response.id;
+    req.body.doc_link=req.body.link.webViewLink;
+
+    console.log(req.body);
+
 try{
     await documents.create(req.body);}
 catch(err)
@@ -39,48 +131,72 @@ catch(err)
     })
 }
 
+exports.deleteDocByParams = async (req,res)=>{
 
-const multerStoragePic = multer.memoryStorage();
+    console.log(req.params);
+
+    const data = await documents.findOneAndDelete({doc_id:req.params.id})
+
+    const del = await drive.files.delete({
+        fileId: req.params.id,
+      });
+
+      res.status(201).json({
+          data
+      })
+
+}
+
 
 const uploadPic = multer({
-    storage:multerStoragePic
+    storage:multerStorage
 })
 
 exports.fileUploaderPic = uploadPic.single('pic');
 
 exports.resizeUserPhoto = async (req, res,next) => {
-    try{
-    let data = await studentImageAndDoc.find();
-    let pic = 0;
-    if(data.length===0)
-    {
-      data= await studentImageAndDoc.create({
-           "image":"1",
-           "document":"0"
-       });
-pic=1;
-req.body.id = data.id;
-    }
-    else
- {   pic= data[0].image*1+1;
-    req.body.id = data[0];
-}
 
-if(req.body.image_no)
-{
-    pic= req.body.image_no*1;
-}
-
-    req.body.picnum = pic;
-
-    req.file.filename = `student-pic-${pic}.jpg`;
-    
-    await sharp(req.file.buffer)
+   try{ 
+ const resimg =   await sharp(req.file.buffer)
       .resize(500, 500)
       .toFormat('jpg')
       .jpeg({ quality: 90 })
-      .toFile(`public/img/${req.file.filename}`);
-}
+      
+    //   console.log(data1);
+        const response = await drive.files.create({
+          requestBody: {
+            name: `${req.body.student_name}-${req.body.student_id}.jpg`,
+            mimeType: req.file.mimeType,
+          },
+          media: {
+            mimeType: req.file.mimeType,
+            body: resimg,
+          },
+        });
+    
+        console.log(response.data);
+req.body.response= response.data;
+        const fileId = response.data.id;
+        await drive.permissions.create({
+          fileId: fileId,
+          requestBody: {
+            role: 'reader',
+            type: 'anyone',
+          },
+        });
+
+        const result = await drive.files.get({
+          fileId: fileId,
+          fields: 'webContentLink',
+        });
+
+        req.body.link = result.data;
+
+        console.log(result.data);
+
+        console.log(error.message);
+    }
+
 catch(err)
 {
     console.log(err);
@@ -88,120 +204,91 @@ catch(err)
     next();
     };
 
-    exports.updatePicNumAndStudent = async(req,res)=>{
-
-        const data1 =await studentImageAndDoc.findByIdAndUpdate(req.body.id,{image:req.body.picnum},{
-            new:true
-        });
-
-        let data2=0;
+    exports.updatePicStudent = async(req,res)=>{
         
+        console.log(req.body);
+
         if(req.body.sr==="LKG TO UKG")
-        data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{"image":req.body.picnum},{
-            new:true
-        })
+        data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         if(req.body.sr==="1 TO 5")
-        data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{"image":req.body.picnum},{
-            new:true
-        })
+        data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         if(req.body.sr==="6 TO 8")
-        data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{"image":req.body.picnum},{
-            new:true
-        })
+        data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         res.status(201).json({
             data:data2
         });
-    }
 
-    const multerStorageDoc = multer.diskStorage({
-        destination:(req,file,cb)=>{
-    cb(null,'public/data');
-        },
-        filename:async (req,file,cb)=>{
-            try{
-                let data = await studentImageAndDoc.find();
-                let doc = 0;
-                if(data.length===0)
-                {
-                  data= await studentImageAndDoc.create({
-                       "image":"0",
-                       "document":"1"
-                   });
-            doc=1;
-            req.body.id = data.id;
-                }
-                else
-             {   doc= data[0].document*1+1;
-                req.body.id = data[0];
-            }
-        
-                req.body.docnum = doc;
-                cb(null,`${req.body.desc}-${doc}.${file.originalname.split(".").slice(-1)}`);
-            }
-            catch(err)
-{
-    console.log(err);
-}
-        }
+        if(data2.image.img_id&&data2.image.img_id!=="")
+{    const del = await drive.files.delete({
+      fileId: data2.image.img_id,
     });
+    console.log(del.data, del.status);}
+
+        console.log(data2);
+
+}
+
     
     const uploadDoc = multer({
-        storage:multerStorageDoc
+        storage:multerStorage
     })
     
     exports.fileUploaderDoc = uploadDoc.single('doc');
 
-    exports.updateDocNumAndStudent = async(req,res)=>{
+    exports.updateDocStudent = async(req,res)=>{
 
-        const data1 =await studentImageAndDoc.findByIdAndUpdate(req.body.id,{document:req.body.docnum},{
-            new:true
-        });
+      try {  req =await createFile(req);
 
-        console.log(data1);
+        //  console.log(req);
+
 
         let data2=0;
         
         if(req.body.sr==="LKG TO UKG")
-        data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{description:req.body.desc,name:req.file.filename}}},{
+        data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
             new:true,
             upsert: true
         })
         if(req.body.sr==="1 TO 5")
-        data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{description:req.body.desc,name:req.file.filename}}},{
+        data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
             new:true
         })
         if(req.body.sr==="6 TO 8")
-        data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{description:req.body.desc,name:req.file.filename}}},{
+        data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
             new:true
         })
-
+}
+catch(err)
+{
+    console.log(err);
+}
         console.log(data2);
 
         res.status(201).json({
             data:data2
         });
-    }
+}
+
 
 exports.deleteDoc=async (req,res)=>{
-
-    let data2=0;
     
     console.log(req.body)
 
-    fs.unlink(path.join(__dirname,`../public/data/${req.body.doc_name}`),(err)=>{
-        console.log(err);
-    });
+    const del = await drive.files.delete({
+        fileId: req.body.doc_id,
+      });
+       let data2=0;
 
     if(req.body.student_sr==="LKG TO UKG")
-    data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{_id:req.body.doc_id}}},{
+    data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
         new:true,
     })
     if(req.body.student_sr==="1 TO 5")
-    data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{_id:req.body.doc_id}}},{
+    data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
         new:true
     })
     if(req.body.student_sr==="6 TO 8")
-    data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{_id:req.body.doc_id}}},{
+    data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
         new:true
     })
 
@@ -209,6 +296,6 @@ exports.deleteDoc=async (req,res)=>{
 
     res.status(201).json({
         data:data2
-    });    
+    });  
 
 }

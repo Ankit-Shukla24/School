@@ -53,6 +53,26 @@ const updateAmount = await axios({
 }
 
 
+if(document.querySelector(".del-doc-school"))
+{
+    const delBtn =document.querySelectorAll(".del-doc-school");
+
+    delBtn.forEach((el)=>{
+        el.addEventListener("click",async (e)=>{
+
+        console.log(el);
+
+        const data = await axios({
+            method:'DELETE',
+            url:`/api/v1/documentInfo/deleteDoc/${el.value}`
+        })
+        location.reload();
+
+    })
+    }
+    )}
+
+
 if(document.querySelector("#get-all-form"))
 document.querySelector("#get-all-form").addEventListener("submit",function(e){
     e.preventDefault();
@@ -204,8 +224,6 @@ console.log(total);
 
     const id = window.location.href.split("/")[5];
     
-    StudentData(student,id);
-    setTimeout(()=>{document.querySelector("#submit-all").value="Submit"},300);
     
 return location.reload();
 });
@@ -809,7 +827,7 @@ if(document.querySelector(".upload-pic-btn"))
 
         const formPic = new FormData();
         formPic.append('sr',document.getElementById("student-sr").value);
-        formPic.append('image_no',document.querySelector("#student-image").getAttribute("alt"));
+        formPic.append('student_name',document.querySelector("#student-sr-name").value);
         formPic.append('student_id',document.getElementById("student-sr-id").textContent);
         formPic.append('pic',document.getElementById('picUp').files[0]);
         
@@ -826,10 +844,6 @@ if(document.querySelector(".upload-pic-btn"))
     })
 }
 
-
-
-
-
 if(document.querySelector("#document-upload-form"))
 {
     document.querySelector("#document-upload-form").addEventListener("submit",async (e)=>{
@@ -838,6 +852,7 @@ e.preventDefault();
         formDoc.append('sr',document.getElementById("student-sr").value);
         formDoc.append('student_id',document.getElementById("student-sr-id").textContent);
         formDoc.append('desc',document.querySelector("#upload-desc").value)
+        formDoc.append('student_name',document.querySelector("#student-sr-name").value)
         formDoc.append('doc',document.querySelector("#upload-doc").files[0]);
     
         const data = await axios({
@@ -859,8 +874,9 @@ if(document.querySelector(".del-doc"))
 
         console.log(el);
 
-        obj.doc_id = el.id;
+    
         obj.doc_name = el.name;
+        obj.doc_id= el.id;
         obj.student_sr = document.querySelector("#student-sr").value;
         obj.student_id = document.querySelector("#student-sr-id").textContent;
         
@@ -873,7 +889,6 @@ const data = await axios({
 })
 location.reload();
         }
-
 )
     }
     )

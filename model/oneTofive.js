@@ -9,6 +9,31 @@ const docs= new mongoose.Schema({
     description:{
         type:String,
         default:""
+    },
+    doc_link:{
+        type:String,
+        default:""
+    },
+    doc_id:{
+        type:String,
+        default:""
+    }
+});
+
+const obj_img={};
+
+const img= new mongoose.Schema({
+    img_link:{
+        type:String,
+        default:""
+    },
+    img_id:{
+        type:String,
+        default:""
+    },
+    name:{
+        type:String,
+        default:""
     }
 });
 
@@ -37,8 +62,8 @@ const oneTofiveschema = new mongoose.Schema({
         immutable:true
     },
     image:{
-        type:String,
-        default:""
+    type:img,
+    default:obj_img
     },
     prev_sr_no:{
         type:Number,

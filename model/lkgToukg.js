@@ -5,12 +5,37 @@ const obj = {
     passing:""
 }
 
+const obj_img ={}
+
+const img= new mongoose.Schema({
+    img_link:{
+        type:String,
+        default:""
+    },
+    img_id:{
+        type:String,
+        default:""
+    },
+    name:{
+        type:String,
+        default:""
+    }
+});
+
 const docs= new mongoose.Schema({
     name:{
         type:String,
         default:""
     },
     description:{
+        type:String,
+        default:""
+    },
+    doc_link:{
+        type:String,
+        default:""
+    },
+    doc_id:{
         type:String,
         default:""
     }
@@ -35,8 +60,8 @@ default:'LKG TO UKG'
     },
 
     image:{
-        type:String,
-        default:""
+        type:img,
+        default:obj_img
     },
 
     sr_no:{

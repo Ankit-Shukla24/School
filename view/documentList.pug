@@ -1,5 +1,12 @@
 extend base
 
+mixin datechanger(date_change)
+    -let data = date_changer
+    -if(date_change!=undefined)
+        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'long', year: 'numeric'})
+    li= `Date: ${data}`
+        
+
 block content 
     .document-display
         each document in documents 
@@ -7,6 +14,8 @@ block content
                 ul
                     li= `Type: ${document.type}`
                     li= `Description: ${document.description}`
-                    li= `Date: ${document.date.toString().split(" GMT")[0]}`
-                    a(href=`/data/${document.name}`)
-                        button.get-student-info Get Document
+                    +datechanger(document.date)
+                    .doc-option.center
+                        a(href=document.doc_link target="_blank")
+                            get-doc Get Document   
+                        button.del-doc-school(value=document.doc_id) Delete
