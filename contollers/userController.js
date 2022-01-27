@@ -2,6 +2,7 @@ const User = require('./../model/user');
 const jwt = require('jsonwebtoken');
 const {promisify}=require('util');
 const crypto = require('crypto');
+const AppError = require('./../public/utils/appError');
 
 exports.signup = async (req,res,next)=>
 {
@@ -33,7 +34,7 @@ res.locals.user = newUser;
     }
 catch(err)
 {
-console.log(err);
+return next(err);
 }
 };
 
@@ -46,7 +47,7 @@ exports.login = async (req,res,next) =>{
         const {email,password} = req.body;
         if(!email||!password)
 {
-    return next("No username or password entered");
+    return next(new AppError('Not entered password or email',401));
 }
  //we selected false for password so that it does not show on the output
 const user = await User.findOne({email:email}).select("+password");
@@ -54,7 +55,7 @@ const user = await User.findOne({email:email}).select("+password");
 
 if(!user||!(await user.correctPassword(password,user.password)))
 {
-    return next("No user was found");
+    return next(new AppError('No user was found',401));
 }
 
 
@@ -81,7 +82,7 @@ res.locals.user = user;
     }
 catch(err)
 {
-next(err);
+    next(err);
 }
 
 };

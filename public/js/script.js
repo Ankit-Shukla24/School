@@ -282,16 +282,20 @@ date="NULL";
             data.password = document.querySelector("#password-login").value;
 
             console.log(data);
-
-            const data1  = await axios ({
+            let data1;
+           try{   data1= await axios ({
 
              method:'POST',
              url:'/api/v1/userInfo/login',
              data:data   
             })
 
-            if(data1.status===201)
-            window.location.href="/";
+            console.log(data1)
+        }
+            catch(err)
+          {  
+            window.alert(err.response.data.message);
+          }
 
         })
 
@@ -358,7 +362,7 @@ if(document.querySelector("#signup-form"))
 
         console.log(data);
        
-        const data1  = await axios ({
+      try{  const data1  = await axios ({
 
          method:'POST',
          url:'/api/v1/userInfo/signup',
@@ -368,7 +372,28 @@ if(document.querySelector("#signup-form"))
         console.log(data1);
 
         if(data1.status==201)
-        window.location.href='/';
+        window.location.href='/';}
+        catch(err)
+        {
+            console.log(err.response.data);
+
+            if(err.response.data.err.code===11000)
+window.alert("Email already taken");
+         else{   
+             const entries = Object.entries(err.response.data.err.errors);
+        entries.forEach((el)=>{
+if(el[1].path!=="password")
+{
+            window.alert(`${el[1].message}`);
+        }
+
+else
+{
+    window.alert(`Password is shorter than ${el[1].properties.minlength} characters` );
+}
+}
+        )}
+        }
 
     })
 }

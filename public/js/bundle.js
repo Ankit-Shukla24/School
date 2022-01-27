@@ -70367,23 +70367,31 @@ if (document.querySelector("#login-form")) {
               data.email = document.querySelector("#email-login").value;
               data.password = document.querySelector("#password-login").value;
               console.log(data);
-              _context6.next = 7;
+              _context6.prev = 5;
+              _context6.next = 8;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/userInfo/login',
                 data: data
               });
 
-            case 7:
+            case 8:
               data1 = _context6.sent;
-              if (data1.status === 201) window.location.href = "/";
+              console.log(data1);
+              _context6.next = 15;
+              break;
 
-            case 9:
+            case 12:
+              _context6.prev = 12;
+              _context6.t0 = _context6["catch"](5);
+              window.alert(_context6.t0.response.data.message);
+
+            case 15:
             case "end":
               return _context6.stop();
           }
         }
-      }, _callee6);
+      }, _callee6, null, [[5, 12]]);
     }));
 
     return function (_x7) {
@@ -70485,7 +70493,7 @@ if (document.querySelector("#signup-form")) {
     var _ref9 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee9(e) {
-      var data, data1;
+      var data, data1, entries;
       return regeneratorRuntime.wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
@@ -70497,24 +70505,42 @@ if (document.querySelector("#signup-form")) {
               data.username = document.querySelector("#username-signup").value;
               data.passwordConfirm = document.querySelector("#passwordConfirm-signup").value;
               console.log(data);
-              _context9.next = 9;
+              _context9.prev = 7;
+              _context9.next = 10;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/userInfo/signup',
                 data: data
               });
 
-            case 9:
+            case 10:
               data1 = _context9.sent;
               console.log(data1);
               if (data1.status == 201) window.location.href = '/';
+              _context9.next = 19;
+              break;
 
-            case 12:
+            case 15:
+              _context9.prev = 15;
+              _context9.t0 = _context9["catch"](7);
+              console.log(_context9.t0.response.data);
+              if (_context9.t0.response.data.err.code === 11000) window.alert("Email already taken");else {
+                entries = Object.entries(_context9.t0.response.data.err.errors);
+                entries.forEach(function (el) {
+                  if (el[1].path !== "password") {
+                    window.alert("".concat(el[1].message));
+                  } else {
+                    window.alert("Password is shorter than ".concat(el[1].properties.minlength, " characters"));
+                  }
+                });
+              }
+
+            case 19:
             case "end":
               return _context9.stop();
           }
         }
-      }, _callee9);
+      }, _callee9, null, [[7, 15]]);
     }));
 
     return function (_x10) {
@@ -71182,7 +71208,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56183" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51870" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
