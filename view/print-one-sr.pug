@@ -25,10 +25,10 @@ div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
         else 
             span= "No record"
     .print-student-sr-img
-        if(data.image_img_link!=="")
+        if(data.image.img_link!=="")
             img(src=data.image.img_link alt="No pic Found")
         else
-            img(src="https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png")
+            img(src="/img/no-pic.png")
     .print-student-sr-name
         strong Name : 
         span= data.name

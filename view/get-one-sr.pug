@@ -6,8 +6,11 @@ block content
             a#sr-print(href=`/studentInfo/print-one-sr/${student.sr}/${student.id}` target="_blank")
                 span Print  
             form#get-student-sr-data.get-form.left.sr-update
-                .image-block.small-invisible
-                    img#student-image(src=student.image.img_link)
+                .image-block
+                    if(student.image.img_link!=="")
+                        img(src=student.image.img_link alt="No pic Found")
+                    else
+                        img(src="/img/no-pic.png")
                     br
                     span.upload-pic-btn Upload Pic
                     input.upload-pic(type="file" name="pic" id="picUp" accept="image/*")
