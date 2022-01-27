@@ -70002,14 +70002,15 @@ function () {
             _data = _context.sent;
 
           case 10:
-            _context.next = 14;
+            _context.next = 15;
             break;
 
           case 12:
             _context.prev = 12;
             _context.t0 = _context["catch"](0);
+            console.log(_context.t0);
 
-          case 14:
+          case 15:
           case "end":
             return _context.stop();
         }
@@ -70139,6 +70140,7 @@ function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
+            e.preventDefault();
             document.querySelector("#submit-all").value = "Updating";
             year = document.getElementById("student-year").value;
             studentClass = document.getElementById("student-class").value;
@@ -70157,7 +70159,7 @@ function () {
             feesStudent = _lodash.default.cloneDeep(student); // console.log(feesStudent);
 
             if (!(document.querySelector("#submit-all").name === "add")) {
-              _context4.next = 20;
+              _context4.next = 21;
               break;
             }
 
@@ -70165,14 +70167,14 @@ function () {
             document.querySelector("#submit-all").value = "Updating";
             return _context4.abrupt("return", location.reload());
 
-          case 20:
-            _context4.next = 22;
+          case 21:
+            _context4.next = 23;
             return (0, _axios.default)({
               method: "GET",
               url: "/api/v1/collectionInfo/get-fees"
             });
 
-          case 22:
+          case 23:
             data1 = _context4.sent;
             fees = data1.data.fees;
             console.log(fees);
@@ -70184,13 +70186,13 @@ function () {
             if ((0, _lodash.isInteger)(studentClass * 1)) wordClass = wordArray[studentClass * 1 - 1];
             console.log(fees[wordClass]);
             _iterator = _createForOfIteratorHelper(months);
-            _context4.prev = 32;
+            _context4.prev = 33;
 
             _iterator.s();
 
-          case 34:
+          case 35:
             if ((_step = _iterator.n()).done) {
-              _context4.next = 63;
+              _context4.next = 64;
               break;
             }
 
@@ -70199,7 +70201,7 @@ function () {
             console.log("10");
 
             if (!(el.classList.contains('no_change') !== true && el.value !== "")) {
-              _context4.next = 51;
+              _context4.next = 52;
               break;
             }
 
@@ -70210,22 +70212,22 @@ function () {
             console.log(feesStudent); // console.log(Date.now(),dateNow);
 
             total = total + fees[wordClass] * 1;
-            _context4.next = 47;
+            _context4.next = 48;
             return (0, _axios.default)({
               method: 'POST',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 47:
+          case 48:
             data = _context4.sent;
             console.log("20");
-            _context4.next = 61;
+            _context4.next = 62;
             break;
 
-          case 51:
+          case 52:
             if (!(el.classList.contains('no_change') === true && el.value === "")) {
-              _context4.next = 61;
+              _context4.next = 62;
               break;
             }
 
@@ -70233,14 +70235,14 @@ function () {
             feesStudent['month'] = el.name;
             feesStudent['date'] = dateNow;
             console.log(Date.now(), dateNow);
-            _context4.next = 58;
+            _context4.next = 59;
             return (0, _axios.default)({
               method: 'DELETE',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 58:
+          case 59:
             _data2 = _context4.sent;
 
             if (_data2.status === 201) {
@@ -70249,39 +70251,40 @@ function () {
 
             console.log(total);
 
-          case 61:
-            _context4.next = 34;
+          case 62:
+            _context4.next = 35;
             break;
 
-          case 63:
-            _context4.next = 68;
+          case 64:
+            _context4.next = 69;
             break;
 
-          case 65:
-            _context4.prev = 65;
-            _context4.t0 = _context4["catch"](32);
+          case 66:
+            _context4.prev = 66;
+            _context4.t0 = _context4["catch"](33);
 
             _iterator.e(_context4.t0);
 
-          case 68:
-            _context4.prev = 68;
+          case 69:
+            _context4.prev = 69;
 
             _iterator.f();
 
-            return _context4.finish(68);
+            return _context4.finish(69);
 
-          case 71:
+          case 72:
             ;
             updateCollectiondata(total, dateNow);
             id = window.location.href.split("/")[5];
-            return _context4.abrupt("return", location.reload());
+            StudentData(student, id);
+            location.reload();
 
-          case 75:
+          case 77:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[32, 65, 68, 71]]);
+    }, _callee4, null, [[33, 66, 69, 72]]);
   }));
 
   return function (_x5) {

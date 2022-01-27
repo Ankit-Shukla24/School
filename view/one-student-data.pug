@@ -25,7 +25,7 @@ block content
             label(for="dob") Date of birth
             input#student-dob(type="date" name="dob" value=student.date_of_birth.toISOString().split('T')[0])
         .month-palet
-            each val in ['january','february','march','april','may','june','july','august','september','october','november','december']
+            each val in ['april','may','june','july','august','september','october','november','december','january','february','march']
                 .month-info-palet
                     -let v=`${val}`;
                     -v=v[0].toUpperCase()+v.slice(1);

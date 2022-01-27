@@ -45,7 +45,7 @@ exports.updateStudent = async(req,res)=>{
         runValidators: true
     });
 
-    // console.log(req.body);
+    console.log(req.body);
 
     res.status(200).json({
         status: 'success',
@@ -57,7 +57,7 @@ exports.updateStudent = async(req,res)=>{
 
 exports.addStudent = async (req,res) =>{
 
-    // console.log(req.body);
+    console.log(req.body);
 try{
     const data =await Students.create(req.body);
 
@@ -69,7 +69,7 @@ try{
       });}
       catch(err)
       {
-        
+        console.log(err);
       }
 };
 

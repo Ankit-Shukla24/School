@@ -19,17 +19,15 @@ const studentSchema = new mongoose.Schema({
         required:[true,'A student must have a name'],
       
         trim:true,
-        maxlength:[40,'A tour name must be less than or equal to 40 letters']
     },
     father_name:{
         type:String,
         required:[true,'Please enter father\'s name'],
     trim:true,
-        maxlength:[40,'A tour name must be less than or equal to 40 letters'],
+      
     },
     date_of_birth:{
-        type:Date,
-        default:"null"
+        type:Date
     },
     january:
     {

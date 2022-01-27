@@ -7,6 +7,10 @@
 .large-invisible{
     display: block;
 }
+.month-info-palet>input[type="date"]::-webkit-calendar-picker-indicator {
+ 
+    width: 1rem;
+}
 
 .nav--user--link:hover
 {
@@ -135,7 +139,7 @@ transition: width 0.3s ease-out,color 0s;
 
 #fees-record label, #fees-record input {
     display: inline-block;
-    width: 6rem;
+    width: calc(100%/3.4);
 }
 
 .student-display
@@ -172,7 +176,7 @@ transition: 0.3s ease-in-out;
 
 .get-form > label, .get-form > input, .get-form > select {
     display: block;
-    width: 75vw !important;
+    width: 100% !important;
     text-align: left;
     padding: 0.2rem;
 }
@@ -188,6 +192,21 @@ transition: 0.3s ease-in-out;
     width: 10rem;
 }
 
+#get-student-data
+{
+    margin-top: 5vh;
+}
+
+.month-palet
+{
+    grid-column-gap: 0;
+}
+
+.month-info-palet > label+input {
+    display: block;
+    width: 25vw;
+    padding: 0;
+}
 #get-student-sr-data .image-block {
     position: absolute;
     top: 5vh;
@@ -223,7 +242,7 @@ transition: 0.3s ease-in-out;
 
 .form-div-data>form:first-child> input[type="checkbox"]
 {
-    -left: 2rem !important;
+    left: 2rem !important;
 }
 
 .invisible

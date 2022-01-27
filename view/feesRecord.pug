@@ -12,13 +12,15 @@ block content
                 label(for="fee-date") Date
                 input.fee-option(type="radio" id="get-by-month-radio" name="radio")
                 label(for="fee-month") Month
-            p.get-by-date.right
+            p.get-by-date
+                label(for="") 
                 input(type="text" onfocus="(this.type='date')" name="feeOptions" id="date-from" placeholder="date-from")
                 input(type="text" name="feeOptions" id="date-to" onfocus="(this.type='date')" placeholder="date-to")
-            p.get-by-month.invisible.right
+            p.get-by-month.invisible
+                label(for="") 
                 input(type="number" name="feeOptions" id="month-from" placeholder="month-from")
                 input(type="number" name="feeOptions" id="month-to" placeholder="month-to")
-            p.get-by-month.invisible
+            p.get-by-month.invisible  
                 label(for="fee-year") Session
                 input(type="number" name="fee-year" id="fee-session" placeholder="year")
             br

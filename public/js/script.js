@@ -39,7 +39,7 @@ else
     }
        catch(err)
        {
-           // console.log(err);
+           console.log(err);
        }
     }
 
@@ -129,6 +129,7 @@ if(document.querySelector(".add-student"))
 if(document.querySelector("#submit-all"))
     document.querySelector("#submit-all").addEventListener("click",async function(e)
     {
+        e.preventDefault();
         document.querySelector("#submit-all").value="Updating";
         const year = document.getElementById("student-year").value;
         const studentClass = document.getElementById("student-class").value;
@@ -221,11 +222,11 @@ console.log(total);
         };    
     
         updateCollectiondata(total,dateNow);
-
+       
     const id = window.location.href.split("/")[5];
     
-    
-return location.reload();
+    StudentData(student,id);
+location.reload();
 });
 
 if(document.querySelector(".uploader"))
