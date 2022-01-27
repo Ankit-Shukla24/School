@@ -70377,21 +70377,22 @@ if (document.querySelector("#login-form")) {
 
             case 8:
               data1 = _context6.sent;
+              location.href = "/";
               console.log(data1);
-              _context6.next = 15;
+              _context6.next = 16;
               break;
 
-            case 12:
-              _context6.prev = 12;
+            case 13:
+              _context6.prev = 13;
               _context6.t0 = _context6["catch"](5);
               window.alert(_context6.t0.response.data.message);
 
-            case 15:
+            case 16:
             case "end":
               return _context6.stop();
           }
         }
-      }, _callee6, null, [[5, 12]]);
+      }, _callee6, null, [[5, 13]]);
     }));
 
     return function (_x7) {
@@ -71208,7 +71209,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51870" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58398" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

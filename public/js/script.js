@@ -289,7 +289,7 @@ date="NULL";
              url:'/api/v1/userInfo/login',
              data:data   
             })
-
+location.href="/";
             console.log(data1)
         }
             catch(err)
