@@ -1,0 +1,7 @@
+extend base
+
+block content
+    .extender
+        .message_block
+            -const message = err.message.toUpperCase()
+            p.center= `${message}.....🥴`

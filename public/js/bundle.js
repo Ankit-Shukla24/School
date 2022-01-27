@@ -69965,7 +69965,7 @@ function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(student, id) {
-    var data, _data;
+    var _data, _data2;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -69986,7 +69986,7 @@ function () {
             });
 
           case 4:
-            data = _context.sent;
+            _data = _context.sent;
             _context.next = 10;
             break;
 
@@ -69999,7 +69999,7 @@ function () {
             });
 
           case 9:
-            _data = _context.sent;
+            _data2 = _context.sent;
 
           case 10:
             _context.next = 15;
@@ -70008,7 +70008,7 @@ function () {
           case 12:
             _context.prev = 12;
             _context.t0 = _context["catch"](0);
-            console.log(_context.t0);
+            window.alert(_context.t0.response.data.message);
 
           case 15:
           case "end":
@@ -70034,22 +70034,30 @@ function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
+            _context2.prev = 0;
+            _context2.next = 3;
             return (0, _axios.default)({
               method: "PATCH",
               url: "/api/v1/collectionInfo",
               data: collectionObj
             });
 
-          case 2:
-            updateAmount = _context2.sent;
-
           case 3:
+            updateAmount = _context2.sent;
+            _context2.next = 9;
+            break;
+
+          case 6:
+            _context2.prev = 6;
+            _context2.t0 = _context2["catch"](0);
+            window.alert(_context2.t0.response.data.message);
+
+          case 9:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[0, 6]]);
   }));
 
   return function updateCollection(_x3) {
@@ -70066,28 +70074,37 @@ if (document.querySelector(".del-doc-school")) {
       var _ref3 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3(e) {
-        var data;
+        var _data3;
+
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 console.log(el);
-                _context3.next = 3;
+                _context3.prev = 1;
+                _context3.next = 4;
                 return (0, _axios.default)({
                   method: 'DELETE',
                   url: "/api/v1/documentInfo/deleteDoc/".concat(el.value)
                 });
 
-              case 3:
-                data = _context3.sent;
+              case 4:
+                _data3 = _context3.sent;
                 location.reload();
+                _context3.next = 11;
+                break;
 
-              case 5:
+              case 8:
+                _context3.prev = 8;
+                _context3.t0 = _context3["catch"](1);
+                window.alert(_context3.t0.response.data.message);
+
+              case 11:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[1, 8]]);
       }));
 
       return function (_x4) {
@@ -70134,7 +70151,7 @@ function () {
   var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(e) {
-    var year, studentClass, name, father, date_of_birth, dateNow, student, feesStudent, data1, fees, months, total, wordClass, wordArray, _iterator, _step, el, data, _data2, id;
+    var year, studentClass, name, father, date_of_birth, dateNow, student, feesStudent, _data4, fees, months, total, wordClass, wordArray, _iterator, _step, el, _data5, _data6, id;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -70168,14 +70185,24 @@ function () {
             return _context4.abrupt("return", location.reload());
 
           case 21:
-            _context4.next = 23;
+            _context4.prev = 21;
+            _context4.next = 24;
             return (0, _axios.default)({
               method: "GET",
               url: "/api/v1/collectionInfo/get-fees"
             });
 
-          case 23:
-            data1 = _context4.sent;
+          case 24:
+            _data4 = _context4.sent;
+            _context4.next = 30;
+            break;
+
+          case 27:
+            _context4.prev = 27;
+            _context4.t0 = _context4["catch"](21);
+            window.alert(_context4.t0.response.data.message);
+
+          case 30:
             fees = data1.data.fees;
             console.log(fees);
             months = document.querySelectorAll(".month"); // const monthName = ['january','february','march','april','may','june','july','august','september','october','november','december']
@@ -70186,13 +70213,13 @@ function () {
             if ((0, _lodash.isInteger)(studentClass * 1)) wordClass = wordArray[studentClass * 1 - 1];
             console.log(fees[wordClass]);
             _iterator = _createForOfIteratorHelper(months);
-            _context4.prev = 33;
+            _context4.prev = 39;
 
             _iterator.s();
 
-          case 35:
+          case 41:
             if ((_step = _iterator.n()).done) {
-              _context4.next = 64;
+              _context4.next = 76;
               break;
             }
 
@@ -70201,7 +70228,7 @@ function () {
             console.log("10");
 
             if (!(el.classList.contains('no_change') !== true && el.value !== "")) {
-              _context4.next = 52;
+              _context4.next = 58;
               break;
             }
 
@@ -70212,22 +70239,22 @@ function () {
             console.log(feesStudent); // console.log(Date.now(),dateNow);
 
             total = total + fees[wordClass] * 1;
-            _context4.next = 48;
+            _context4.next = 54;
             return (0, _axios.default)({
               method: 'POST',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 48:
-            data = _context4.sent;
+          case 54:
+            _data5 = _context4.sent;
             console.log("20");
-            _context4.next = 62;
+            _context4.next = 74;
             break;
 
-          case 52:
+          case 58:
             if (!(el.classList.contains('no_change') === true && el.value === "")) {
-              _context4.next = 62;
+              _context4.next = 74;
               break;
             }
 
@@ -70235,56 +70262,65 @@ function () {
             feesStudent['month'] = el.name;
             feesStudent['date'] = dateNow;
             console.log(Date.now(), dateNow);
-            _context4.next = 59;
+            _context4.prev = 63;
+            _context4.next = 66;
             return (0, _axios.default)({
               method: 'DELETE',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 59:
-            _data2 = _context4.sent;
+          case 66:
+            _data6 = _context4.sent;
+            _context4.next = 72;
+            break;
 
-            if (_data2.status === 201) {
+          case 69:
+            _context4.prev = 69;
+            _context4.t1 = _context4["catch"](63);
+            window.alert(_context4.t1.response.data.message);
+
+          case 72:
+            if (data.status === 201) {
               total = total - fees[wordClass] * 1;
             }
 
             console.log(total);
 
-          case 62:
-            _context4.next = 35;
+          case 74:
+            _context4.next = 41;
             break;
 
-          case 64:
-            _context4.next = 69;
+          case 76:
+            _context4.next = 81;
             break;
 
-          case 66:
-            _context4.prev = 66;
-            _context4.t0 = _context4["catch"](33);
+          case 78:
+            _context4.prev = 78;
+            _context4.t2 = _context4["catch"](39);
 
-            _iterator.e(_context4.t0);
+            _iterator.e(_context4.t2);
 
-          case 69:
-            _context4.prev = 69;
+          case 81:
+            _context4.prev = 81;
 
             _iterator.f();
 
-            return _context4.finish(69);
+            return _context4.finish(81);
 
-          case 72:
+          case 84:
             ;
             updateCollectiondata(total, dateNow);
             id = window.location.href.split("/")[5];
             StudentData(student, id);
             location.reload();
 
-          case 77:
+          case 89:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[33, 66, 69, 72]]);
+    }, _callee4, null, [[21, 27], [39, 78, 81, 84], [63, 69]]);
   }));
 
   return function (_x5) {
@@ -70299,7 +70335,8 @@ if (document.querySelector(".uploader")) {
     var _ref5 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee5(e) {
-      var form, data;
+      var form, _data7;
+
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
@@ -70310,23 +70347,31 @@ if (document.querySelector(".uploader")) {
               form.append('type', document.getElementById('type-data').value.toLowerCase());
               form.append('file', document.getElementById('fileUp').files[0]);
               console.log(form);
-              _context5.next = 8;
+              _context5.prev = 6;
+              _context5.next = 9;
               return (0, _axios.default)({
                 method: 'POST',
                 url: "/api/v1/documentInfo/uploadFile",
                 data: form
               });
 
-            case 8:
-              data = _context5.sent;
+            case 9:
+              _data7 = _context5.sent;
               location.reload();
+              _context5.next = 16;
+              break;
 
-            case 10:
+            case 13:
+              _context5.prev = 13;
+              _context5.t0 = _context5["catch"](6);
+              window.alert(_context5.t0.response.data.message);
+
+            case 16:
             case "end":
               return _context5.stop();
           }
         }
-      }, _callee5);
+      }, _callee5, null, [[6, 13]]);
     }));
 
     return function (_x6) {
@@ -70494,7 +70539,8 @@ if (document.querySelector("#signup-form")) {
     var _ref9 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee9(e) {
-      var data, data1, entries;
+      var data, _data8, entries;
+
       return regeneratorRuntime.wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
@@ -70515,9 +70561,9 @@ if (document.querySelector("#signup-form")) {
               });
 
             case 10:
-              data1 = _context9.sent;
-              console.log(data1);
-              if (data1.status == 201) window.location.href = '/';
+              _data8 = _context9.sent;
+              console.log(_data8);
+              if (_data8.status == 201) window.location.href = '/';
               _context9.next = 19;
               break;
 
@@ -70716,7 +70762,7 @@ if (document.querySelector("#get-student-sr-data")) {
     var _ref11 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee11(e) {
-      var objs, obj1, _obj, _obj2, _obj3, _obj4, _obj5, _obj6, _obj7, _obj8, _obj9, data, _data3;
+      var objs, obj1, _obj, _obj2, _obj3, _obj4, _obj5, _obj6, _obj7, _obj8, _obj9, _data9, _data10;
 
       return regeneratorRuntime.wrap(function _callee11$(_context11) {
         while (1) {
@@ -70815,48 +70861,63 @@ if (document.querySelector("#get-student-sr-data")) {
               objs["brother_sister"] = document.querySelector("#student-sr-brother_sister").value;
 
               if (!document.querySelector("#get-student-sr-data").classList.contains("sr-update")) {
-                _context11.next = 34;
+                _context11.next = 42;
                 break;
               }
 
-              _context11.next = 33;
+              _context11.prev = 31;
+              _context11.next = 34;
               return (0, _axios.default)({
                 method: 'PATCH',
                 url: "/api/v1/studentInfo/update-sr/".concat(objs.sr.toLowerCase().split(" ").join(""), "/").concat(window.location.href.split("/")[6]),
                 data: objs
               });
 
-            case 33:
-              data = _context11.sent;
-
             case 34:
+              _data9 = _context11.sent;
+              console.log(_data9);
+              location.reload();
+              _context11.next = 42;
+              break;
+
+            case 39:
+              _context11.prev = 39;
+              _context11.t0 = _context11["catch"](31);
+              window.alert(_context11.t0.response.data.message);
+
+            case 42:
               console.log(document.querySelector("#get-student-sr-data").classList);
 
               if (!document.querySelector("#get-student-sr-data").classList.contains("sr-add")) {
-                _context11.next = 40;
+                _context11.next = 54;
                 break;
               }
 
-              _context11.next = 38;
+              _context11.prev = 44;
+              _context11.next = 47;
               return (0, _axios.default)({
                 method: 'POST',
                 url: "/api/v1/studentInfo/add-sr",
                 data: objs
               });
 
-            case 38:
-              _data3 = _context11.sent;
-              console.log(_data3);
-
-            case 40:
+            case 47:
+              _data10 = _context11.sent;
               location.reload();
+              _context11.next = 54;
+              break;
 
-            case 41:
+            case 51:
+              _context11.prev = 51;
+              _context11.t1 = _context11["catch"](44);
+              window.alert(_context11.t1.response.data.message);
+
+            case 54:
             case "end":
               return _context11.stop();
           }
         }
-      }, _callee11);
+      }, _callee11, null, [[31, 39], [44, 51]]);
     }));
 
     return function (_x12) {
@@ -70916,7 +70977,8 @@ if (document.querySelector("#set-fees-form")) {
     var _ref12 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee12(e) {
-      var obj, data;
+      var obj, _data11;
+
       return regeneratorRuntime.wrap(function _callee12$(_context12) {
         while (1) {
           switch (_context12.prev = _context12.next) {
@@ -70934,23 +70996,31 @@ if (document.querySelector("#set-fees-form")) {
               obj["six"] = document.querySelector("#fees-six").value;
               obj["seven"] = document.querySelector("#fees-seven").value;
               obj["eight"] = document.querySelector("#fees-eight").value;
-              _context12.next = 15;
+              _context12.prev = 13;
+              _context12.next = 16;
               return (0, _axios.default)({
                 method: "POST",
                 url: "/api/v1/collectionInfo/fees-update",
                 data: obj
               });
 
-            case 15:
-              data = _context12.sent;
+            case 16:
+              _data11 = _context12.sent;
               location.reload();
+              _context12.next = 23;
+              break;
 
-            case 17:
+            case 20:
+              _context12.prev = 20;
+              _context12.t0 = _context12["catch"](13);
+              window.alert(_context12.t0.response.data.message);
+
+            case 23:
             case "end":
               return _context12.stop();
           }
         }
-      }, _callee12);
+      }, _callee12, null, [[13, 20]]);
     }));
 
     return function (_x13) {
@@ -71003,7 +71073,8 @@ if (document.querySelector("#promote-form")) {
     var _ref13 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee13(e) {
-      var promoteSr, promoteClass, promotePassingDate, promoteNextAdmissionDate, promotePassingMessage, wordArray, data;
+      var promoteSr, promoteClass, promotePassingDate, promoteNextAdmissionDate, promotePassingMessage, wordArray, _data12;
+
       return regeneratorRuntime.wrap(function _callee13$(_context13) {
         while (1) {
           switch (_context13.prev = _context13.next) {
@@ -71018,23 +71089,31 @@ if (document.querySelector("#promote-form")) {
               if ((0, _lodash.isInteger)(promoteClass * 1)) promoteClass = wordArray[promoteClass * 1 - 1];
               console.log(promoteClass.toUpperCase());
               if (promotePassingMessage === "") promotePassingMessage = "Passed Class ".concat(promoteClass[0].toUpperCase() + promoteClass.slice(1));
-              _context13.next = 12;
+              _context13.prev = 10;
+              _context13.next = 13;
               return (0, _axios.default)({
                 method: "POST",
                 url: "/api/v1/studentInfo/promote-student/".concat(promoteSr, "/").concat(promoteClass, "/").concat(promotePassingMessage, "/").concat(promotePassingDate, "/").concat(promoteNextAdmissionDate)
               });
 
-            case 12:
-              data = _context13.sent;
-              console.log(data.data);
+            case 13:
+              _data12 = _context13.sent;
+              console.log(_data12.data);
               location.reload();
+              _context13.next = 21;
+              break;
 
-            case 15:
+            case 18:
+              _context13.prev = 18;
+              _context13.t0 = _context13["catch"](10);
+              window.alert(_context13.t0.response.data.message);
+
+            case 21:
             case "end":
               return _context13.stop();
           }
         }
-      }, _callee13);
+      }, _callee13, null, [[10, 18]]);
     }));
 
     return function (_x14) {
@@ -71050,7 +71129,8 @@ if (document.querySelector(".upload-pic-btn")) {
     var _ref14 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee14(e) {
-      var formPic, data;
+      var formPic, _data13;
+
       return regeneratorRuntime.wrap(function _callee14$(_context14) {
         while (1) {
           switch (_context14.prev = _context14.next) {
@@ -71067,23 +71147,31 @@ if (document.querySelector(".upload-pic-btn")) {
               formPic.append('student_id', document.getElementById("student-sr-id").textContent);
               formPic.append('pic', document.getElementById('picUp').files[0]);
               console.log(formPic);
-              _context14.next = 11;
+              _context14.prev = 9;
+              _context14.next = 12;
               return (0, _axios.default)({
                 method: "POST",
                 url: "/api/v1/documentInfo/uploadPic",
                 data: formPic
               });
 
-            case 11:
-              data = _context14.sent;
+            case 12:
+              _data13 = _context14.sent;
               location.reload();
+              _context14.next = 19;
+              break;
 
-            case 13:
+            case 16:
+              _context14.prev = 16;
+              _context14.t0 = _context14["catch"](9);
+              window.alert(_context14.t0.response.data.message);
+
+            case 19:
             case "end":
               return _context14.stop();
           }
         }
-      }, _callee14);
+      }, _callee14, null, [[9, 16]]);
     }));
 
     return function (_x15) {
@@ -71099,7 +71187,8 @@ if (document.querySelector("#document-upload-form")) {
     var _ref15 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee15(e) {
-      var formDoc, data;
+      var formDoc, _data14;
+
       return regeneratorRuntime.wrap(function _callee15$(_context15) {
         while (1) {
           switch (_context15.prev = _context15.next) {
@@ -71111,23 +71200,31 @@ if (document.querySelector("#document-upload-form")) {
               formDoc.append('desc', document.querySelector("#upload-desc").value);
               formDoc.append('student_name', document.querySelector("#student-sr-name").value);
               formDoc.append('doc', document.querySelector("#upload-doc").files[0]);
-              _context15.next = 9;
+              _context15.prev = 7;
+              _context15.next = 10;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/documentInfo/uploadDoc',
                 data: formDoc
               });
 
-            case 9:
-              data = _context15.sent;
+            case 10:
+              _data14 = _context15.sent;
               location.reload();
+              _context15.next = 17;
+              break;
 
-            case 11:
+            case 14:
+              _context15.prev = 14;
+              _context15.t0 = _context15["catch"](7);
+              window.alert(_context15.t0.response.data.message);
+
+            case 17:
             case "end":
               return _context15.stop();
           }
         }
-      }, _callee15);
+      }, _callee15, null, [[7, 14]]);
     }));
 
     return function (_x16) {
@@ -71144,7 +71241,8 @@ if (document.querySelector(".del-doc")) {
       var _ref16 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee16(e) {
-        var obj, data;
+        var obj, _data15;
+
         return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
             switch (_context16.prev = _context16.next) {
@@ -71156,23 +71254,31 @@ if (document.querySelector(".del-doc")) {
                 obj.student_sr = document.querySelector("#student-sr").value;
                 obj.student_id = document.querySelector("#student-sr-id").textContent;
                 console.log(obj);
-                _context16.next = 9;
+                _context16.prev = 7;
+                _context16.next = 10;
                 return (0, _axios.default)({
                   method: "DELETE",
                   url: "/api/v1/documentInfo/deleteDoc",
                   data: obj
                 });
 
-              case 9:
-                data = _context16.sent;
+              case 10:
+                _data15 = _context16.sent;
                 location.reload();
+                _context16.next = 17;
+                break;
 
-              case 11:
+              case 14:
+                _context16.prev = 14;
+                _context16.t0 = _context16["catch"](7);
+                window.alert(_context16.t0.response.data.message);
+
+              case 17:
               case "end":
                 return _context16.stop();
             }
           }
-        }, _callee16);
+        }, _callee16, null, [[7, 14]]);
       }));
 
       return function (_x17) {
@@ -71209,7 +71315,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58398" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63381" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

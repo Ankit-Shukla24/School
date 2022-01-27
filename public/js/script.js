@@ -37,19 +37,23 @@ else
     })
 }    
     }
-       catch(err)
-       {
-           console.log(err);
-       }
+    catch(err)
+    {
+window.alert(err.response.data.message);
+    }
     }
 
 const updateCollection = async(collectionObj)=>{
        
-const updateAmount = await axios({
+try{const updateAmount = await axios({
     method:"PATCH",
     url:`/api/v1/collectionInfo`,
     data:collectionObj
-});        
+}); }  
+catch(err)
+{
+window.alert(err.response.data.message);
+}     
 }
 
 
@@ -62,12 +66,16 @@ if(document.querySelector(".del-doc-school"))
 
         console.log(el);
 
-        const data = await axios({
+     try{   const data = await axios({
             method:'DELETE',
             url:`/api/v1/documentInfo/deleteDoc/${el.value}`
         })
         location.reload();
-
+}
+catch(err)
+{
+window.alert(err.response.data.message);
+}
     })
     }
     )}
@@ -156,10 +164,14 @@ if(document.querySelector("#submit-all"))
      return location.reload();
      }
 
-     const data1 = await axios({
+     try{const data1 = await axios({
          method:"GET",
          url:"/api/v1/collectionInfo/get-fees"
-     })
+     })}
+     catch(err)
+     {
+ window.alert(err.response.data.message);
+     }
 
      const fees = data1.data.fees;
 
@@ -208,11 +220,15 @@ console.log(feesStudent);
 
                 console.log(Date.now(),dateNow);
 
-                const data =await axios({
+              try{  const data =await axios({
                     method:'DELETE',
                     url:"/api/v1/studentInfo/feesStudent",
                     data:feesStudent
-                });
+                });}
+                catch(err)
+                {
+            window.alert(err.response.data.message);
+                }
                     if(data.status===201)
                    { 
                        total=total-fees[wordClass]*1;}
@@ -241,14 +257,18 @@ if(document.querySelector(".uploader"))
 
         console.log(form);
 
-    const data =await axios({
+try{    const data =await axios({
 
         method:'POST',
         url:"/api/v1/documentInfo/uploadFile",
         data:form
     });
 
-    location.reload();
+    location.reload();}
+    catch(err)
+    {
+window.alert(err.response.data.message);
+    }
     })
 };
 
@@ -677,25 +697,41 @@ if(document.querySelector("#get-student-sr-data"))
         objs["brother_sister"]=document.querySelector("#student-sr-brother_sister").value;
 
         if(document.querySelector("#get-student-sr-data").classList.contains("sr-update"))
-       {const data= await axios({
+       {
+           
+        try{
+            const data= await axios({
             method:'PATCH',
             url:`/api/v1/studentInfo/update-sr/${objs.sr.toLowerCase().split(" ").join("")}/${window.location.href.split("/")[6]}`,
             data:objs
-        })}
+        })
+console.log(data)
+        location.reload();
+    }
+        catch(err)
+        {
+           
+window.alert(err.response.data.message);
+        }
+    
+    }
 
         console.log(document.querySelector("#get-student-sr-data").classList);
 
         if(document.querySelector("#get-student-sr-data").classList.contains("sr-add"))
-  {     const data= await axios({
+  {
+      try{     const data= await axios({
             method:'POST',
             url:`/api/v1/studentInfo/add-sr`,
             data:objs
 });
 
-console.log(data);
-}
-        location.reload();
-    })
+        location.reload();}
+        catch(err)
+        {
+window.alert(err.response.data.message);
+        }
+    }})
 }
 
 if(document.querySelector(".student-sr-options"))
@@ -770,13 +806,17 @@ if(document.querySelector("#set-fees-form"))
         obj["seven"] = document.querySelector("#fees-seven").value;
         obj["eight"] = document.querySelector("#fees-eight").value;
 
-        const data =await axios({
+        try{const data =await axios({
             method:"POST",
             url:"/api/v1/collectionInfo/fees-update",
             data:obj
         })
 
-        location.reload();
+        location.reload();}
+        catch(err)
+        {
+window.alert(err.response.data.message);
+        }
     })
 }
 
@@ -829,14 +869,18 @@ console.log(promoteClass.toUpperCase());
     if(promotePassingMessage==="")
     promotePassingMessage=`Passed Class ${promoteClass[0].toUpperCase()+promoteClass.slice(1)}`;
 
-    const data = await axios({
+try{    const data = await axios({
         method:"POST",
         url:`/api/v1/studentInfo/promote-student/${promoteSr}/${promoteClass}/${promotePassingMessage}/${promotePassingDate}/${promoteNextAdmissionDate}`
     })
 
     console.log(data.data);
 
-    location.reload();
+    location.reload();}
+    catch(err)
+    {
+window.alert(err.response.data.message);
+    }
 
 })
     }
@@ -859,14 +903,18 @@ if(document.querySelector(".upload-pic-btn"))
         
         console.log(formPic);
 
-        const data = await axios({
+    try{    const data = await axios({
             method:"POST",
             url:"/api/v1/documentInfo/uploadPic",
             data:formPic
         })
 
         location.reload();
-
+}
+catch(err)
+{
+window.alert(err.response.data.message);
+}
     })
 }
 
@@ -881,12 +929,17 @@ e.preventDefault();
         formDoc.append('student_name',document.querySelector("#student-sr-name").value)
         formDoc.append('doc',document.querySelector("#upload-doc").files[0]);
     
-        const data = await axios({
+     try{   const data = await axios({
             method:'POST',
             url:'/api/v1/documentInfo/uploadDoc',
             data:formDoc
         })
     location.reload();
+     }
+     catch(err)
+     {
+window.alert(err.response.data.message);
+     }
     })
 }
 
@@ -907,13 +960,19 @@ if(document.querySelector(".del-doc"))
         obj.student_id = document.querySelector("#student-sr-id").textContent;
         
         console.log(obj);
-
-const data = await axios({
+try
+{const data = await axios({
     method:"DELETE",
     url:"/api/v1/documentInfo/deleteDoc",
     data:obj
 })
-location.reload();
+location.reload();}
+        
+        catch(err)
+        {
+window.alert(err.response.data.message);
+        }
+
         }
 )
     }

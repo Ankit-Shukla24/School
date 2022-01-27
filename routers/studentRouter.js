@@ -4,7 +4,7 @@ const router = express.Router();
 const userController = require("./../contollers/userController");
 const viewController = require("./../contollers/viewController");
 
-// router.use(userController.protect);
+router.use(userController.protect,userController.restrictTo("admin"));
 router.route('/').get(studentController.getAll);
 router.route('/get-one/:id').get(studentController.getOne);
 router.route('/updateStudent/:id').patch(studentController.updateStudent);

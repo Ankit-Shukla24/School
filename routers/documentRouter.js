@@ -4,7 +4,7 @@ const userController = require("./../contollers/userController");
 
 const router = express.Router();
 
-// router.use(userController.protect);
+router.use(userController.protect,userController.restrictTo('admin'));
 router.post('/uploadFile',documentController.fileUploader,documentController.uploadFile);
 router.post("/uploadPic",documentController.fileUploaderPic,documentController.resizeUserPhoto,documentController.updatePicStudent);
 router.post("/uploadDoc",documentController.fileUploaderDoc,documentController.updateDocStudent);

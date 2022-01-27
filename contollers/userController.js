@@ -103,7 +103,7 @@ try
 
     if(!token)
     {
-        return next('not logged in');
+        return next(new AppError("Not logged in",500));
     }
 // promisify in is used to change function to a async function
     const decoded = await promisify(jwt.verify)(token,process.env.JWT_SECRET);
@@ -117,7 +117,7 @@ try
     next();}
     catch(err)
     {
-        return next('not logged in');
+        return next(new AppError("Not logged in",500));
     }
 }
 
@@ -156,11 +156,10 @@ exports.logout = async(req,res,next)=>{
 
 }
 
-const restrictTo = user=> (req,res,next)=>{
+exports.restrictTo = (user)=> (req,res,next)=>{
 
-if(!(user===res.user.role))
-return next('Not allowed to view');
+if(!(user===res.locals.user.role))
+return next(new AppError("Not allowed to view this route",500));
 
 next();
-
 }

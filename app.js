@@ -48,11 +48,17 @@ app.use((err, req, res, next) => {
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
-
-    res.status(err.statusCode).json({
+err.message= err.message;
+  if(req.originalUrl.startsWith("/api"))
+   { res.status(err.statusCode).json({
       err,
       message:err.message
-      })
+      })}
+      else{
+        res.status(500).render('error',{
+          err
+        })
+      }
   }
 );
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Neonderthaw&display=swap');
+
 :root
 {
     --primary-color:rgb(67, 67, 255);
@@ -864,4 +866,16 @@ cursor: pointer;
 .invisible
 {
     display: none !important;
+}
+
+.message_block
+{
+   padding: 10vw;
+   width: max(100vw);
+   height: min-content;
+    padding-top:25vh;
+    margin: auto;
+    color: red;
+    font-size: 40px;
+    font-family: 'Mochiy Pop P One', sans-serif;
 }
