@@ -980,7 +980,7 @@ const curr = document.querySelector("#promote-class").value;
 
 // console.log(curr);
 
-if(curr==="ukg"||curr==="5"||curr==="8"||curr==="pg")
+if(curr==="ukg"||curr==="five"||curr==="eight"||curr==="pg")
 {
     for(let el of promoteNext)
     {
