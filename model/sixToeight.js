@@ -37,20 +37,13 @@ const img= new mongoose.Schema({
 });
 
 
-const obj = {
-    admission:"",
-    passing:""
-}
-
 const passdatesschema = new mongoose.Schema({
 
     admission:{
-        type:String,
-        default:""
+        type:Date
     },
     passing:{
-        type:String,
-        default:""
+        type:Date
     }
 })
 
@@ -81,8 +74,7 @@ const sixToeightschema = new mongoose.Schema({
         default:""
     },
     dob:{
-        type:String,
-        default:""
+        type:Date
     },
     dob_in_word:{
         type:String,
@@ -126,25 +118,19 @@ default:""
         default:""
     },
     six:{
-        type:passdatesschema,
-        default:obj
+        type:passdatesschema
     },
     seven:{
-        type:passdatesschema,
-        default:obj
+        type:passdatesschema
     },
     eight:{
-        type:passdatesschema,
-        default:obj
+        type:passdatesschema
     },
     last_class:{
-        type:String,
-        trim:true,
-        default:""
+        type:Date
     },
     leave_date:{
-        type:String,
-        default:""
+        type:Date
     },
     leave_reason:{
         type:String,

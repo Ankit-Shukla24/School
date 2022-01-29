@@ -70,10 +70,19 @@ if(document.querySelector(".del-doc-school"))
 {
     const delBtn =document.querySelectorAll(".del-doc-school");
 
+    
+
     delBtn.forEach((el)=>{
         el.addEventListener("click",async (e)=>{
 
         // console.log(el);
+
+        const randnum = Math.round(Math.random()*10000)+100000*1
+
+        const enteredNum = prompt(`Enter the code ${randnum}`,"");
+ 
+        if(enteredNum*1!==randnum*1)
+       return  window.alert("Wrong Code");
 
      try{   const data = await axios({
             method:'DELETE',
@@ -1095,7 +1104,15 @@ if(document.querySelector(".del-doc"))
 
         let obj = new Object();
 
+        
         // console.log(el);
+
+        const randnum = Math.round(Math.random()*10000)+100000*1
+
+       const enteredNum = prompt(`Enter the code ${randnum}`,"");
+
+       if(enteredNum*1!==randnum*1)
+      return  window.alert("Wrong Code");
 
     
         obj.doc_name = el.name;
@@ -1123,3 +1140,21 @@ window.alert(err.response.data.message);
     )
 }
 
+if(document.querySelector("#del-sr-record"))
+{
+    document.querySelector("#del-sr-record").addEventListener("click",(e)=>{
+        
+        e.preventDefault();
+
+        console.log( document.querySelector("#del-sr-record"));
+
+        const randnum = Math.round(Math.random()*10000)+100000*1
+
+       const enteredNum = prompt(`Enter the code ${randnum}`,"");
+
+       if(enteredNum*1!==randnum*1)
+      return  window.alert("Wrong Code");
+
+    })
+
+}

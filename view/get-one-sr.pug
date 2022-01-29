@@ -24,7 +24,7 @@ block content
                 label.side-pic(for="student") Student's name
                 input.side-pic#student-sr-name(type="text" name="student" value=`${student.name}`)
                 label.side-pic(for="dob") Date of birth
-                input.side-pic#student-sr-dob(type="text" name="dob" value=student.dob)
+                input.side-pic#student-sr-dob(type="Date" name="dob" value=student.dob)
                 label(for="dob_in_word") Date of birth(in words)
                 input.side-pic#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
                 label.side-pic(for="caste") Caste
@@ -41,64 +41,64 @@ block content
                 input#student-sr-occupation(type="text" name="occupation" value=student.occupation)
                 if(student.pg)
                     label(for="pg_admission") PG Admission
-                    input#student-sr-pg_admission(type="text" name="pg_admission" value=student.pg.admission)
+                    input#student-sr-pg_admission(type="Date" name="pg_admission" value=student.pg.admission)
                     label(for="pg_passing") PG Passing
-                    input#student-sr-pg_passing(type="text" name="pg_passing" value=student.pg.passing)
+                    input#student-sr-pg_passing(type="Date" name="pg_passing" value=student.pg.passing)
                 if(student.lkg)
                     label(for="lkg_admission") LKG Admission
-                    input#student-sr-lkg_admission(type="text" name="lkg_admission" value=student.lkg.admission)
+                    input#student-sr-lkg_admission(type="Date" name="lkg_admission" value=student.lkg.admission)
                     label(for="lkg_passing") LKG Passing
-                    input#student-sr-lkg_passing(type="text" name="lkg_passing" value=student.lkg.passing)
+                    input#student-sr-lkg_passing(type="Date" name="lkg_passing" value=student.lkg.passing)
                 if(student.ukg)
                     label(for="ukg_admission") UKG Admission
-                    input#student-sr-ukg_admission(type="text" name="ukg_admission" value=student.ukg.admission)
+                    input#student-sr-ukg_admission(type="Date" name="ukg_admission" value=student.ukg.admission)
                     label(for="ukg_passing") UKG Passing
-                    input#student-sr-ukg_passing(type="text" name="ukg_passing" value=student.ukg.passing)
+                    input#student-sr-ukg_passing(type="Date" name="ukg_passing" value=student.ukg.passing)
                 -// console.log(student.one)
                 if(student.one)
                     label(for="one_admission") 1st Admission
-                    input#student-sr-one_admission(type="text" name="one_admission" value=student.one.admission)
+                    input#student-sr-one_admission(type="Date" name="one_admission" value=student.one.admission)
                     label(for="one_passing") 1st Passing
-                    input#student-sr-one_passing(type="text" name="one_passing" value=student.one.passing)
+                    input#student-sr-one_passing(type="Date" name="one_passing" value=student.one.passing)
                 if(student.two)
                     label(for="two_admission") 2nd Admission
-                    input#student-sr-two_admission(type="text" name="two_admission" value=student.two.admission)
+                    input#student-sr-two_admission(type="Date" name="two_admission" value=student.two.admission)
                     label(for="two_passing") 2nd Passing
-                    input#student-sr-two_passing(type="text" name="two_passing" value=student.two.passing)
+                    input#student-sr-two_passing(type="Date" name="two_passing" value=student.two.passing)
                 if(student.three)
                     label(for="three_admission") 3rd Admission
-                    input#student-sr-three_admission(type="text" name="three_admission" value=student.three.admission)
+                    input#student-sr-three_admission(type="Date" name="three_admission" value=student.three.admission)
                     label(for="three_passing") 3rd Passing
-                    input#student-sr-three_passing(type="text" name="three_passing" value=student.three.passing)
+                    input#student-sr-three_passing(type="Date" name="three_passing" value=student.three.passing)
                 if(student.four)
                     label(for="four_admission") 4th Admission
-                    input#student-sr-four_admission(type="text" name="four_admission" value=student.four.admission)
+                    input#student-sr-four_admission(type="Date" name="four_admission" value=student.four.admission)
                     label(for="four_passing") 4th Passing
-                    input#student-sr-four_passing(type="text" name="four_passing" value=student.four.passing)
+                    input#student-sr-four_passing(type="Date" name="four_passing" value=student.four.passing)
                 if(student.five)
                     label(for="five_admission") 5th Admission
-                    input#student-sr-five_admission(type="text" name="five_admission" value=student.five.admission)
+                    input#student-sr-five_admission(type="Date" name="five_admission" value=student.five.admission)
                     label(for="five_passing") 5th Passing
-                    input#student-sr-five_passing(type="text" name="five_passing" value=student.five.passing)
+                    input#student-sr-five_passing(type="Date" name="five_passing" value=student.five.passing)
                 if(student.six)
                     label(for="six_admission") 6th Admission
-                    input#student-sr-six_admission(type="text" name="six_admission" value=student.six.admission)
+                    input#student-sr-six_admission(type="Date" name="six_admission" value=student.six.admission)
                     label(for="six_passing") 6th Passing
-                    input#student-sr-six_passing(type="text" name="six_passing" value=student.six.passing)
+                    input#student-sr-six_passing(type="Date" name="six_passing" value=student.six.passing)
                 if(student.seven)
                     label(for="seven_admission") 7th Admission
-                    input#student-sr-seven_admission(type="text" name="seven_admission" value=student.seven.admission)
+                    input#student-sr-seven_admission(type="Date" name="seven_admission" value=student.seven.admission)
                     label(for="seven_passing") 7th Passing
-                    input#student-sr-seven_passing(type="text" name="seven_passing" value=student.seven.passing)
+                    input#student-sr-seven_passing(type="Date" name="seven_passing" value=student.seven.passing)
                 if(student.eight)
                     label(for="eight_admission") 8th Admission
-                    input#student-sr-eight_admission(type="text" name="eight_admission" value=student.eight.admission)
+                    input#student-sr-eight_admission(type="Date" name="eight_admission" value=student.eight.admission)
                     label(for="eight_passing") 8th Passing
-                    input#student-sr-eight_passing(type="text" name="eight_passing" value=student.eight.passing)
+                    input#student-sr-eight_passing(type="Date" name="eight_passing" value=student.eight.passing)
                 label(for="last_class") Last Class
-                input#student-sr-last_class(type="text" name="last_class" value=student.last_class)
+                input#student-sr-last_class(type="Date" name="last_class" value=student.last_class)
                 label(for="leave_date") Leave Date
-                input#student-sr-leave_date(type="text" name="leave_date" value=student.leave_date)
+                input#student-sr-leave_date(type="Date" name="leave_date" value=student.leave_date)
                 label(for="remark") Remark
                 input#student-sr-remark(type="text" name="remark" value=student.remark)
                 label(for="leave_reason") Leave Reason
@@ -122,7 +122,7 @@ block content
                 input#upload-doc(type="file" accept="*" name="docs") 
                 input(type="submit" value="Upload Document" name="submit")
         .margin5
-            a(href=`/api/v1/studentInfo/sr-delete/${student.sr}/${student.id}`)
+            a#del-sr-record(href=`/api/v1/studentInfo/sr-delete/${student.sr}/${student.id}`)
                     button.option--btn.option--btn--small Delete Record
             if(student.sr==='LKG TO UKG')    
                 a(href=`/studentInfo/sr-find/pg/NULL/${student.prev_sr_no}`)
@@ -151,7 +151,7 @@ block content
                 label(for="student") Student's name
                 input#student-sr-name(type="text" name="student" placeholder="Enter the name")
                 label(for="dob") Date of birth
-                input#student-sr-dob(type="text" name="dob" placeholder="Enter DOB")
+                input#student-sr-dob(type="Date" name="dob" placeholder="Enter DOB")
                 label(for="dob_in_word") Date of birth(in words)
                 input#student-sr-dob_in_word(type="text" name="dob_in_word" placeholder="Enter DOB in words")
                 label(for="caste") Caste
@@ -169,63 +169,63 @@ block content
                 
                
                 label.play_group(for="pg_admission") PG Admission
-                input.play_group#student-sr-pg_admission(type="text" name="pg_admission" placeholder="PG Admission date")
+                input.play_group#student-sr-pg_admission(type="Date" name="pg_admission" placeholder="PG Admission date")
                 label.play_group(for="pg_passing") PG Passing
-                input.play_group#student-sr-pg_passing(type="text" name="pg_passing" placeholder="PG Admission date")
+                input.play_group#student-sr-pg_passing(type="Date" name="pg_passing" placeholder="PG Admission date")
                 
                 label.pre_primary.invisible(for="lkg_admission") LKG Admission
-                input.pre_primary.invisible#student-sr-lkg_admission(type="text" name="lkg_admission" placeholder="LKG Admission date")
+                input.pre_primary.invisible#student-sr-lkg_admission(type="Date" name="lkg_admission" placeholder="LKG Admission date")
                 label.pre_primary.invisible(for="lkg_passing") LKG Passing
-                input.pre_primary.invisible#student-sr-lkg_passing(type="text" name="lkg_passing" placeholder="LKG Admission date")
+                input.pre_primary.invisible#student-sr-lkg_passing(type="Date" name="lkg_passing" placeholder="LKG Admission date")
                 
                 label.pre_primary.invisible(for="ukg_admission") UKG Admission
-                input.pre_primary.invisible#student-sr-ukg_admission(type="text" name="ukg_admission" placeholder="UKG Admission date")
+                input.pre_primary.invisible#student-sr-ukg_admission(type="Date" name="ukg_admission" placeholder="UKG Admission date")
                 label.pre_primary.invisible(for="ukg_passing") UKG Passing
-                input.pre_primary.invisible#student-sr-ukg_passing(type="text" name="ukg_passing" placeholder="UKG Admission date")
+                input.pre_primary.invisible#student-sr-ukg_passing(type="Date" name="ukg_passing" placeholder="UKG Admission date")
         
                 label.primary.invisible(for="one_admission") 1st Admission
-                input.primary.invisible#student-sr-one_admission(type="text" name="one_admission" placeholder="1st Admission date")
+                input.primary.invisible#student-sr-one_admission(type="Date" name="one_admission" placeholder="1st Admission date")
                 label.primary.invisible(for="one_passing") 1st Passing
-                input.primary.invisible#student-sr-one_passing(type="text" name="one_passing" placeholder="1st Admission date")
+                input.primary.invisible#student-sr-one_passing(type="Date" name="one_passing" placeholder="1st Admission date")
         
                 label.primary.invisible(for="two_admission") 2nd Admission
-                input.primary.invisible#student-sr-two_admission(type="text" name="two_admission" placeholder="2nd Admission date")
+                input.primary.invisible#student-sr-two_admission(type="Date" name="two_admission" placeholder="2nd Admission date")
                 label.primary.invisible(for="two_passing") 2nd Passing
-                input.primary.invisible#student-sr-two_passing(type="text" name="two_passing" placeholder="2nd Passing date")
+                input.primary.invisible#student-sr-two_passing(type="Date" name="two_passing" placeholder="2nd Passing date")
 
                 label.primary.invisible(for="three_admission") 3rd Admission
-                input.primary.invisible#student-sr-three_admission(type="text" name="three_admission" placeholder="3rd Admission date")
+                input.primary.invisible#student-sr-three_admission(type="Date" name="three_admission" placeholder="3rd Admission date")
                 label.primary.invisible(for="three_passing") 3rd Passing
-                input.primary.invisible#student-sr-three_passing(type="text" name="three_passing" placeholder="3rd Passing date")
+                input.primary.invisible#student-sr-three_passing(type="Date" name="three_passing" placeholder="3rd Passing date")
         
                 label.primary.invisible(for="four_admission") 4th Admission
-                input.primary.invisible#student-sr-four_admission(type="text" name="four_admission" placeholder="4th Admission date")
+                input.primary.invisible#student-sr-four_admission(type="Date" name="four_admission" placeholder="4th Admission date")
                 label.primary.invisible(for="four_passing") 4th Passing
-                input.primary.invisible#student-sr-four_passing(type="text" name="four_passing" placeholder="4th Passing date")
+                input.primary.invisible#student-sr-four_passing(type="Date" name="four_passing" placeholder="4th Passing date")
         
                 label.primary.invisible(for="five_admission") 5th Admission
-                input.primary.invisible#student-sr-five_admission(type="text" name="five_admission" placeholder="5th Admission date")
+                input.primary.invisible#student-sr-five_admission(type="Date" name="five_admission" placeholder="5th Admission date")
                 label.primary.invisible(for="five_passing") 5th Passing
-                input.primary.invisible#student-sr-five_passing(type="text" name="five_passing" placeholder="5th Passing date")
+                input.primary.invisible#student-sr-five_passing(type="Date" name="five_passing" placeholder="5th Passing date")
 
                 label.upper_primary.invisible(for="six_admission") 6th Admission
-                input.upper_primary.invisible#student-sr-six_admission(type="text" name="six_admission" placeholder="6th Admission date")
+                input.upper_primary.invisible#student-sr-six_admission(type="Date" name="six_admission" placeholder="6th Admission date")
                 label.upper_primary.invisible(for="six_passing") 6th Passing
-                input.upper_primary.invisible#student-sr-six_passing(type="text" name="six_passing" placeholder="6th Passing date")
+                input.upper_primary.invisible#student-sr-six_passing(type="Date" name="six_passing" placeholder="6th Passing date")
 
                 label.upper_primary.invisible(for="seven_admission") 7th Admission
-                input.upper_primary.invisible#student-sr-seven_admission(type="text" name="seven_admission" placeholder="7th Admission date")
+                input.upper_primary.invisible#student-sr-seven_admission(type="Date" name="seven_admission" placeholder="7th Admission date")
                 label.upper_primary.invisible(for="seven_passing") 7th Passing
-                input.upper_primary.invisible#student-sr-seven_passing(type="text" name="seven_passing" placeholder="7th Passing date")
+                input.upper_primary.invisible#student-sr-seven_passing(type="Date" name="seven_passing" placeholder="7th Passing date")
 
                 label.upper_primary.invisible(for="eight_admission") 8th Admission
-                input.upper_primary.invisible#student-sr-eight_admission(type="text" name="eight_admission" placeholder="8th Admission date")
+                input.upper_primary.invisible#student-sr-eight_admission(type="Date" name="eight_admission" placeholder="8th Admission date")
                 label.upper_primary.invisible(for="eight_passing") 8th Passing
-                input.upper_primary.invisible#student-sr-eight_passing(type="text" name="eight_passing" placeholder="8th Passing date")
+                input.upper_primary.invisible#student-sr-eight_passing(type="Date" name="eight_passing" placeholder="8th Passing date")
                 label(for="last_class") Last Class
-                input#student-sr-last_class(type="text" name="last_class" placeholder="Last class date")
+                input#student-sr-last_class(type="Date" name="last_class" placeholder="Last class date")
                 label(for="leave_date") Leave Date
-                input#student-sr-leave_date(type="text" name="leave_date" placeholder="Leave class date")
+                input#student-sr-leave_date(type="Date" name="leave_date" placeholder="Leave class date")
                 label(for="leave_reason") Leave Reason
                 input#student-sr-leave_reason(type="text" name="leave_reason" placeholder="Leave class reason")
                 label(for="remark") Remark

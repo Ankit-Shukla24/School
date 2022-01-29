@@ -43,12 +43,10 @@ const docs= new mongoose.Schema({
 const passdatesschema = new mongoose.Schema({
 
     admission:{
-        type:String,
-        default:""
+        type:Date
     },
     passing:{
-        type:String,
-        default:""
+        type:Date
     }
 })
 
@@ -76,8 +74,7 @@ default:'PG'
         default:""
     },
     dob:{
-        type:String,
-        default:""
+        type:Date
     },
     dob_in_word:{
         type:String,
@@ -126,13 +123,10 @@ default:""
         default:obj
     },
     last_class:{
-        type:String,
-        trim:true,
-        default:""
+        type:Date
     },
     leave_date:{
-        type:String,
-        default:""
+        type:Date
     },
     leave_reason:{
         type:String,
