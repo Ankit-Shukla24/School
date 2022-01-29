@@ -978,10 +978,11 @@ const playGroup = document.querySelectorAll(".play_group");
 
 const curr = document.querySelector("#promote-class").value;
 
-// console.log(curr);
+console.log(curr);
 
 if(curr==="ukg"||curr==="five"||curr==="eight"||curr==="pg")
 {
+    console.log("ll");
     for(let el of promoteNext)
     {
         el.classList.remove("invisible");
