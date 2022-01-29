@@ -12,17 +12,29 @@ mixin datechanger(date_change,val)
 block content
     .form-div-data
         form#get-student-data.get-form
-            label(for="year") Year
+            label(for="student-year") Year
             input#student-year(type="text" value=`${student.year}` name="year")
-            label(for="class") Class
-            input#student-class(type="text" name="class" value=`${student.class}`)
-            label(for="roll_no") Roll No.
+            label(for="student-class") Class
+            select#student-class.student-class-select(name="Enter-class" placeholder="**")
+                option(value=student.class_code selected)= student.class
+                option(value="0") PG
+                option(value="1") LKG
+                option(value="2") UKG
+                option(value="3") 1st
+                option(value="4") 2nd
+                option(value="5") 3rd
+                option(value="6") 4th
+                option(value="7") 5th
+                option(value="8") 6th
+                option(value="9") 7th
+                option(value="10") 8th
+            label(for="student-roll_no") Roll No.
             input#student-roll_no(type="text" name="roll_no" value=`${student.roll_no}`)
-            label(for="student") Student's name
+            label(for="student-student") Student's name
             input#student-name(type="text" name="student" value=`${student.name}`)
-            label(for="father") Father's name
+            label(for="student-father") Father's name
             input#student-father(type="text" name="father" value=`${student.father_name}`)
-            label(for="dob") Date of birth
+            label(for="student-dob") Date of birth
             input#student-dob(type="date" name="dob" value=student.date_of_birth.toISOString().split('T')[0])
         .month-palet
             each val in ['april','may','june','july','august','september','october','november','december','january','february','march']

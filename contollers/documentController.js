@@ -3,19 +3,19 @@ const documents = require('./../model/documents');
 const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
-const studentImageAndDoc = require("./../model/studentImageAndDoc");
 const lkgToukg = require('./../model/lkgToukg');
+const pgTopg = require('./../model/pgTopg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
 const { google } = require('googleapis');
 const { Readable } = require('stream');
 
 
-const CLIENT_ID = '887077914114-78vudpk4a76bm2ovachlgvmvvr47stm3.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'https://developers.google.com/oauthplayground';
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
 
-const REFRESH_TOKEN = '1//049gISelf76saCgYIARAAGAQSNwF-L9IrBeWZVF01P4vPjulurHBjsaHf3BUSFJmcOu_yYhnj6IS2ritoOQxUrh9d1G5a-AkaWvI';
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 const oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
@@ -71,7 +71,7 @@ try{
   });
 
 
-      console.log(response.data);
+      // console.log(response.data);
 req.body.response= response.data;
       const fileId = response.data.id;
       await drive.permissions.create({
@@ -90,13 +90,13 @@ req.body.response= response.data;
       req.body.link = result.data;
 
       
-      console.log(result.data);
+      // console.log(result.data);
       
-      console.log(error.message);
+      // console.log(error.message);
   }
 catch(err)
 {
-  console.log(err);
+  // console.log(err);
 }
 
 return req;
@@ -107,7 +107,7 @@ return req;
 
 exports.fileUploader = upload.single('file');
 
-exports.uploadFile = async(req,res) =>{
+exports.uploadFile = async(req,res,next) =>{
 
     req =await createFile(req);
 
@@ -119,21 +119,22 @@ exports.uploadFile = async(req,res) =>{
     req.body.doc_id=req.body.response.id;
     req.body.doc_link=req.body.link.webViewLink;
 
-    console.log(req.body);
+    // console.log(req.body);
 
 try{
     await documents.create(req.body);}
 catch(err)
 {
-    console.log(err);
+    return next(err)
 }
     res.status(201).json({
     })
 }
 
-exports.deleteDocByParams = async (req,res)=>{
+exports.deleteDocByParams = async (req,res,next)=>{
 try
-   { console.log(req.params);
+   { 
+     // console.log(req.params);
 
     const data = await documents.findOneAndDelete({doc_id:req.params.id})
 
@@ -143,7 +144,7 @@ try
 }
 catch(err)
 {
-    console.log(err);
+    return next(err)
 }
       res.status(201).json({
           data
@@ -178,7 +179,7 @@ exports.resizeUserPhoto = async (req, res,next) => {
           },
         });
     
-        console.log(response.data);
+        // console.log(response.data);
 req.body.response= response.data;
         const fileId = response.data.id;
         await drive.permissions.create({
@@ -196,22 +197,24 @@ req.body.response= response.data;
 
         req.body.link = result.data;
 
-        console.log(result.data);
+        // console.log(result.data);
 
-        console.log(error.message);
     }
 
 catch(err)
 {
-    console.log(err);
+  console.log();
+    return next(err)
 }
     next();
-    };
+  };
 
-    exports.updatePicStudent = async(req,res)=>{
+    exports.updatePicStudent = async(req,res,next)=>{
         
-        console.log(req.body);
-
+        // console.log(req.body);
+try{
+        if(req.body.sr==="PG")
+        data2 = await pgTopg.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         if(req.body.sr==="LKG TO UKG")
         data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         if(req.body.sr==="1 TO 5")
@@ -226,9 +229,19 @@ catch(err)
 {    const del = await drive.files.delete({
       fileId: data2.image.img_id,
     });
-    console.log(del.data, del.status);}
+    // console.log(del.data, del.status);}
+}
+        // console.log(data2);
+      }
 
-        console.log(data2);
+        catch(err)
+        {
+          // console.log(err);
+
+          return next(err);
+        }
+
+        res.status(201);
 
 }
 
@@ -239,19 +252,19 @@ catch(err)
     
     exports.fileUploaderDoc = uploadDoc.single('doc');
 
-    exports.updateDocStudent = async(req,res)=>{
+    exports.updateDocStudent = async(req,res,next)=>{
+      let data2=0;
 
       try {  req =await createFile(req);
 
         //  console.log(req);
-
-
-        let data2=0;
-        
+        if(req.body.sr==="PG")
+        data2 = await pgTopg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+            new:true,
+        })
         if(req.body.sr==="LKG TO UKG")
         data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
             new:true,
-            upsert: true
         })
         if(req.body.sr==="1 TO 5")
         data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
@@ -264,9 +277,9 @@ catch(err)
 }
 catch(err)
 {
-    console.log(err);
+    return next(err)
 }
-        console.log(data2);
+        // console.log(data2);
 
         res.status(201).json({
             data:data2
@@ -274,15 +287,19 @@ catch(err)
 }
 
 
-exports.deleteDoc=async (req,res)=>{
+exports.deleteDoc=async (req,res,next)=>{
     
-try{    console.log(req.body)
+  let data2=0;
+try{    
+  // console.log(req.body)
 
     const del = await drive.files.delete({
         fileId: req.body.doc_id,
       });
-       let data2=0;
-
+    if(req.body.student_sr==="PG")
+    data2 = await pgTopg.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
+        new:true,
+    })
     if(req.body.student_sr==="LKG TO UKG")
     data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
         new:true,
@@ -298,9 +315,9 @@ try{    console.log(req.body)
 }
 catch(err)
 {
-    console.log(err);
+    return next(err)
 }
-    console.log(data2);
+    // console.log(data2);
 
     res.status(201).json({
         data:data2

@@ -17,8 +17,10 @@ block content
                     li= `Student Name: ${student.name}`
                     li= `Father Name: ${student.father_name}`
                     +datechanger(student.dob)
+                    -if (student.sr === "PG")
+                        a(href=`/studentInfo/get-one-sr/pg/${student._id}`)
+                            button.get-student-info Get student
                     -if (student.sr === "LKG TO UKG")
-                        -console.log("ll");
                         a(href=`/studentInfo/get-one-sr/lkgtoukg/${student._id}`)
                             button.get-student-info Get student
                     -if (student.sr === '1 TO 5')

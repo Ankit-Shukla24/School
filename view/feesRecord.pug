@@ -5,8 +5,30 @@ block content
         form.get-form#fees-record 
             p
                 label(for="fee-class") Class 
-                input(type="number" name="fee-class" id="class-from" placeholder="class-from")
-                input(type="number" name="fee-class" id="class-to" placeholder="class-to")
+                select#class-from(name="fee-class")
+                    option(value="0") PG
+                    option(value="1") LKG
+                    option(value="2") UKG
+                    option(value="3") 1st
+                    option(value="4") 2nd
+                    option(value="5") 3rd
+                    option(value="6") 4th
+                    option(value="7") 5th
+                    option(value="8") 6th
+                    option(value="9") 7th
+                    option(value="10") 8th 
+                select#class-to(name="fee-class")
+                    option(value="0") PG
+                    option(value="1") LKG
+                    option(value="2") UKG
+                    option(value="3") 1st
+                    option(value="4") 2nd
+                    option(value="5") 3rd
+                    option(value="6") 4th
+                    option(value="7") 5th
+                    option(value="8") 6th
+                    option(value="9") 7th
+                    option(value="10") 8th 
             p.left
                 input.fee-option(type="radio" id="get-by-date-radio" checked name="radio")
                 label(for="fee-date") Date

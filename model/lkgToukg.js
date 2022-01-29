@@ -72,6 +72,7 @@ default:'LKG TO UKG'
     {
         type:String,
         trim:true,
+        uppercase:true,
         default:""
     },
     dob:{
@@ -81,37 +82,44 @@ default:'LKG TO UKG'
     dob_in_word:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true
     },
     caste:{
 type:String,
 trim:true,
+uppercase:true,
 default:""
     },
     religion:{
         type:String,
         trim:true,
+        uppercase:true,
         default:""
     },
     father_name:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     mother_name:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     address:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     occupation:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     lkg:{
         type:passdatesschema,
@@ -133,17 +141,20 @@ default:""
     leave_reason:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     remark:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     brother_sister:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     documents:[docs]
 })

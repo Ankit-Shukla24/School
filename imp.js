@@ -12,13 +12,15 @@ const DB = process.env.DATABASE;
 
 const studentData = JSON.parse(fs.readFileSync('dataStudent.json','utf-8'));
 
+// console.log(studentData);
+
 const importData= async()=>{
     try{
         await Student.create(studentData);
     }
     catch(err)
     {
-// console.log(err);
+// // console.log(err);
     }
     process.exit();
 }
@@ -29,7 +31,7 @@ const deleteData= async()=>{
         }
     catch(err)
     {
-// console.log(err);
+// // console.log(err);
     }
     process.exit();
 }

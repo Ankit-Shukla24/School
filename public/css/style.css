@@ -469,13 +469,13 @@ width: 2rem !important;
     font-size: 0.5rem;
 }
 
-#fees-record label,#fees-record input
+#fees-record label,#fees-record input,#fees-record select
 {
 display: inline-block;
 width: 7rem;
 }
 
-#fees-record input
+#fees-record input,#fees-record select
 {
     margin:  0.5rem;
     padding: 0.5rem;
@@ -488,13 +488,13 @@ width: 7rem;
 * input[type="submit"] 
 {
     margin-top: 0.5rem !important;
-    margin: auto !important;
+    margin:0.5rem auto !important;
     width: 100% !important;
     display: block !important;
     text-align:center !important;
     background-color: black !important;
     color: white !important;
-    padding: 0.5rem;
+    padding: 0.5rem !important;
 }
 
 * input[type="radio"],* input[type="checkbox"]
@@ -741,6 +741,11 @@ cursor: pointer;
     grid-area: ukg;
 }
 
+.print-student-sr-pg
+{
+    grid-area: pg;
+}
+
 .print-student-sr-last-class
 {
     grid-area: last-class;
@@ -838,6 +843,27 @@ cursor: pointer;
     border: 0.2rem solid black;
 }
 
+.sr-print-PG
+{
+    display: grid;
+    background-color: black;
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "father-name father-name father-name father-name"
+    "mother-name mother-name mother-name mother-name"
+    "address address address address" 
+    "religion caste occupation occupation"
+    "pg pg pg pg"
+    "last-class last-class leave-date leave-date"
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 2rem;
+    grid-gap: 2px;
+    border: 0.2rem solid black;
+}
 
 .sr-print-grid>div
 {
@@ -878,4 +904,12 @@ cursor: pointer;
     color: red;
     font-size: 40px;
     font-family: 'Mochiy Pop P One', sans-serif;
+}
+
+.class-list-cover input,.class-list-cover select
+{
+    display: block;
+    width: 50vw !important;
+    text-align: left;
+    padding: 0.2rem;
 }

@@ -56,6 +56,17 @@ div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
     .print-student-sr-occupation
         strong Occupation :  
         span= data.occupation
+    if(data.pg)    
+        .print-student-sr-pg
+            table
+                tr
+                th(colspan="2") PG
+                tr 
+                th Admission 
+                th Passing
+                tr
+                td= data.pg.admission
+                td= data.pg.passing
     if(data.lkg)    
         .print-student-sr-lkg
             table

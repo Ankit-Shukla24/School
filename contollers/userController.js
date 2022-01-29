@@ -20,9 +20,11 @@ const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{
 
 const cookieOption = {
     expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
-httpOnly:true};
+httpOnly:true,
 
-cookieOption.secure = true;
+};
+
+cookieOption.secure=false;
 
 res.cookie('jwt',token,cookieOption);
 // console.log(req.body);
@@ -70,7 +72,7 @@ const cookieOption = {
     expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
 httpOnly:true};
 
-cookieOption.secure = true;
+cookieOption.secure = false;
 
 res.cookie('jwt',token,cookieOption);
 // console.log(req.body);

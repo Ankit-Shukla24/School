@@ -77,6 +77,7 @@ const sixToeightschema = new mongoose.Schema({
     {
         type:String,
         trim:true,
+        uppercase:true,
         default:""
     },
     dob:{
@@ -86,32 +87,38 @@ const sixToeightschema = new mongoose.Schema({
     dob_in_word:{
         type:String,
         trim:true,
+        uppercase:true,
         default:""
     },
     caste:{
 type:String,
 trim:true,
+uppercase:true,
 default:""
     },
     religion:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     father_name:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     mother_name:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     address:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     occupation:{
         type:String,
@@ -142,17 +149,20 @@ default:""
     leave_reason:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     remark:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     brother_sister:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     documents:[docs]
 })

@@ -4,8 +4,19 @@ block content
     .form-div
         form.get-form#get-all-form
             p Enter the required data
-            label(for="Enter-year") Enter Year
+            label(for="all-year") Enter Year
             input#all-year(type="text" name="Enter-year" value="" placeholder="20**")
-            label(for="Enter-class") Enter Class
-            input#all-class(type="text" name="Enter-class" value="" placeholder="P.G TO 8")
+            label(for="all-class") Enter Class
+            select#all-class(name="Enter-class")
+                option(value="PG") PG
+                option(value="LKG") LKG
+                option(value="UKG") UKG
+                option(value="1st") 1st
+                option(value="2nd") 2nd
+                option(value="3rd") 3rd
+                option(value="4th") 4th
+                option(value="5th") 5th
+                option(value="6th") 6th
+                option(value="7th") 7th
+                option(value="8th") 8th
             input#submit-all-form(type="submit" name="submit" value="Submit")

@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const studentSchema = new mongoose.Schema({
 
     year:{
-    type:String,
+    type:Number,
     required:[true,'Please Enter the year']
     },
     class:{
-        type:Number,
-        required:[true,'Please Enter the class']
+        type:String,
+        required:[true,'Please Enter the class'],
     },
     roll_no:{
         type:Number,
@@ -17,12 +17,13 @@ const studentSchema = new mongoose.Schema({
     name:{
         type:String,
         required:[true,'A student must have a name'],
-      
+      uppercase:true,
         trim:true,
     },
     father_name:{
         type:String,
         required:[true,'Please enter father\'s name'],
+        uppercase:true,
     trim:true,
       
     },
@@ -67,6 +68,9 @@ november:{
 december:{
     type:Date
 },
+class_code:{
+    type:Number
+}
 });
 
 studentSchema.index({class:-1,year:-1});

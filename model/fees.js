@@ -2,49 +2,49 @@ const mongoose = require("mongoose");
 
 const feesSchema = new mongoose.Schema({
     
-    pg:{
+    0:{
         type:Number,
         default:0
     },
 
-    lkg:{
+    1:{
 type:Number,
 default:0
     },
-    ukg:{
+    2:{
         type:Number,
         default:0
     },
-    one:
+    3:
     {
         type:Number,
         default:0
     },
-two:{
+4:{
     type:Number,
     default:0
 },
-three:{
+5:{
     type:Number,
     default:0
 },
-four:{
+6:{
     type:Number,
     default:0
 },
-five:{
+7:{
     type:Number,
     default:0
 },
-six:{
+8:{
     type:Number,
     default:0
 },
-seven:{
+9:{
     type:Number,
     default:0
 },
-eight:{
+10:{
     type:Number,
     default:0
 }

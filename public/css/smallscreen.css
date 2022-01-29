@@ -137,7 +137,7 @@ transition: width 0.3s ease-out,color 0s;
     width: 85vw;
 }
 
-#fees-record label, #fees-record input {
+#fees-record label, #fees-record input,#fees-record select {
     display: inline-block;
     width: calc(100%/3.4);
 }
@@ -217,7 +217,7 @@ transition: 0.3s ease-in-out;
 {
     
     display: block;
-    margin:1.5rem auto;
+    margin:1.6rem auto 1.5rem;
     height: 8rem;
     width: 8rem;
 }
@@ -248,4 +248,12 @@ transition: 0.3s ease-in-out;
 .invisible
 {
     display: none !important;
+}
+
+.class-list-cover input,.class-list-cover select
+{
+    display: block;
+    width: 100% !important;
+    text-align: left;
+    padding: 0.2rem;
 }

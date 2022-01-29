@@ -1,14 +1,15 @@
 import '@babel/polyfill';
 import axios from 'axios';
+import { Console } from 'console';
 import lodash, { forEach, isInteger } from 'lodash'; 
 import {promisify} from 'util';
 import documents from '../../model/documents';
 
 const updateCollectiondata = (total,dateNow)=>{
-    console.log(total,"9999999999");
+    // console.log(total,"9999999999");
     const collectionObj = new Object();
     collectionObj["id1"] = dateNow;
-    console.log(total);
+    // console.log(total);
     collectionObj["amount"] = total;
 
  updateCollection(collectionObj); 
@@ -35,13 +36,21 @@ else
         url:`/api/v1/studentInfo/addStudent`,
         data:student
     })
-}    
+    // console.log(data);
+}
+location.reload();    
     }
     catch(err)
     {
-window.alert(err.response.data.message);
+        const entries = Object.entries(err.response.data.err.errors);
+        entries.forEach((el)=>{
+if(el[1].path!=="password")
+{
+            window.alert(`${el[1].message}`);
+        }
+    })
     }
-    }
+}
 
 const updateCollection = async(collectionObj)=>{
        
@@ -64,7 +73,7 @@ if(document.querySelector(".del-doc-school"))
     delBtn.forEach((el)=>{
         el.addEventListener("click",async (e)=>{
 
-        console.log(el);
+        // console.log(el);
 
      try{   const data = await axios({
             method:'DELETE',
@@ -107,7 +116,7 @@ document.querySelector("#get-one-form").addEventListener("submit",function(e){
    if(classSchool==="")
    classSchool = false; 
    
-let name = document.getElementById("name").value;
+let name = document.getElementById("name").value.toUpperCase();
 
 if(name==="")
 name = false;
@@ -127,23 +136,23 @@ if(document.querySelector("#get-student-data"))
             el.classList.add('no_change');
 
         });
+
 }
 
-if(document.querySelector(".add-student"))
-{
-    document.querySelector(".month-palet").classList.add("invisible");  
-}
 
 if(document.querySelector("#submit-all"))
     document.querySelector("#submit-all").addEventListener("click",async function(e)
     {
+        const classList = ["PG",'LKG','UKG','1st','2nd','3rd','4th','5th','6th','7th','8th'];
+
         e.preventDefault();
         document.querySelector("#submit-all").value="Updating";
         const year = document.getElementById("student-year").value;
-        const studentClass = document.getElementById("student-class").value;
         const name = document.getElementById("student-name").value;
         const father = document.getElementById("student-father").value;
         const date_of_birth = document.getElementById("student-dob").value;
+        const studentClassCode= document.getElementById("student-class").value;
+        const studentClass = classList[studentClassCode*1];
         let dateNow = new Date().toLocaleString().split(",")[0];
         dateNow+='Z';
         const student = new Object();
@@ -152,19 +161,18 @@ if(document.querySelector("#submit-all"))
         student.class=studentClass;
         student.father_name=father;
         student.date_of_birth= date_of_birth; 
+        student.class_code = studentClassCode;
         student.roll_no = document.getElementById("student-roll_no").value;
         let feesStudent = lodash.cloneDeep(student);
 
-        // console.log(feesStudent);
+        // // console.log(feesStudent);
 
         if(document.querySelector("#submit-all").name==="add")
         { 
-            StudentData(student,"add");
-            document.querySelector("#submit-all").value="Updating";
-     return location.reload();
+           return StudentData(student,"add");
      }
-
-     try{const data1 = await axios({
+let data1;
+     try{data1 = await axios({
          method:"GET",
          url:"/api/v1/collectionInfo/get-fees"
      })}
@@ -175,35 +183,28 @@ if(document.querySelector("#submit-all"))
 
      const fees = data1.data.fees;
 
-     console.log(fees);
+     // console.log(fees);
         const months = document.querySelectorAll(".month");
         
         // const monthName = ['january','february','march','april','may','june','july','august','september','october','november','december']
      let total = 0*1;
      
-     let wordClass=studentClass;
-
-     let wordArray =["one","two","three","four","five","six","seven","eight"];
-     
-    if(isInteger(studentClass*1))
-wordClass=wordArray[studentClass*1-1];
-     console.log(fees[wordClass]);
 
  for(const el of months){
 
             student[`${el.name}`]=el.value;
 
-            console.log("10");
+            // // console.log("10");
 
             if(el.classList.contains('no_change')!==true&&el.value!=="")
             {
                 student[`${el.name}`]= dateNow;
-                feesStudent['fees'] = fees[wordClass]*1;
+                feesStudent['fees'] = fees[studentClassCode]*1;
                 feesStudent['month'] = el.name;
                 feesStudent['date'] = dateNow;
-console.log(feesStudent);
+// console.log(feesStudent);
                 // console.log(Date.now(),dateNow);
-                total=total + fees[wordClass]*1;
+                total=total + fees[studentClassCode]*1;
                 const data = await axios({
 
                     method:'POST',
@@ -214,35 +215,36 @@ console.log(feesStudent);
             }
             else if(el.classList.contains('no_change')===true&&el.value==="")
             {
-                feesStudent['fees'] = fees[wordClass]*1;
+                feesStudent['fees'] = fees[studentClassCode]*1;
                 feesStudent['month'] = el.name;
                 feesStudent['date'] = dateNow;
 
-                console.log(Date.now(),dateNow);
+                // console.log(Date.now(),dateNow);
 
               try{  const data =await axios({
-                    method:'DELETE',
-                    url:"/api/v1/studentInfo/feesStudent",
-                    data:feesStudent
-                });}
+                  method:'DELETE',
+                  url:"/api/v1/studentInfo/feesStudent",
+                  data:feesStudent
+                });
+                if(data.status===201)
+               { 
+                   total=total-fees[studentClassCode]*1;}
+    // console.log(total);
+    
+        }
                 catch(err)
                 {
             window.alert(err.response.data.message);
                 }
-                    if(data.status===201)
-                   { 
-                       total=total-fees[wordClass]*1;}
-console.log(total);
-
-            }
         };    
+    }
     
         updateCollectiondata(total,dateNow);
        
     const id = window.location.href.split("/")[5];
     
     StudentData(student,id);
-location.reload();
+
 });
 
 if(document.querySelector(".uploader"))
@@ -255,7 +257,7 @@ if(document.querySelector(".uploader"))
         form.append('type',document.getElementById('type-data').value.toLowerCase());
         form.append('file',document.getElementById('fileUp').files[0]);
 
-        console.log(form);
+        // console.log(form);
 
 try{    const data =await axios({
 
@@ -301,7 +303,7 @@ date="NULL";
             data.email = document.querySelector("#email-login").value;
             data.password = document.querySelector("#password-login").value;
 
-            console.log(data);
+            // console.log(data);
             let data1;
            try{   data1= await axios ({
 
@@ -310,7 +312,7 @@ date="NULL";
              data:data   
             })
 location.href="/";
-            console.log(data1)
+            // console.log(data1)
         }
             catch(err)
           {  
@@ -354,7 +356,7 @@ e.preventDefault();
     excel['sessionfilter'] = document.getElementById("session-filter").value;
     excel['classfilter'] = document.getElementById("class-filter").value;
 
-    console.log(excel,"***********");
+    // console.log(excel,"***********");
 
     const data = await axios({
 
@@ -380,7 +382,7 @@ if(document.querySelector("#signup-form"))
         data.username = document.querySelector("#username-signup").value;
         data.passwordConfirm = document.querySelector("#passwordConfirm-signup").value;
 
-        console.log(data);
+        // console.log(data);
        
       try{  const data1  = await axios ({
 
@@ -389,13 +391,13 @@ if(document.querySelector("#signup-form"))
          data:data   
         })
 
-        console.log(data1);
+        // console.log(data1);
 
         if(data1.status==201)
         window.location.href='/';}
         catch(err)
         {
-            console.log(err.response.data);
+            // console.log(err.response.data);
 
             if(err.response.data.err.code===11000)
 window.alert("Email already taken");
@@ -424,7 +426,7 @@ if(document.getElementById("fees-record"))
 
    const options= document.getElementsByClassName("fee-option");
 
-   console.log(options);
+   // console.log(options);
 
 for(const el of options){el.addEventListener("click",(e)=>{
 
@@ -450,6 +452,11 @@ document.getElementById("fees-record").addEventListener("submit",async (e)=>{
     const start_class= document.querySelector("#class-from").value;
     const end_class= document.querySelector("#class-to").value;
     const full_data = true
+
+    const classList = ["PG",'LKG','UKG','1st','2nd','3rd','4th','5th','6th','7th','8th'];
+
+    // console.log(start_class,end_class);
+
     if(document.querySelector(".get-by-month").classList.contains('invisible')===true)
     {
         const objs = [];
@@ -458,7 +465,7 @@ document.getElementById("fees-record").addEventListener("submit",async (e)=>{
         {
             const feedesc= new Object;
 
-            feedesc["class"] = i*1;
+            feedesc["class"] = classList[i*1];
             feedesc["total"] = 0*1;
 
             if(full_data)
@@ -466,6 +473,8 @@ document.getElementById("fees-record").addEventListener("submit",async (e)=>{
 
             objs.push(feedesc);
         }
+
+        // console.log(objs);
 
     const start_date= document.querySelector("#date-from").value;
     const end_date= document.querySelector("#date-to").value;
@@ -485,10 +494,11 @@ document.getElementById("fees-record").addEventListener("submit",async (e)=>{
 
      const pr =   JSON.stringify(objs);
 
+
      var url = new URL(`http://${window.location.host}/studentInfo/displayFeeRecord`);
-     console.log(window.location.host);
+     // // console.log(window.location.host);
      url.searchParams.set('data',pr);
-        console.log(url.search);
+        // console.log(url.search);
         window.location.href=`${url}`;
     }
     else
@@ -513,7 +523,7 @@ document.getElementById("fees-record").addEventListener("submit",async (e)=>{
         }
 
         const session = document.getElementById("fee-session").value;
-console.log(session);
+// console.log(session);
 let end_session =session;
 
 const months_limit = new Object;
@@ -529,10 +539,10 @@ if(end_month>=10)
 }
 
         const start_date = new Date(session,start_month*1+2,1);
-        console.log(start_date);
+        // console.log(start_date);
         
         const end_date = new Date(end_session,end_month*1+1,0);
-        console.log(end_date)
+        // console.log(end_date)
     const dates = new Object;
 
     dates["start_date"] = start_date;
@@ -549,12 +559,12 @@ if(end_month>=10)
 
      const pr =   JSON.stringify(objs);
 
-     console.log(objs);
+     // console.log(objs);
 
      var url = new URL(`http://${window.location.host}/studentInfo/displayFeeRecord`);
-     console.log(window.location.host);
+     // console.log(window.location.host);
      url.searchParams.set('data',pr);
-        console.log(url.search);
+        // console.log(url.search);
         window.location.href=`${url}`;
 
 }
@@ -571,7 +581,7 @@ if(document.querySelector("#get-sr-main"))
         e.preventDefault();
 
         const section = document.querySelector("#sr-main-section").value;
-        let name = document.querySelector("#sr-main-name").value;
+        let name = document.querySelector("#sr-main-name").value.toUpperCase();
         let srno =document.querySelector("#sr-main-srno").value;
 
         if(name==="")
@@ -608,7 +618,15 @@ if(document.querySelector("#get-student-sr-data"))
         objs["address"] =  document.querySelector("#student-sr-address").value;
         objs["occupation"] =  document.querySelector("#student-sr-occupation").value;
        
-        console.log(objs);
+        // console.log(objs);
+
+        if(document.querySelector("#student-sr-pg_admission"))
+        {
+            const obj1= new Object();
+            obj1["admission"]= document.querySelector("#student-sr-pg_admission").value;
+            obj1["passing"] = document.querySelector("#student-sr-pg_passing").value;
+            objs["pg"]=obj1;
+        }
 
         if(document.querySelector("#student-sr-lkg_admission"))
         {
@@ -705,8 +723,13 @@ if(document.querySelector("#get-student-sr-data"))
             url:`/api/v1/studentInfo/update-sr/${objs.sr.toLowerCase().split(" ").join("")}/${window.location.href.split("/")[6]}`,
             data:objs
         })
-console.log(data)
-        location.reload();
+// console.log(data)
+
+setTimeout(()=>{
+    location.reload();
+},500);
+
+        
     }
         catch(err)
         {
@@ -716,7 +739,7 @@ window.alert(err.response.data.message);
     
     }
 
-        console.log(document.querySelector("#get-student-sr-data").classList);
+        // console.log(document.querySelector("#get-student-sr-data").classList);
 
         if(document.querySelector("#get-student-sr-data").classList.contains("sr-add"))
   {
@@ -739,15 +762,33 @@ if(document.querySelector(".student-sr-options"))
 const prePrimary = document.querySelectorAll(".pre_primary");
 const primary = document.querySelectorAll(".primary")
 const upperPrimary = document.querySelectorAll(".upper_primary");
+const playGroup = document.querySelectorAll(".play_group");
 
-console.log(prePrimary);
+// console.log(prePrimary);
 
 document.querySelector(".student-sr-options").addEventListener("change",(e)=>{
-
+    if(document.querySelector(".student-sr-options").value==="PG")
+    {
+        prePrimary.forEach((el)=>{
+            el.classList.add("invisible");
+        });
+        playGroup.forEach((el)=>{
+            el.classList.remove("invisible");
+        });
+        primary.forEach((el)=>{
+            el.classList.add("invisible");
+        });
+        upperPrimary.forEach((el)=>{
+            el.classList.add("invisible");
+        });
+    }
     if(document.querySelector(".student-sr-options").value==="LKG TO UKG")
     {
         prePrimary.forEach((el)=>{
             el.classList.remove("invisible");
+        });
+        playGroup.forEach((el)=>{
+            el.classList.add("invisible");
         });
         primary.forEach((el)=>{
             el.classList.add("invisible");
@@ -761,6 +802,9 @@ document.querySelector(".student-sr-options").addEventListener("change",(e)=>{
         prePrimary.forEach((el)=>{
             el.classList.add("invisible");
         });
+        playGroup.forEach((el)=>{
+            el.classList.add("invisible");
+        });
         primary.forEach((el)=>{
             el.classList.remove("invisible");
         });
@@ -771,6 +815,9 @@ document.querySelector(".student-sr-options").addEventListener("change",(e)=>{
     if(document.querySelector(".student-sr-options").value==="6 TO 8")
     {
         prePrimary.forEach((el)=>{
+            el.classList.add("invisible");
+        });
+        playGroup.forEach((el)=>{
             el.classList.add("invisible");
         });
         primary.forEach((el)=>{
@@ -794,23 +841,25 @@ if(document.querySelector("#set-fees-form"))
 
         const obj = new Object();
 
-        obj["pg"] = document.querySelector("#fees-pg").value;
-        obj["lkg"] = document.querySelector("#fees-lkg").value;
-        obj["ukg"] = document.querySelector("#fees-ukg").value;
-        obj["one"] = document.querySelector("#fees-one").value;
-        obj["two"] = document.querySelector("#fees-two").value;
-        obj["three"] = document.querySelector("#fees-three").value;
-        obj["four"] = document.querySelector("#fees-four").value;
-        obj["five"] = document.querySelector("#fees-five").value;
-        obj["six"] = document.querySelector("#fees-six").value;
-        obj["seven"] = document.querySelector("#fees-seven").value;
-        obj["eight"] = document.querySelector("#fees-eight").value;
+        obj["0"] = document.querySelector("#fees-pg").value;
+        obj["1"] = document.querySelector("#fees-lkg").value;
+        obj["2"] = document.querySelector("#fees-ukg").value;
+        obj["3"] = document.querySelector("#fees-one").value;
+        obj["4"] = document.querySelector("#fees-two").value;
+        obj["5"] = document.querySelector("#fees-three").value;
+        obj["6"] = document.querySelector("#fees-four").value;
+        obj["7"] = document.querySelector("#fees-five").value;
+        obj["8"] = document.querySelector("#fees-six").value;
+        obj["9"] = document.querySelector("#fees-seven").value;
+        obj["10"] = document.querySelector("#fees-eight").value;
 
         try{const data =await axios({
             method:"POST",
             url:"/api/v1/collectionInfo/fees-update",
             data:obj
+
         })
+            // console.log(data);
 
         location.reload();}
         catch(err)
@@ -820,18 +869,118 @@ window.alert(err.response.data.message);
     })
 }
 
+if(document.querySelector("#promote-student-fee"))
+{
+
+    let click_ct = 0;
+
+    document.querySelector("#promote-student-fee").addEventListener("click", async ()=>{
+
+        const randnum = Math.round(Math.random()*10000)+100000*1
+
+       const enteredNum = prompt(`Enter the code ${randnum}`,"");
+
+       if(enteredNum*1!==randnum*1)
+      return  window.alert("Wrong Code");
+
+const data = await axios({
+    method:'POST',
+    url:`/api/v1/studentInfo/promote-student-fees/${(new Date()).getFullYear()*1-1}`
+})
+
+if(data.status===201)
+window.alert("All Students Promoted 🥳🥳")
+
+    })
+
+}
+
 if(document.querySelector("#promote-form"))
 {
 
-    const promoteNext = document.querySelectorAll(".promote-next");
+    const promoteNext = document.querySelectorAll(".promote-next-message");
+    const promoteClass = document.querySelector("#promote-class");
+    const promoteSr = document.querySelector("#promote-sr");
+
+    const prePrimary = document.querySelectorAll(".pre_primary");
+const primary = document.querySelectorAll(".primary")
+const upperPrimary = document.querySelectorAll(".upper_primary");
+const playGroup = document.querySelectorAll(".play_group");
+    promoteSr.addEventListener("change",()=>{
+
+        if(promoteSr.value==="PG")
+        {
+            playGroup.forEach((el)=>{
+                el.classList.remove("invisible");
+            });
+
+            prePrimary.forEach((el)=>{
+                el.classList.remove("invisible");
+            });
+            primary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            upperPrimary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+        }
+        
+        if(promoteSr.value==="LKG TO UKG")
+        {
+            playGroup.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+
+            prePrimary.forEach((el)=>{
+                el.classList.remove("invisible");
+            });
+            primary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            upperPrimary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+        }
+        if(promoteSr.value==="1 TO 5")
+        {
+            playGroup.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            prePrimary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            primary.forEach((el)=>{
+                el.classList.remove("invisible");
+            });
+            upperPrimary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+        }
+        if(promoteSr.value==="6 TO 8")
+        {
+            playGroup.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            prePrimary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            primary.forEach((el)=>{
+                el.classList.add("invisible");
+            });
+            upperPrimary.forEach((el)=>{
+                el.classList.remove("invisible");
+            });
+        }
+    })
+
 
     document.querySelector("#promote-class").addEventListener("change",()=>{
 
 const curr = document.querySelector("#promote-class").value;
 
-console.log(curr);
+// console.log(curr);
 
-if(curr==="UKG"||curr==="5"||curr==="8")
+if(curr==="ukg"||curr==="5"||curr==="8"||curr==="pg")
 {
     for(let el of promoteNext)
     {
@@ -852,29 +1001,23 @@ document.querySelector("#promote-form").addEventListener("submit",async (e)=>{
     e.preventDefault();
 
     const promoteSr = document.querySelector("#promote-sr").value;
-    let promoteClass = document.querySelector("#promote-class").value.toLowerCase();
+    let promoteClass = document.querySelector("#promote-class").value;
     const promotePassingDate = document.querySelector("#promote-passing-date").value;
     const promoteNextAdmissionDate = document.querySelector("#promote-next-admission-date").value;
     let promotePassingMessage;  
     if(document.querySelector("#promote-passing-message"))
     promotePassingMessage = document.querySelector("#promote-passing-message").value;
 
-    let wordArray =["one","two","three","four","five","six","seven","eight"];
-    
-   if(isInteger(promoteClass*1))
-promoteClass=wordArray[promoteClass*1-1];
-
-console.log(promoteClass.toUpperCase());
 
     if(promotePassingMessage==="")
-    promotePassingMessage=`Passed Class ${promoteClass[0].toUpperCase()+promoteClass.slice(1)}`;
+    promotePassingMessage=`Passed Class ${promoteClass.toUpperCase()}`;
 
 try{    const data = await axios({
         method:"POST",
         url:`/api/v1/studentInfo/promote-student/${promoteSr}/${promoteClass}/${promotePassingMessage}/${promotePassingDate}/${promoteNextAdmissionDate}`
     })
 
-    console.log(data.data);
+    // console.log(data.data);
 
     location.reload();}
     catch(err)
@@ -901,7 +1044,7 @@ if(document.querySelector(".upload-pic-btn"))
         formPic.append('student_id',document.getElementById("student-sr-id").textContent);
         formPic.append('pic',document.getElementById('picUp').files[0]);
         
-        console.log(formPic);
+        // console.log(formPic);
 
     try{    const data = await axios({
             method:"POST",
@@ -951,7 +1094,7 @@ if(document.querySelector(".del-doc"))
 
         let obj = new Object();
 
-        console.log(el);
+        // console.log(el);
 
     
         obj.doc_name = el.name;
@@ -959,7 +1102,7 @@ if(document.querySelector(".del-doc"))
         obj.student_sr = document.querySelector("#student-sr").value;
         obj.student_id = document.querySelector("#student-sr-id").textContent;
         
-        console.log(obj);
+        // console.log(obj);
 try
 {const data = await axios({
     method:"DELETE",
@@ -978,3 +1121,4 @@ window.alert(err.response.data.message);
     }
     )
 }
+

@@ -1,35 +1,36 @@
 extend base
 
-mixin datechanger()   
-    input(type="date" class=`month`) 
-
 
 block content
     .form-div-data.add-student
         form#get-student-data.get-form
-            label(name="year") Year
+            label(for="student-year") Year
             input#student-year(type="text" name="year")
             br
-            label(name="class") Class
-            input#student-class(type="text" name="class")
+            label(for="student-class") Class
+            select#student-class(name="Enter-class")
+                option(value="0") PG
+                option(value="1") LKG
+                option(value="2") UKG
+                option(value="3") 1st
+                option(value="4") 2nd
+                option(value="5") 3rd
+                option(value="6") 4th
+                option(value="7") 5th
+                option(value="8") 6th
+                option(value="9") 7th
+                option(value="10") 8th
             br
-            label(name="roll_no") Roll No.
+            label(for="student-roll_no") Roll No.
             input#student-roll_no(type="text" name="roll_no")
             br
-            label(name="student") Student's name
+            label(for="student-name") Student's name
             input#student-name(type="text" name="name" )
             br
-            label(name="father") Father's name
+            label(for="student-father") Father's name
             input#student-father(type="text" name="name" )
             br
-            label(name="dob") Date of birth
+            label(for="student-dob") Date of birth
             input#student-dob(type="date" name="name" )
-            input#submit-all(type="submit" name="add" value="Submit")
-        .month-palet
-            each val in ["january",'february','march','april','may','june','july','august','september','october','november','december']
-                .month-info-palet
-                    -let v=`${val}`;
-                    -v=v[0].toUpperCase()+v.slice(1);
-                        label(name="month" class=`monthLable`)=v
-                        +datechanger()                
+            input#submit-all(type="submit" name="add" value="Submit")            
         

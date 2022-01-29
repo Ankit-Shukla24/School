@@ -77,7 +77,8 @@ const oneTofiveschema = new mongoose.Schema({
     {
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     dob:{
         type:String,
@@ -86,37 +87,44 @@ const oneTofiveschema = new mongoose.Schema({
     dob_in_word:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     caste:{
 type:String,
 trim:true,
-default:""
+default:"",
+uppercase:true,
     },
     religion:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     father_name:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     mother_name:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     address:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     occupation:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
    one:
    {
@@ -155,17 +163,20 @@ default:""
     leave_reason:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     remark:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     brother_sister:{
         type:String,
         trim:true,
-        default:""
+        default:"",
+        uppercase:true,
     },
     documents:[docs]
 

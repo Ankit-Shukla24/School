@@ -3,15 +3,15 @@ const Fees = require("./../model/fees");
 
 exports.updateData = async(req,res) =>{
 
-    // console.log(req.body);
+    // // // console.log(req.body);
 
     const pr = new Date(req.body.id1);
 
-    // console.log(pr);
+    // // console.log(pr);
 
     const data =await Collection.find({date:pr});
 
-    // console.log(data);
+    // // console.log(data);
 
     if(data.length===0)
     {
@@ -33,7 +33,7 @@ exports.updateData = async(req,res) =>{
 
         const money = data[0].amount*1+req.body.amount*1; 
 
-        console.log(money);
+        // console.log(money);
 
         const newData = await Collection.findByIdAndUpdate(data[0]._id,{amount:money},
             {
@@ -63,7 +63,7 @@ exports.getFees = async (req,res)=>{
     const data = await Fees.find({});
 
     const fees = data[0];
-
+    // console.log(fees);
     res.status(201).json({
         fees
     })

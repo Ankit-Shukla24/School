@@ -4,11 +4,13 @@ const feesToday=require("./../model/todayFees");
 const loadash = require("lodash");
 const fees = require("./../model/fees");
 const lkgToukg = require('./../model/lkgToukg');
+const pgTopg = require('./../model/pgTopg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
+const { find, create } = require("lodash");
 
 
-exports.getAll = async (req,res)=>{
+exports.getAll = async (req,res,next)=>{
 
   try{const data =  await Students.find({}).sort("year,class,roll_no");
 
@@ -19,11 +21,11 @@ exports.getAll = async (req,res)=>{
        }
    })}
    catch(err){
-// console.log(err);
+// return next(err);
    }
 }
 
-exports.getOne = async (req,res)=>{
+exports.getOne = async (req,res,next)=>{
     try{
         const data =  await Students.find({_id:req.params.id});
   
@@ -34,18 +36,18 @@ exports.getOne = async (req,res)=>{
          }
      })}
      catch(err){
-  // console.log(err);
+  // return next(err);
      }
   }
 
-exports.updateStudent = async(req,res)=>{
+exports.updateStudent = async(req,res,next)=>{
 
     const UpdatedStudent = await Students.findByIdAndUpdate(req.params.id,req.body,{
         new: true,
         runValidators: true
     });
 
-    console.log(req.body);
+    // console.log(req.body);
 
     res.status(200).json({
         status: 'success',
@@ -55,9 +57,9 @@ exports.updateStudent = async(req,res)=>{
       });
 }
 
-exports.addStudent = async (req,res) =>{
+exports.addStudent = async (req,res,next) =>{
 
-    console.log(req.body);
+    // console.log(req.body);
 try{
     const data =await Students.create(req.body);
 
@@ -69,11 +71,11 @@ try{
       });}
       catch(err)
       {
-        console.log(err);
+        return next(err);
       }
 };
 
-exports.feesStudent = async (req,res)=>{
+exports.feesStudent = async (req,res,next)=>{
 
     const data = await feesToday.create(req.body);
 
@@ -84,14 +86,14 @@ exports.feesStudent = async (req,res)=>{
     })
 }
 
-exports.delFeesStudent= async (req,res)=>{
+exports.delFeesStudent= async (req,res,next)=>{
 
     let dateNow = new Date().toLocaleString().split(",")[0];
         dateNow+='Z';
 
         const data = await feesToday.findOneAndDelete(req.body);
 
-        console.log(data);
+        // console.log(data);
         
         if(data)
         res.status(201).json({
@@ -104,11 +106,13 @@ exports.delFeesStudent= async (req,res)=>{
         })
 }
 
-exports.searchFeesDate = async (req,res)=>{
+exports.searchFeesDate = async (req,res,next)=>{
 
-    console.log(req.body);
+    // // // console.log(req.body);
 
-    const options =req.body;
+    // console.log(req.body[0],"**************");
+
+    const options =req.body.params;
 
     const minm_class = options[options.length-1].minm;
     const maxm_class = options[options.length-1].maxm;
@@ -116,7 +120,7 @@ exports.searchFeesDate = async (req,res)=>{
     const minm_date= options[options.length-2].start_date;
     const maxm_date= options[options.length-2].end_date;
 
-    console.log(minm_class,maxm_class);
+    // console.log(minm_class,maxm_class);
 
     const records = [];
     
@@ -124,17 +128,18 @@ exports.searchFeesDate = async (req,res)=>{
     options.pop();
     
     if(options[0].class!==undefined)
-    {const data = feesToday.find({class:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({class:1,date:1});
+    {const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({class_code:1,date:1});
 
     for(let i=minm_class;i<=maxm_class;i++)
     {
         let data1 = data.clone();
-        data1 = await data1.find({class:i});
+        data1 = await data1.find({class_code:i});
 
+        
         let record = new Object;
 
         record = loadash.cloneDeep(options[i-minm_class]);
-console.log(record.data);
+// console.log(record.data);
         for(const el of data1)
         {
             record.total = record.total*1+el.fees*1;
@@ -144,15 +149,16 @@ console.log(record.data);
         }
         records.push(record);
     }
-console.log(records);}
+// // console.log(records);
+}
 
 else{
 
    const {minm,maxm,session} = {...options.pop()};
 
-   console.log(minm_date,maxm_date);
+   // console.log(minm_date,maxm_date);
 
-   const data = feesToday.find({class:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({date:1,class:1});
+   const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({date:1,class_code:1});
 
     // const month_list =[ "April", "May", "June", "July", "August", "September", "October", "November", "December","January", "February", "March" ];
 
@@ -174,13 +180,13 @@ else{
         const date_start = new Date(end_session,curr*1+2,1);
         const date_end = new Date(end_session,curr*1+3,0);
         
-        console.log(date_start,date_end,session,end_session);
+        // console.log(date_start,date_end,session,end_session);
         data1 = await data1.find({date:{$gte:date_start,$lte:date_end}});
 
         let record = new Object;
 
         record = loadash.cloneDeep(options[i-minm]);
-console.log(record.data);
+// console.log(record.data);
         for(const el of data1)
         {
             record.total = record.total*1+el.fees*1;
@@ -191,7 +197,7 @@ console.log(record.data);
         }
         records.push(record);
     }
-console.log(records);
+// console.log(records);
 
 }
 
@@ -200,11 +206,16 @@ res.status(201).json({
 })
 }
 
-exports.updateSr= async (req,res)=>{
+exports.updateSr= async (req,res,next)=>{
 
     let data;
 
-    if(req.params.id1==="lkgtoukg")
+    if(req.params.id1==="pg")
+    data = await pgTopg.findByIdAndUpdate(req.params.id2,req.body,{
+       new:true
+   });
+
+    else if(req.params.id1==="lkgtoukg")
      data = await lkgToukg.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
@@ -214,17 +225,18 @@ exports.updateSr= async (req,res)=>{
         new:true
     });
 
-    else
+    else if(req.params.id1==="6to8")
      data = await sixToeight.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
+  
 
     res.status(201).json({
         data
     })
 }
 
-exports.setFees = async (req,res)=>{
+exports.setFees = async (req,res,next)=>{
 
     const data = await fees.create(req.body);
 
@@ -233,11 +245,19 @@ exports.setFees = async (req,res)=>{
     });
 }
 
-exports.addSr = async(req,res)=>{
+exports.addSr = async(req,res,next)=>{
 
     let data;
 
-    if(req.body.sr==="LKG TO UKG")
+    if(req.body.sr==="PG")
+    {
+        const count =await pgTopg.count();
+
+        req.body.sr_no=count*1+1;
+
+       data = await pgTopg.create(req.body);
+    }
+    else if(req.body.sr==="LKG TO UKG")
     {
         const count = await lkgToukg.count();
 
@@ -269,6 +289,10 @@ exports.addSr = async(req,res)=>{
 
 exports.srDelete=async(req,res,next)=>{
 
+
+    if(req.params.id1==="PG")
+    await pgTopg.findByIdAndDelete(req.params.id2);
+
     if(req.params.id1==="LKG TO UKG")
     await lkgToukg.findByIdAndDelete(req.params.id2);
 
@@ -282,11 +306,63 @@ exports.srDelete=async(req,res,next)=>{
 
 }
 
-exports.promoteStudent = async (req,res)=>{
+exports.promoteStudent = async (req,res,next)=>{
 
-    console.log(req.params);
+    // console.log(req.params);
 
     let data;
+    
+    if(req.params.id1==="PG")
+    {
+
+        if(req.params.id2==="pg")
+        {
+            data = await pgTopg.find({"pg.passing":{$eq:""},"pg.admission":{$ne:""},leave_date:{$eq:""},leave_reason:{$eq:""}});
+
+            // console.log(data);
+
+            for(let el of data)
+            {
+                el.leave_date = req.params.id4;
+                el.leave_reason = req.params.id3;
+                el.pg.passing = req.params.id4;
+                
+                if(el.last_class==="")
+                el.last_class=req.params.id4;
+
+                const up = await pgTopg.findByIdAndUpdate(el.id,el,{
+                    new:true
+                });
+
+                el=el.toObject();
+
+                const objs = new Object();
+
+                objs["passing"] ="";
+                objs["admission"] =  req.params.id5;
+
+                el["lkg"] =objs;
+
+delete el._id
+delete el.sr
+delete el.last_class
+delete el.leave_reason
+delete el.leave_date;
+
+// console.log(el);
+
+el.sr_no = await lkgToukg.count()*1;
+el.sr_no = el.sr_no*1+1;
+const promotion = await lkgToukg.create(el);
+
+console.log(promotion);
+
+            }
+        }
+    }
+    
+    
+    
     if(req.params.id1==="LKG TO UKG")
     {
         if(req.params.id2==="lkg")
@@ -312,7 +388,7 @@ exports.promoteStudent = async (req,res)=>{
         {
             data = await lkgToukg.find({"ukg.passing":{$eq:""},"ukg.admission":{$ne:""},leave_date:{$eq:""},leave_reason:{$eq:""}});
 
-            console.log(data);
+            // console.log(data);
 
             for(let el of data)
             {
@@ -342,13 +418,13 @@ delete el.last_class
 delete el.leave_reason
 delete el.leave_date;
 
-console.log(el);
+// // console.log(el);
 
 el.sr_no = await oneToFive.count()*1;
 el.sr_no = el.sr_no*1+1;
 const promotion = await oneToFive.create(el);
 
-console.log(promotion);
+// console.log(promotion);
 
             }
         }
@@ -358,7 +434,7 @@ console.log(promotion);
     {
         if(req.params.id2==="one")
         {  data = await oneToFive.find({"one.admission":{$ne:""},"one.passing":{$eq:""},leave_date:{$eq:""},leave_reason:{$eq:""}});
-        console.log(data);
+        // console.log(data);
           for(const el of data)
           {
 
@@ -457,13 +533,13 @@ delete el.last_class
 delete el.leave_reason
 delete el.leave_date;
 
-console.log(el);
+// console.log(el);
 
 el.sr_no = await sixToeight.count()*1;
 el.sr_no = el.sr_no*1+1;
 const promotion = await sixToeight.create(el);
 
-console.log(promotion);
+// console.log(promotion);
 
         }
         }
@@ -528,5 +604,36 @@ console.log(promotion);
     res.status(201).json({
         data
     });
+
+}
+
+exports.promoteStudentFees = async (req,res,next)=>{
+
+    const data = await Students.find({year:req.params.id1,class_code:{$ne:"10"}});
+    const classList = ["PG",'LKG','UKG','1st','2nd','3rd','4th','5th','6th','7th','8th'];
+    for(const el of data)
+    {
+      try{  const student = new Object();
+        student.year=el.year*1+1;
+        student.name=el.name;
+        student.father_name=el.father_name;
+        student.date_of_birth= el.date_of_birth; 
+        student.class_code = el.class_code*1+1;
+        student.class=classList[student.class_code*1];
+        student.roll_no = el.roll_no;
+
+        // console.log(student);
+        const newStudent = await Students.create(student);
+      }
+catch(err)
+{
+    // console.log(err)
+    return next(err);
+}
+    }
+
+    res.status(201).json({
+        status:"Success"
+    })
 
 }

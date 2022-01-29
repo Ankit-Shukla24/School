@@ -8674,7 +8674,2079 @@ module.exports.default = axios;
 
 },{"./utils":"../../node_modules/axios/lib/utils.js","./helpers/bind":"../../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../../node_modules/axios/lib/cancel/isCancel.js","./env/data":"../../node_modules/axios/lib/env/data.js","./helpers/spread":"../../node_modules/axios/lib/helpers/spread.js","./helpers/isAxiosError":"../../node_modules/axios/lib/helpers/isAxiosError.js"}],"../../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../../node_modules/axios/lib/axios.js"}],"../../node_modules/base64-js/index.js":[function(require,module,exports) {
+},{"./lib/axios":"../../node_modules/axios/lib/axios.js"}],"../../node_modules/node-libs-browser/node_modules/util/support/isBufferBrowser.js":[function(require,module,exports) {
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],"../../node_modules/node-libs-browser/node_modules/inherits/inherits_browser.js":[function(require,module,exports) {
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],"../../node_modules/node-libs-browser/node_modules/util/util.js":[function(require,module,exports) {
+var process = require("process");
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors || function getOwnPropertyDescriptors(obj) {
+  var keys = Object.keys(obj);
+  var descriptors = {};
+
+  for (var i = 0; i < keys.length; i++) {
+    descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
+  }
+
+  return descriptors;
+};
+
+var formatRegExp = /%[sdj%]/g;
+
+exports.format = function (f) {
+  if (!isString(f)) {
+    var objects = [];
+
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function (x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+
+    switch (x) {
+      case '%s':
+        return String(args[i++]);
+
+      case '%d':
+        return Number(args[i++]);
+
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+
+      default:
+        return x;
+    }
+  });
+
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+
+  return str;
+}; // Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+
+
+exports.deprecate = function (fn, msg) {
+  if (typeof process !== 'undefined' && process.noDeprecation === true) {
+    return fn;
+  } // Allow for deprecating things in the process of starting up.
+
+
+  if (typeof process === 'undefined') {
+    return function () {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  var warned = false;
+
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+
+      warned = true;
+    }
+
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+var debugs = {};
+var debugEnviron;
+
+exports.debuglog = function (set) {
+  if (isUndefined(debugEnviron)) debugEnviron = undefined || '';
+  set = set.toUpperCase();
+
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+
+      debugs[set] = function () {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function () {};
+    }
+  }
+
+  return debugs[set];
+};
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+
+/* legacy: obj, showHidden, depth, colors*/
+
+
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  }; // legacy...
+
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  } // set default options
+
+
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+
+exports.inspect = inspect; // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+
+inspect.colors = {
+  'bold': [1, 22],
+  'italic': [3, 23],
+  'underline': [4, 24],
+  'inverse': [7, 27],
+  'white': [37, 39],
+  'grey': [90, 39],
+  'black': [30, 39],
+  'blue': [34, 39],
+  'cyan': [36, 39],
+  'green': [32, 39],
+  'magenta': [35, 39],
+  'red': [31, 39],
+  'yellow': [33, 39]
+}; // Don't use 'blue' not visible on cmd.exe
+
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str + '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+function arrayToHash(array) {
+  var hash = {};
+  array.forEach(function (val, idx) {
+    hash[val] = true;
+  });
+  return hash;
+}
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect && value && isFunction(value.inspect) && // Filter out the util module, it's inspect function is special
+  value.inspect !== exports.inspect && // Also filter out any prototype objects using the circular check.
+  !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+
+    return ret;
+  } // Primitive types cannot have properties
+
+
+  var primitive = formatPrimitive(ctx, value);
+
+  if (primitive) {
+    return primitive;
+  } // Look up the keys of the object.
+
+
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  } // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+
+
+  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  } // Some type of object without properties can be shortcutted.
+
+
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '',
+      array = false,
+      braces = ['{', '}']; // Make Array say that they are Array
+
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  } // Make functions say that they are functions
+
+
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  } // Make RegExps say that they are RegExps
+
+
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  } // Make dates with properties first say the date
+
+
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  } // Make error with message first say the error
+
+
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+  var output;
+
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function (key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+  return reduceToSingleString(output, base, braces);
+}
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
+
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+
+  if (isNumber(value)) return ctx.stylize('' + value, 'number');
+  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean'); // For some reason typeof null is "object", so special case here.
+
+  if (isNull(value)) return ctx.stylize('null', 'null');
+}
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+
+  keys.forEach(function (key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
+    }
+  });
+  return output;
+}
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || {
+    value: value[key]
+  };
+
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function (line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function (line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+
+    name = JSON.stringify('' + key);
+
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function (prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+} // NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'symbol' || // ES6 symbol
+  typeof arg === 'undefined';
+}
+
+exports.isPrimitive = isPrimitive;
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // 26 Feb 16:19:34
+
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+} // log is just a thin wrapper to console.log that prepends a timestamp
+
+
+exports.log = function () {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+
+
+exports.inherits = require('inherits');
+
+exports._extend = function (origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+  var keys = Object.keys(add);
+  var i = keys.length;
+
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
+
+exports.promisify = function promisify(original) {
+  if (typeof original !== 'function') throw new TypeError('The "original" argument must be of type Function');
+
+  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
+    var fn = original[kCustomPromisifiedSymbol];
+
+    if (typeof fn !== 'function') {
+      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
+    }
+
+    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+      value: fn,
+      enumerable: false,
+      writable: false,
+      configurable: true
+    });
+    return fn;
+  }
+
+  function fn() {
+    var promiseResolve, promiseReject;
+    var promise = new Promise(function (resolve, reject) {
+      promiseResolve = resolve;
+      promiseReject = reject;
+    });
+    var args = [];
+
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    args.push(function (err, value) {
+      if (err) {
+        promiseReject(err);
+      } else {
+        promiseResolve(value);
+      }
+    });
+
+    try {
+      original.apply(this, args);
+    } catch (err) {
+      promiseReject(err);
+    }
+
+    return promise;
+  }
+
+  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
+  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+    value: fn,
+    enumerable: false,
+    writable: false,
+    configurable: true
+  });
+  return Object.defineProperties(fn, getOwnPropertyDescriptors(original));
+};
+
+exports.promisify.custom = kCustomPromisifiedSymbol;
+
+function callbackifyOnRejected(reason, cb) {
+  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
+  // Because `null` is a special error value in callbacks which means "no error
+  // occurred", we error-wrap so the callback consumer can distinguish between
+  // "the promise rejected with null" or "the promise fulfilled with undefined".
+  if (!reason) {
+    var newReason = new Error('Promise was rejected with a falsy value');
+    newReason.reason = reason;
+    reason = newReason;
+  }
+
+  return cb(reason);
+}
+
+function callbackify(original) {
+  if (typeof original !== 'function') {
+    throw new TypeError('The "original" argument must be of type Function');
+  } // We DO NOT return the promise as it gives the user a false sense that
+  // the promise is actually somehow related to the callback's execution
+  // and that the callback throwing will reject the promise.
+
+
+  function callbackified() {
+    var args = [];
+
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    var maybeCb = args.pop();
+
+    if (typeof maybeCb !== 'function') {
+      throw new TypeError('The last argument must be of type Function');
+    }
+
+    var self = this;
+
+    var cb = function () {
+      return maybeCb.apply(self, arguments);
+    }; // In true node style we process the callback on `nextTick` with all the
+    // implications (stack, `uncaughtException`, `async_hooks`)
+
+
+    original.apply(this, args).then(function (ret) {
+      process.nextTick(cb, null, ret);
+    }, function (rej) {
+      process.nextTick(callbackifyOnRejected, rej, cb);
+    });
+  }
+
+  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
+  Object.defineProperties(callbackified, getOwnPropertyDescriptors(original));
+  return callbackified;
+}
+
+exports.callbackify = callbackify;
+},{"./support/isBuffer":"../../node_modules/node-libs-browser/node_modules/util/support/isBufferBrowser.js","inherits":"../../node_modules/node-libs-browser/node_modules/inherits/inherits_browser.js","process":"../../node_modules/process/browser.js"}],"../../node_modules/object-assign/index.js":[function(require,module,exports) {
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+'use strict';
+/* eslint-disable no-unused-vars */
+
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+  if (val === null || val === undefined) {
+    throw new TypeError('Object.assign cannot be called with null or undefined');
+  }
+
+  return Object(val);
+}
+
+function shouldUseNative() {
+  try {
+    if (!Object.assign) {
+      return false;
+    } // Detect buggy property enumeration order in older V8 versions.
+    // https://bugs.chromium.org/p/v8/issues/detail?id=4118
+
+
+    var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
+
+    test1[5] = 'de';
+
+    if (Object.getOwnPropertyNames(test1)[0] === '5') {
+      return false;
+    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
+
+
+    var test2 = {};
+
+    for (var i = 0; i < 10; i++) {
+      test2['_' + String.fromCharCode(i)] = i;
+    }
+
+    var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+      return test2[n];
+    });
+
+    if (order2.join('') !== '0123456789') {
+      return false;
+    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
+
+
+    var test3 = {};
+    'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+      test3[letter] = letter;
+    });
+
+    if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    // We don't expect any of the above to throw, but better to be safe.
+    return false;
+  }
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+  var from;
+  var to = toObject(target);
+  var symbols;
+
+  for (var s = 1; s < arguments.length; s++) {
+    from = Object(arguments[s]);
+
+    for (var key in from) {
+      if (hasOwnProperty.call(from, key)) {
+        to[key] = from[key];
+      }
+    }
+
+    if (getOwnPropertySymbols) {
+      symbols = getOwnPropertySymbols(from);
+
+      for (var i = 0; i < symbols.length; i++) {
+        if (propIsEnumerable.call(from, symbols[i])) {
+          to[symbols[i]] = from[symbols[i]];
+        }
+      }
+    }
+  }
+
+  return to;
+};
+},{}],"../../node_modules/assert/node_modules/util/support/isBufferBrowser.js":[function(require,module,exports) {
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],"../../node_modules/assert/node_modules/inherits/inherits_browser.js":[function(require,module,exports) {
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],"../../node_modules/assert/node_modules/util/util.js":[function(require,module,exports) {
+var global = arguments[3];
+var process = require("process");
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+var formatRegExp = /%[sdj%]/g;
+
+exports.format = function (f) {
+  if (!isString(f)) {
+    var objects = [];
+
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function (x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+
+    switch (x) {
+      case '%s':
+        return String(args[i++]);
+
+      case '%d':
+        return Number(args[i++]);
+
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+
+      default:
+        return x;
+    }
+  });
+
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+
+  return str;
+}; // Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+
+
+exports.deprecate = function (fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function () {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+
+      warned = true;
+    }
+
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+var debugs = {};
+var debugEnviron;
+
+exports.debuglog = function (set) {
+  if (isUndefined(debugEnviron)) debugEnviron = undefined || '';
+  set = set.toUpperCase();
+
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+
+      debugs[set] = function () {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function () {};
+    }
+  }
+
+  return debugs[set];
+};
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+
+/* legacy: obj, showHidden, depth, colors*/
+
+
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  }; // legacy...
+
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  } // set default options
+
+
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+
+exports.inspect = inspect; // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+
+inspect.colors = {
+  'bold': [1, 22],
+  'italic': [3, 23],
+  'underline': [4, 24],
+  'inverse': [7, 27],
+  'white': [37, 39],
+  'grey': [90, 39],
+  'black': [30, 39],
+  'blue': [34, 39],
+  'cyan': [36, 39],
+  'green': [32, 39],
+  'magenta': [35, 39],
+  'red': [31, 39],
+  'yellow': [33, 39]
+}; // Don't use 'blue' not visible on cmd.exe
+
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str + '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+function arrayToHash(array) {
+  var hash = {};
+  array.forEach(function (val, idx) {
+    hash[val] = true;
+  });
+  return hash;
+}
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect && value && isFunction(value.inspect) && // Filter out the util module, it's inspect function is special
+  value.inspect !== exports.inspect && // Also filter out any prototype objects using the circular check.
+  !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+
+    return ret;
+  } // Primitive types cannot have properties
+
+
+  var primitive = formatPrimitive(ctx, value);
+
+  if (primitive) {
+    return primitive;
+  } // Look up the keys of the object.
+
+
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  } // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+
+
+  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  } // Some type of object without properties can be shortcutted.
+
+
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '',
+      array = false,
+      braces = ['{', '}']; // Make Array say that they are Array
+
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  } // Make functions say that they are functions
+
+
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  } // Make RegExps say that they are RegExps
+
+
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  } // Make dates with properties first say the date
+
+
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  } // Make error with message first say the error
+
+
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+  var output;
+
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function (key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+  return reduceToSingleString(output, base, braces);
+}
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
+
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+
+  if (isNumber(value)) return ctx.stylize('' + value, 'number');
+  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean'); // For some reason typeof null is "object", so special case here.
+
+  if (isNull(value)) return ctx.stylize('null', 'null');
+}
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+
+  keys.forEach(function (key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
+    }
+  });
+  return output;
+}
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || {
+    value: value[key]
+  };
+
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function (line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function (line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+
+    name = JSON.stringify('' + key);
+
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function (prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+} // NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'symbol' || // ES6 symbol
+  typeof arg === 'undefined';
+}
+
+exports.isPrimitive = isPrimitive;
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // 26 Feb 16:19:34
+
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+} // log is just a thin wrapper to console.log that prepends a timestamp
+
+
+exports.log = function () {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+
+
+exports.inherits = require('inherits');
+
+exports._extend = function (origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+  var keys = Object.keys(add);
+  var i = keys.length;
+
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+},{"./support/isBuffer":"../../node_modules/assert/node_modules/util/support/isBufferBrowser.js","inherits":"../../node_modules/assert/node_modules/inherits/inherits_browser.js","process":"../../node_modules/process/browser.js"}],"../../node_modules/assert/assert.js":[function(require,module,exports) {
+var global = arguments[3];
+'use strict';
+
+var objectAssign = require('object-assign');
+
+// compare and isBuffer taken from https://github.com/feross/buffer/blob/680e9e5e488f22aac27599a57dc844a6315928dd/index.js
+// original notice:
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
+function compare(a, b) {
+  if (a === b) {
+    return 0;
+  }
+
+  var x = a.length;
+  var y = b.length;
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i];
+      y = b[i];
+      break;
+    }
+  }
+
+  if (x < y) {
+    return -1;
+  }
+  if (y < x) {
+    return 1;
+  }
+  return 0;
+}
+function isBuffer(b) {
+  if (global.Buffer && typeof global.Buffer.isBuffer === 'function') {
+    return global.Buffer.isBuffer(b);
+  }
+  return !!(b != null && b._isBuffer);
+}
+
+// based on node assert, original notice:
+// NB: The URL to the CommonJS spec is kept just for tradition.
+//     node-assert has evolved a lot since then, both in API and behavior.
+
+// http://wiki.commonjs.org/wiki/Unit_Testing/1.0
+//
+// THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
+//
+// Originally from narwhal.js (http://narwhaljs.org)
+// Copyright (c) 2009 Thomas Robinson <280north.com>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var util = require('util/');
+var hasOwn = Object.prototype.hasOwnProperty;
+var pSlice = Array.prototype.slice;
+var functionsHaveNames = (function () {
+  return function foo() {}.name === 'foo';
+}());
+function pToString (obj) {
+  return Object.prototype.toString.call(obj);
+}
+function isView(arrbuf) {
+  if (isBuffer(arrbuf)) {
+    return false;
+  }
+  if (typeof global.ArrayBuffer !== 'function') {
+    return false;
+  }
+  if (typeof ArrayBuffer.isView === 'function') {
+    return ArrayBuffer.isView(arrbuf);
+  }
+  if (!arrbuf) {
+    return false;
+  }
+  if (arrbuf instanceof DataView) {
+    return true;
+  }
+  if (arrbuf.buffer && arrbuf.buffer instanceof ArrayBuffer) {
+    return true;
+  }
+  return false;
+}
+// 1. The assert module provides functions that throw
+// AssertionError's when particular conditions are not met. The
+// assert module must conform to the following interface.
+
+var assert = module.exports = ok;
+
+// 2. The AssertionError is defined in assert.
+// new assert.AssertionError({ message: message,
+//                             actual: actual,
+//                             expected: expected })
+
+var regex = /\s*function\s+([^\(\s]*)\s*/;
+// based on https://github.com/ljharb/function.prototype.name/blob/adeeeec8bfcc6068b187d7d9fb3d5bb1d3a30899/implementation.js
+function getName(func) {
+  if (!util.isFunction(func)) {
+    return;
+  }
+  if (functionsHaveNames) {
+    return func.name;
+  }
+  var str = func.toString();
+  var match = str.match(regex);
+  return match && match[1];
+}
+assert.AssertionError = function AssertionError(options) {
+  this.name = 'AssertionError';
+  this.actual = options.actual;
+  this.expected = options.expected;
+  this.operator = options.operator;
+  if (options.message) {
+    this.message = options.message;
+    this.generatedMessage = false;
+  } else {
+    this.message = getMessage(this);
+    this.generatedMessage = true;
+  }
+  var stackStartFunction = options.stackStartFunction || fail;
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, stackStartFunction);
+  } else {
+    // non v8 browsers so we can have a stacktrace
+    var err = new Error();
+    if (err.stack) {
+      var out = err.stack;
+
+      // try to strip useless frames
+      var fn_name = getName(stackStartFunction);
+      var idx = out.indexOf('\n' + fn_name);
+      if (idx >= 0) {
+        // once we have located the function frame
+        // we need to strip out everything before it (and its line)
+        var next_line = out.indexOf('\n', idx + 1);
+        out = out.substring(next_line + 1);
+      }
+
+      this.stack = out;
+    }
+  }
+};
+
+// assert.AssertionError instanceof Error
+util.inherits(assert.AssertionError, Error);
+
+function truncate(s, n) {
+  if (typeof s === 'string') {
+    return s.length < n ? s : s.slice(0, n);
+  } else {
+    return s;
+  }
+}
+function inspect(something) {
+  if (functionsHaveNames || !util.isFunction(something)) {
+    return util.inspect(something);
+  }
+  var rawname = getName(something);
+  var name = rawname ? ': ' + rawname : '';
+  return '[Function' +  name + ']';
+}
+function getMessage(self) {
+  return truncate(inspect(self.actual), 128) + ' ' +
+         self.operator + ' ' +
+         truncate(inspect(self.expected), 128);
+}
+
+// At present only the three keys mentioned above are used and
+// understood by the spec. Implementations or sub modules can pass
+// other keys to the AssertionError's constructor - they will be
+// ignored.
+
+// 3. All of the following functions must throw an AssertionError
+// when a corresponding condition is not met, with a message that
+// may be undefined if not provided.  All assertion methods provide
+// both the actual and expected values to the assertion error for
+// display purposes.
+
+function fail(actual, expected, message, operator, stackStartFunction) {
+  throw new assert.AssertionError({
+    message: message,
+    actual: actual,
+    expected: expected,
+    operator: operator,
+    stackStartFunction: stackStartFunction
+  });
+}
+
+// EXTENSION! allows for well behaved errors defined elsewhere.
+assert.fail = fail;
+
+// 4. Pure assertion tests whether a value is truthy, as determined
+// by !!guard.
+// assert.ok(guard, message_opt);
+// This statement is equivalent to assert.equal(true, !!guard,
+// message_opt);. To test strictly for the value true, use
+// assert.strictEqual(true, guard, message_opt);.
+
+function ok(value, message) {
+  if (!value) fail(value, true, message, '==', assert.ok);
+}
+assert.ok = ok;
+
+// 5. The equality assertion tests shallow, coercive equality with
+// ==.
+// assert.equal(actual, expected, message_opt);
+
+assert.equal = function equal(actual, expected, message) {
+  if (actual != expected) fail(actual, expected, message, '==', assert.equal);
+};
+
+// 6. The non-equality assertion tests for whether two objects are not equal
+// with != assert.notEqual(actual, expected, message_opt);
+
+assert.notEqual = function notEqual(actual, expected, message) {
+  if (actual == expected) {
+    fail(actual, expected, message, '!=', assert.notEqual);
+  }
+};
+
+// 7. The equivalence assertion tests a deep equality relation.
+// assert.deepEqual(actual, expected, message_opt);
+
+assert.deepEqual = function deepEqual(actual, expected, message) {
+  if (!_deepEqual(actual, expected, false)) {
+    fail(actual, expected, message, 'deepEqual', assert.deepEqual);
+  }
+};
+
+assert.deepStrictEqual = function deepStrictEqual(actual, expected, message) {
+  if (!_deepEqual(actual, expected, true)) {
+    fail(actual, expected, message, 'deepStrictEqual', assert.deepStrictEqual);
+  }
+};
+
+function _deepEqual(actual, expected, strict, memos) {
+  // 7.1. All identical values are equivalent, as determined by ===.
+  if (actual === expected) {
+    return true;
+  } else if (isBuffer(actual) && isBuffer(expected)) {
+    return compare(actual, expected) === 0;
+
+  // 7.2. If the expected value is a Date object, the actual value is
+  // equivalent if it is also a Date object that refers to the same time.
+  } else if (util.isDate(actual) && util.isDate(expected)) {
+    return actual.getTime() === expected.getTime();
+
+  // 7.3 If the expected value is a RegExp object, the actual value is
+  // equivalent if it is also a RegExp object with the same source and
+  // properties (`global`, `multiline`, `lastIndex`, `ignoreCase`).
+  } else if (util.isRegExp(actual) && util.isRegExp(expected)) {
+    return actual.source === expected.source &&
+           actual.global === expected.global &&
+           actual.multiline === expected.multiline &&
+           actual.lastIndex === expected.lastIndex &&
+           actual.ignoreCase === expected.ignoreCase;
+
+  // 7.4. Other pairs that do not both pass typeof value == 'object',
+  // equivalence is determined by ==.
+  } else if ((actual === null || typeof actual !== 'object') &&
+             (expected === null || typeof expected !== 'object')) {
+    return strict ? actual === expected : actual == expected;
+
+  // If both values are instances of typed arrays, wrap their underlying
+  // ArrayBuffers in a Buffer each to increase performance
+  // This optimization requires the arrays to have the same type as checked by
+  // Object.prototype.toString (aka pToString). Never perform binary
+  // comparisons for Float*Arrays, though, since e.g. +0 === -0 but their
+  // bit patterns are not identical.
+  } else if (isView(actual) && isView(expected) &&
+             pToString(actual) === pToString(expected) &&
+             !(actual instanceof Float32Array ||
+               actual instanceof Float64Array)) {
+    return compare(new Uint8Array(actual.buffer),
+                   new Uint8Array(expected.buffer)) === 0;
+
+  // 7.5 For all other Object pairs, including Array objects, equivalence is
+  // determined by having the same number of owned properties (as verified
+  // with Object.prototype.hasOwnProperty.call), the same set of keys
+  // (although not necessarily the same order), equivalent values for every
+  // corresponding key, and an identical 'prototype' property. Note: this
+  // accounts for both named and indexed properties on Arrays.
+  } else if (isBuffer(actual) !== isBuffer(expected)) {
+    return false;
+  } else {
+    memos = memos || {actual: [], expected: []};
+
+    var actualIndex = memos.actual.indexOf(actual);
+    if (actualIndex !== -1) {
+      if (actualIndex === memos.expected.indexOf(expected)) {
+        return true;
+      }
+    }
+
+    memos.actual.push(actual);
+    memos.expected.push(expected);
+
+    return objEquiv(actual, expected, strict, memos);
+  }
+}
+
+function isArguments(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
+}
+
+function objEquiv(a, b, strict, actualVisitedObjects) {
+  if (a === null || a === undefined || b === null || b === undefined)
+    return false;
+  // if one is a primitive, the other must be same
+  if (util.isPrimitive(a) || util.isPrimitive(b))
+    return a === b;
+  if (strict && Object.getPrototypeOf(a) !== Object.getPrototypeOf(b))
+    return false;
+  var aIsArgs = isArguments(a);
+  var bIsArgs = isArguments(b);
+  if ((aIsArgs && !bIsArgs) || (!aIsArgs && bIsArgs))
+    return false;
+  if (aIsArgs) {
+    a = pSlice.call(a);
+    b = pSlice.call(b);
+    return _deepEqual(a, b, strict);
+  }
+  var ka = objectKeys(a);
+  var kb = objectKeys(b);
+  var key, i;
+  // having the same number of owned properties (keys incorporates
+  // hasOwnProperty)
+  if (ka.length !== kb.length)
+    return false;
+  //the same set of keys (although not necessarily the same order),
+  ka.sort();
+  kb.sort();
+  //~~~cheap key test
+  for (i = ka.length - 1; i >= 0; i--) {
+    if (ka[i] !== kb[i])
+      return false;
+  }
+  //equivalent values for every corresponding key, and
+  //~~~possibly expensive deep test
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!_deepEqual(a[key], b[key], strict, actualVisitedObjects))
+      return false;
+  }
+  return true;
+}
+
+// 8. The non-equivalence assertion tests for any deep inequality.
+// assert.notDeepEqual(actual, expected, message_opt);
+
+assert.notDeepEqual = function notDeepEqual(actual, expected, message) {
+  if (_deepEqual(actual, expected, false)) {
+    fail(actual, expected, message, 'notDeepEqual', assert.notDeepEqual);
+  }
+};
+
+assert.notDeepStrictEqual = notDeepStrictEqual;
+function notDeepStrictEqual(actual, expected, message) {
+  if (_deepEqual(actual, expected, true)) {
+    fail(actual, expected, message, 'notDeepStrictEqual', notDeepStrictEqual);
+  }
+}
+
+
+// 9. The strict equality assertion tests strict equality, as determined by ===.
+// assert.strictEqual(actual, expected, message_opt);
+
+assert.strictEqual = function strictEqual(actual, expected, message) {
+  if (actual !== expected) {
+    fail(actual, expected, message, '===', assert.strictEqual);
+  }
+};
+
+// 10. The strict non-equality assertion tests for strict inequality, as
+// determined by !==.  assert.notStrictEqual(actual, expected, message_opt);
+
+assert.notStrictEqual = function notStrictEqual(actual, expected, message) {
+  if (actual === expected) {
+    fail(actual, expected, message, '!==', assert.notStrictEqual);
+  }
+};
+
+function expectedException(actual, expected) {
+  if (!actual || !expected) {
+    return false;
+  }
+
+  if (Object.prototype.toString.call(expected) == '[object RegExp]') {
+    return expected.test(actual);
+  }
+
+  try {
+    if (actual instanceof expected) {
+      return true;
+    }
+  } catch (e) {
+    // Ignore.  The instanceof check doesn't work for arrow functions.
+  }
+
+  if (Error.isPrototypeOf(expected)) {
+    return false;
+  }
+
+  return expected.call({}, actual) === true;
+}
+
+function _tryBlock(block) {
+  var error;
+  try {
+    block();
+  } catch (e) {
+    error = e;
+  }
+  return error;
+}
+
+function _throws(shouldThrow, block, expected, message) {
+  var actual;
+
+  if (typeof block !== 'function') {
+    throw new TypeError('"block" argument must be a function');
+  }
+
+  if (typeof expected === 'string') {
+    message = expected;
+    expected = null;
+  }
+
+  actual = _tryBlock(block);
+
+  message = (expected && expected.name ? ' (' + expected.name + ').' : '.') +
+            (message ? ' ' + message : '.');
+
+  if (shouldThrow && !actual) {
+    fail(actual, expected, 'Missing expected exception' + message);
+  }
+
+  var userProvidedMessage = typeof message === 'string';
+  var isUnwantedException = !shouldThrow && util.isError(actual);
+  var isUnexpectedException = !shouldThrow && actual && !expected;
+
+  if ((isUnwantedException &&
+      userProvidedMessage &&
+      expectedException(actual, expected)) ||
+      isUnexpectedException) {
+    fail(actual, expected, 'Got unwanted exception' + message);
+  }
+
+  if ((shouldThrow && actual && expected &&
+      !expectedException(actual, expected)) || (!shouldThrow && actual)) {
+    throw actual;
+  }
+}
+
+// 11. Expected to throw an error:
+// assert.throws(block, Error_opt, message_opt);
+
+assert.throws = function(block, /*optional*/error, /*optional*/message) {
+  _throws(true, block, error, message);
+};
+
+// EXTENSION! This is annoying to write outside this module.
+assert.doesNotThrow = function(block, /*optional*/error, /*optional*/message) {
+  _throws(false, block, error, message);
+};
+
+assert.ifError = function(err) { if (err) throw err; };
+
+// Expose a strict only variant of assert
+function strict(value, message) {
+  if (!value) fail(value, true, message, '==', strict);
+}
+assert.strict = objectAssign(strict, assert, {
+  equal: assert.strictEqual,
+  deepEqual: assert.deepStrictEqual,
+  notEqual: assert.notStrictEqual,
+  notDeepEqual: assert.notDeepStrictEqual
+});
+assert.strict.strict = assert.strict;
+
+var objectKeys = Object.keys || function (obj) {
+  var keys = [];
+  for (var key in obj) {
+    if (hasOwn.call(obj, key)) keys.push(key);
+  }
+  return keys;
+};
+
+},{"object-assign":"../../node_modules/object-assign/index.js","util/":"../../node_modules/assert/node_modules/util/util.js"}],"../../node_modules/console-browserify/index.js":[function(require,module,exports) {
+var global = arguments[3];
+/*global window, global*/
+var util = require("util")
+var assert = require("assert")
+function now() { return new Date().getTime() }
+
+var slice = Array.prototype.slice
+var console
+var times = {}
+
+if (typeof global !== "undefined" && global.console) {
+    console = global.console
+} else if (typeof window !== "undefined" && window.console) {
+    console = window.console
+} else {
+    console = {}
+}
+
+var functions = [
+    [log, "log"],
+    [info, "info"],
+    [warn, "warn"],
+    [error, "error"],
+    [time, "time"],
+    [timeEnd, "timeEnd"],
+    [trace, "trace"],
+    [dir, "dir"],
+    [consoleAssert, "assert"]
+]
+
+for (var i = 0; i < functions.length; i++) {
+    var tuple = functions[i]
+    var f = tuple[0]
+    var name = tuple[1]
+
+    if (!console[name]) {
+        console[name] = f
+    }
+}
+
+module.exports = console
+
+function log() {}
+
+function info() {
+    console.log.apply(console, arguments)
+}
+
+function warn() {
+    console.log.apply(console, arguments)
+}
+
+function error() {
+    console.warn.apply(console, arguments)
+}
+
+function time(label) {
+    times[label] = now()
+}
+
+function timeEnd(label) {
+    var time = times[label]
+    if (!time) {
+        throw new Error("No such label: " + label)
+    }
+
+    delete times[label]
+    var duration = now() - time
+    console.log(label + ": " + duration + "ms")
+}
+
+function trace() {
+    var err = new Error()
+    err.name = "Trace"
+    err.message = util.format.apply(null, arguments)
+    console.error(err.stack)
+}
+
+function dir(object) {
+    console.log(util.inspect(object) + "\n")
+}
+
+function consoleAssert(expression) {
+    if (!expression) {
+        var arr = slice.call(arguments, 1)
+        assert.ok(false, util.format.apply(null, arr))
+    }
+}
+
+},{"util":"../../node_modules/node-libs-browser/node_modules/util/util.js","assert":"../../node_modules/assert/assert.js"}],"../../node_modules/base64-js/index.js":[function(require,module,exports) {
 'use strict'
 
 exports.byteLength = byteLength
@@ -27927,760 +29999,7 @@ var define;
   }
 }.call(this));
 
-},{"buffer":"../../node_modules/node-libs-browser/node_modules/buffer/index.js"}],"../../node_modules/node-libs-browser/node_modules/util/support/isBufferBrowser.js":[function(require,module,exports) {
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-},{}],"../../node_modules/node-libs-browser/node_modules/inherits/inherits_browser.js":[function(require,module,exports) {
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],"../../node_modules/node-libs-browser/node_modules/util/util.js":[function(require,module,exports) {
-var process = require("process");
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors || function getOwnPropertyDescriptors(obj) {
-  var keys = Object.keys(obj);
-  var descriptors = {};
-
-  for (var i = 0; i < keys.length; i++) {
-    descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
-  }
-
-  return descriptors;
-};
-
-var formatRegExp = /%[sdj%]/g;
-
-exports.format = function (f) {
-  if (!isString(f)) {
-    var objects = [];
-
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function (x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-
-    switch (x) {
-      case '%s':
-        return String(args[i++]);
-
-      case '%d':
-        return Number(args[i++]);
-
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-
-      default:
-        return x;
-    }
-  });
-
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-
-  return str;
-}; // Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-
-
-exports.deprecate = function (fn, msg) {
-  if (typeof process !== 'undefined' && process.noDeprecation === true) {
-    return fn;
-  } // Allow for deprecating things in the process of starting up.
-
-
-  if (typeof process === 'undefined') {
-    return function () {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  var warned = false;
-
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-
-      warned = true;
-    }
-
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-var debugs = {};
-var debugEnviron;
-
-exports.debuglog = function (set) {
-  if (isUndefined(debugEnviron)) debugEnviron = undefined || '';
-  set = set.toUpperCase();
-
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-
-      debugs[set] = function () {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function () {};
-    }
-  }
-
-  return debugs[set];
-};
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
- */
-
-/* legacy: obj, showHidden, depth, colors*/
-
-
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  }; // legacy...
-
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  } // set default options
-
-
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-
-exports.inspect = inspect; // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-
-inspect.colors = {
-  'bold': [1, 22],
-  'italic': [3, 23],
-  'underline': [4, 24],
-  'inverse': [7, 27],
-  'white': [37, 39],
-  'grey': [90, 39],
-  'black': [30, 39],
-  'blue': [34, 39],
-  'cyan': [36, 39],
-  'green': [32, 39],
-  'magenta': [35, 39],
-  'red': [31, 39],
-  'yellow': [33, 39]
-}; // Don't use 'blue' not visible on cmd.exe
-
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str + '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-function arrayToHash(array) {
-  var hash = {};
-  array.forEach(function (val, idx) {
-    hash[val] = true;
-  });
-  return hash;
-}
-
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect && value && isFunction(value.inspect) && // Filter out the util module, it's inspect function is special
-  value.inspect !== exports.inspect && // Also filter out any prototype objects using the circular check.
-  !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-
-    return ret;
-  } // Primitive types cannot have properties
-
-
-  var primitive = formatPrimitive(ctx, value);
-
-  if (primitive) {
-    return primitive;
-  } // Look up the keys of the object.
-
-
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  } // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-
-
-  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  } // Some type of object without properties can be shortcutted.
-
-
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '',
-      array = false,
-      braces = ['{', '}']; // Make Array say that they are Array
-
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  } // Make functions say that they are functions
-
-
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  } // Make RegExps say that they are RegExps
-
-
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  } // Make dates with properties first say the date
-
-
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  } // Make error with message first say the error
-
-
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-  var output;
-
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function (key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-  return reduceToSingleString(output, base, braces);
-}
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
-
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-
-  if (isNumber(value)) return ctx.stylize('' + value, 'number');
-  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean'); // For some reason typeof null is "object", so special case here.
-
-  if (isNull(value)) return ctx.stylize('null', 'null');
-}
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-
-  keys.forEach(function (key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
-    }
-  });
-  return output;
-}
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || {
-    value: value[key]
-  };
-
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function (line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function (line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-
-    name = JSON.stringify('' + key);
-
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function (prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-} // NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'symbol' || // ES6 symbol
-  typeof arg === 'undefined';
-}
-
-exports.isPrimitive = isPrimitive;
-exports.isBuffer = require('./support/isBuffer');
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // 26 Feb 16:19:34
-
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-} // log is just a thin wrapper to console.log that prepends a timestamp
-
-
-exports.log = function () {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
- */
-
-
-exports.inherits = require('inherits');
-
-exports._extend = function (origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
-  var keys = Object.keys(add);
-  var i = keys.length;
-
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
-
-exports.promisify = function promisify(original) {
-  if (typeof original !== 'function') throw new TypeError('The "original" argument must be of type Function');
-
-  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
-    var fn = original[kCustomPromisifiedSymbol];
-
-    if (typeof fn !== 'function') {
-      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
-    }
-
-    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
-      value: fn,
-      enumerable: false,
-      writable: false,
-      configurable: true
-    });
-    return fn;
-  }
-
-  function fn() {
-    var promiseResolve, promiseReject;
-    var promise = new Promise(function (resolve, reject) {
-      promiseResolve = resolve;
-      promiseReject = reject;
-    });
-    var args = [];
-
-    for (var i = 0; i < arguments.length; i++) {
-      args.push(arguments[i]);
-    }
-
-    args.push(function (err, value) {
-      if (err) {
-        promiseReject(err);
-      } else {
-        promiseResolve(value);
-      }
-    });
-
-    try {
-      original.apply(this, args);
-    } catch (err) {
-      promiseReject(err);
-    }
-
-    return promise;
-  }
-
-  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
-  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
-    value: fn,
-    enumerable: false,
-    writable: false,
-    configurable: true
-  });
-  return Object.defineProperties(fn, getOwnPropertyDescriptors(original));
-};
-
-exports.promisify.custom = kCustomPromisifiedSymbol;
-
-function callbackifyOnRejected(reason, cb) {
-  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
-  // Because `null` is a special error value in callbacks which means "no error
-  // occurred", we error-wrap so the callback consumer can distinguish between
-  // "the promise rejected with null" or "the promise fulfilled with undefined".
-  if (!reason) {
-    var newReason = new Error('Promise was rejected with a falsy value');
-    newReason.reason = reason;
-    reason = newReason;
-  }
-
-  return cb(reason);
-}
-
-function callbackify(original) {
-  if (typeof original !== 'function') {
-    throw new TypeError('The "original" argument must be of type Function');
-  } // We DO NOT return the promise as it gives the user a false sense that
-  // the promise is actually somehow related to the callback's execution
-  // and that the callback throwing will reject the promise.
-
-
-  function callbackified() {
-    var args = [];
-
-    for (var i = 0; i < arguments.length; i++) {
-      args.push(arguments[i]);
-    }
-
-    var maybeCb = args.pop();
-
-    if (typeof maybeCb !== 'function') {
-      throw new TypeError('The last argument must be of type Function');
-    }
-
-    var self = this;
-
-    var cb = function () {
-      return maybeCb.apply(self, arguments);
-    }; // In true node style we process the callback on `nextTick` with all the
-    // implications (stack, `uncaughtException`, `async_hooks`)
-
-
-    original.apply(this, args).then(function (ret) {
-      process.nextTick(cb, null, ret);
-    }, function (rej) {
-      process.nextTick(callbackifyOnRejected, rej, cb);
-    });
-  }
-
-  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
-  Object.defineProperties(callbackified, getOwnPropertyDescriptors(original));
-  return callbackified;
-}
-
-exports.callbackify = callbackify;
-},{"./support/isBuffer":"../../node_modules/node-libs-browser/node_modules/util/support/isBufferBrowser.js","inherits":"../../node_modules/node-libs-browser/node_modules/inherits/inherits_browser.js","process":"../../node_modules/process/browser.js"}],"../../node_modules/mongoose/dist/browser.umd.js":[function(require,module,exports) {
+},{"buffer":"../../node_modules/node-libs-browser/node_modules/buffer/index.js"}],"../../node_modules/mongoose/dist/browser.umd.js":[function(require,module,exports) {
 var define;
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
@@ -69928,6 +71247,8 @@ require("regenerator-runtime/runtime");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _console = require("console");
+
 var _lodash = _interopRequireWildcard(require("lodash"));
 
 var _util = require("util");
@@ -69951,10 +71272,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var updateCollectiondata = function updateCollectiondata(total, dateNow) {
-  console.log(total, "9999999999");
+  // console.log(total,"9999999999");
   var collectionObj = new Object();
-  collectionObj["id1"] = dateNow;
-  console.log(total);
+  collectionObj["id1"] = dateNow; // console.log(total);
+
   collectionObj["amount"] = total;
   updateCollection(collectionObj);
 };
@@ -69965,7 +71286,7 @@ function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(student, id) {
-    var _data, _data2;
+    var data, _data, entries;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -69986,7 +71307,7 @@ function () {
             });
 
           case 4:
-            _data = _context.sent;
+            data = _context.sent;
             _context.next = 10;
             break;
 
@@ -69999,23 +71320,29 @@ function () {
             });
 
           case 9:
-            _data2 = _context.sent;
+            _data = _context.sent;
 
           case 10:
-            _context.next = 15;
+            location.reload();
+            _context.next = 17;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
-            window.alert(_context.t0.response.data.message);
+            entries = Object.entries(_context.t0.response.data.err.errors);
+            entries.forEach(function (el) {
+              if (el[1].path !== "password") {
+                window.alert("".concat(el[1].message));
+              }
+            });
 
-          case 15:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 12]]);
+    }, _callee, null, [[0, 13]]);
   }));
 
   return function StudentData(_x, _x2) {
@@ -70074,37 +71401,35 @@ if (document.querySelector(".del-doc-school")) {
       var _ref3 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3(e) {
-        var _data3;
-
+        var data;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                console.log(el);
-                _context3.prev = 1;
-                _context3.next = 4;
+                _context3.prev = 0;
+                _context3.next = 3;
                 return (0, _axios.default)({
                   method: 'DELETE',
                   url: "/api/v1/documentInfo/deleteDoc/".concat(el.value)
                 });
 
-              case 4:
-                _data3 = _context3.sent;
+              case 3:
+                data = _context3.sent;
                 location.reload();
-                _context3.next = 11;
+                _context3.next = 10;
                 break;
 
-              case 8:
-                _context3.prev = 8;
-                _context3.t0 = _context3["catch"](1);
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
                 window.alert(_context3.t0.response.data.message);
 
-              case 11:
+              case 10:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[1, 8]]);
+        }, _callee3, null, [[0, 7]]);
       }));
 
       return function (_x4) {
@@ -70128,7 +71453,7 @@ if (document.querySelector("#get-one-form")) document.querySelector("#get-one-fo
   if (year === "") year = false;
   var classSchool = document.getElementById("student-class").value;
   if (classSchool === "") classSchool = false;
-  var name = document.getElementById("name").value;
+  var name = document.getElementById("name").value.toUpperCase();
   if (name === "") name = false;
   window.open("/studentInfo/get-one/".concat(year, "/").concat(classSchool, "/").concat(name, "/false"));
 });
@@ -70141,29 +71466,27 @@ if (document.querySelector("#get-student-data")) {
   });
 }
 
-if (document.querySelector(".add-student")) {
-  document.querySelector(".month-palet").classList.add("invisible");
-}
-
 if (document.querySelector("#submit-all")) document.querySelector("#submit-all").addEventListener("click",
 /*#__PURE__*/
 function () {
   var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(e) {
-    var year, studentClass, name, father, date_of_birth, dateNow, student, feesStudent, _data4, fees, months, total, wordClass, wordArray, _iterator, _step, el, _data5, _data6, id;
+    var classList, year, name, father, date_of_birth, studentClassCode, studentClass, dateNow, student, feesStudent, data1, fees, months, total, _iterator, _step, el, data, _data2, id;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
+            classList = ["PG", 'LKG', 'UKG', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
             e.preventDefault();
             document.querySelector("#submit-all").value = "Updating";
             year = document.getElementById("student-year").value;
-            studentClass = document.getElementById("student-class").value;
             name = document.getElementById("student-name").value;
             father = document.getElementById("student-father").value;
             date_of_birth = document.getElementById("student-dob").value;
+            studentClassCode = document.getElementById("student-class").value;
+            studentClass = classList[studentClassCode * 1];
             dateNow = new Date().toLocaleString().split(",")[0];
             dateNow += 'Z';
             student = new Object();
@@ -70172,155 +71495,149 @@ function () {
             student.class = studentClass;
             student.father_name = father;
             student.date_of_birth = date_of_birth;
+            student.class_code = studentClassCode;
             student.roll_no = document.getElementById("student-roll_no").value;
-            feesStudent = _lodash.default.cloneDeep(student); // console.log(feesStudent);
+            feesStudent = _lodash.default.cloneDeep(student); // // console.log(feesStudent);
 
             if (!(document.querySelector("#submit-all").name === "add")) {
-              _context4.next = 21;
+              _context4.next = 22;
               break;
             }
 
-            StudentData(student, "add");
-            document.querySelector("#submit-all").value = "Updating";
-            return _context4.abrupt("return", location.reload());
+            return _context4.abrupt("return", StudentData(student, "add"));
 
-          case 21:
-            _context4.prev = 21;
-            _context4.next = 24;
+          case 22:
+            _context4.prev = 22;
+            _context4.next = 25;
             return (0, _axios.default)({
               method: "GET",
               url: "/api/v1/collectionInfo/get-fees"
             });
 
-          case 24:
-            _data4 = _context4.sent;
-            _context4.next = 30;
+          case 25:
+            data1 = _context4.sent;
+            _context4.next = 31;
             break;
 
-          case 27:
-            _context4.prev = 27;
-            _context4.t0 = _context4["catch"](21);
+          case 28:
+            _context4.prev = 28;
+            _context4.t0 = _context4["catch"](22);
             window.alert(_context4.t0.response.data.message);
 
-          case 30:
-            fees = data1.data.fees;
-            console.log(fees);
+          case 31:
+            fees = data1.data.fees; // console.log(fees);
+
             months = document.querySelectorAll(".month"); // const monthName = ['january','february','march','april','may','june','july','august','september','october','november','december']
 
             total = 0 * 1;
-            wordClass = studentClass;
-            wordArray = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
-            if ((0, _lodash.isInteger)(studentClass * 1)) wordClass = wordArray[studentClass * 1 - 1];
-            console.log(fees[wordClass]);
             _iterator = _createForOfIteratorHelper(months);
-            _context4.prev = 39;
+            _context4.prev = 35;
 
             _iterator.s();
 
-          case 41:
+          case 37:
             if ((_step = _iterator.n()).done) {
-              _context4.next = 76;
+              _context4.next = 69;
               break;
             }
 
             el = _step.value;
-            student["".concat(el.name)] = el.value;
-            console.log("10");
+            student["".concat(el.name)] = el.value; // // console.log("10");
 
             if (!(el.classList.contains('no_change') !== true && el.value !== "")) {
-              _context4.next = 58;
+              _context4.next = 52;
               break;
             }
 
             student["".concat(el.name)] = dateNow;
-            feesStudent['fees'] = fees[wordClass] * 1;
+            feesStudent['fees'] = fees[studentClassCode] * 1;
             feesStudent['month'] = el.name;
-            feesStudent['date'] = dateNow;
-            console.log(feesStudent); // console.log(Date.now(),dateNow);
+            feesStudent['date'] = dateNow; // console.log(feesStudent);
+            // console.log(Date.now(),dateNow);
 
-            total = total + fees[wordClass] * 1;
-            _context4.next = 54;
+            total = total + fees[studentClassCode] * 1;
+            _context4.next = 48;
             return (0, _axios.default)({
               method: 'POST',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 54:
-            _data5 = _context4.sent;
+          case 48:
+            data = _context4.sent;
             console.log("20");
-            _context4.next = 74;
+            _context4.next = 66;
             break;
 
-          case 58:
+          case 52:
             if (!(el.classList.contains('no_change') === true && el.value === "")) {
-              _context4.next = 74;
+              _context4.next = 66;
               break;
             }
 
-            feesStudent['fees'] = fees[wordClass] * 1;
+            feesStudent['fees'] = fees[studentClassCode] * 1;
             feesStudent['month'] = el.name;
-            feesStudent['date'] = dateNow;
-            console.log(Date.now(), dateNow);
-            _context4.prev = 63;
-            _context4.next = 66;
+            feesStudent['date'] = dateNow; // console.log(Date.now(),dateNow);
+
+            _context4.prev = 56;
+            _context4.next = 59;
             return (0, _axios.default)({
               method: 'DELETE',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
+          case 59:
+            _data2 = _context4.sent;
+
+            if (_data2.status === 201) {
+              total = total - fees[studentClassCode] * 1;
+            } // console.log(total);
+
+
+            _context4.next = 66;
+            break;
+
+          case 63:
+            _context4.prev = 63;
+            _context4.t1 = _context4["catch"](56);
+            window.alert(_context4.t1.response.data.message);
+
           case 66:
-            _data6 = _context4.sent;
-            _context4.next = 72;
+            ;
+
+          case 67:
+            _context4.next = 37;
             break;
 
           case 69:
-            _context4.prev = 69;
-            _context4.t1 = _context4["catch"](63);
-            window.alert(_context4.t1.response.data.message);
-
-          case 72:
-            if (data.status === 201) {
-              total = total - fees[wordClass] * 1;
-            }
-
-            console.log(total);
-
-          case 74:
-            _context4.next = 41;
+            _context4.next = 74;
             break;
 
-          case 76:
-            _context4.next = 81;
-            break;
-
-          case 78:
-            _context4.prev = 78;
-            _context4.t2 = _context4["catch"](39);
+          case 71:
+            _context4.prev = 71;
+            _context4.t2 = _context4["catch"](35);
 
             _iterator.e(_context4.t2);
 
-          case 81:
-            _context4.prev = 81;
+          case 74:
+            _context4.prev = 74;
 
             _iterator.f();
 
-            return _context4.finish(81);
+            return _context4.finish(74);
 
-          case 84:
-            ;
+          case 77:
             updateCollectiondata(total, dateNow);
             id = window.location.href.split("/")[5];
             StudentData(student, id);
-            location.reload();
 
-          case 89:
+          case 80:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[21, 27], [39, 78, 81, 84], [63, 69]]);
+    }, _callee4, null, [[22, 28], [35, 71, 74, 77], [56, 63]]);
   }));
 
   return function (_x5) {
@@ -70335,8 +71652,7 @@ if (document.querySelector(".uploader")) {
     var _ref5 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee5(e) {
-      var form, _data7;
-
+      var form, data;
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
@@ -70345,33 +71661,33 @@ if (document.querySelector(".uploader")) {
               form = new FormData();
               form.append('description', document.getElementById('desc').value.toLowerCase());
               form.append('type', document.getElementById('type-data').value.toLowerCase());
-              form.append('file', document.getElementById('fileUp').files[0]);
-              console.log(form);
-              _context5.prev = 6;
-              _context5.next = 9;
+              form.append('file', document.getElementById('fileUp').files[0]); // console.log(form);
+
+              _context5.prev = 5;
+              _context5.next = 8;
               return (0, _axios.default)({
                 method: 'POST',
                 url: "/api/v1/documentInfo/uploadFile",
                 data: form
               });
 
-            case 9:
-              _data7 = _context5.sent;
+            case 8:
+              data = _context5.sent;
               location.reload();
-              _context5.next = 16;
+              _context5.next = 15;
               break;
 
-            case 13:
-              _context5.prev = 13;
-              _context5.t0 = _context5["catch"](6);
+            case 12:
+              _context5.prev = 12;
+              _context5.t0 = _context5["catch"](5);
               window.alert(_context5.t0.response.data.message);
 
-            case 16:
+            case 15:
             case "end":
               return _context5.stop();
           }
         }
-      }, _callee5, null, [[6, 13]]);
+      }, _callee5, null, [[5, 12]]);
     }));
 
     return function (_x6) {
@@ -70410,34 +71726,34 @@ if (document.querySelector("#login-form")) {
               e.preventDefault();
               data = new Object();
               data.email = document.querySelector("#email-login").value;
-              data.password = document.querySelector("#password-login").value;
-              console.log(data);
-              _context6.prev = 5;
-              _context6.next = 8;
+              data.password = document.querySelector("#password-login").value; // console.log(data);
+
+              _context6.prev = 4;
+              _context6.next = 7;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/userInfo/login',
                 data: data
               });
 
-            case 8:
+            case 7:
               data1 = _context6.sent;
-              location.href = "/";
-              console.log(data1);
-              _context6.next = 16;
+              location.href = "/"; // console.log(data1)
+
+              _context6.next = 14;
               break;
 
-            case 13:
-              _context6.prev = 13;
-              _context6.t0 = _context6["catch"](5);
+            case 11:
+              _context6.prev = 11;
+              _context6.t0 = _context6["catch"](4);
               window.alert(_context6.t0.response.data.message);
 
-            case 16:
+            case 14:
             case "end":
               return _context6.stop();
           }
         }
-      }, _callee6, null, [[5, 13]]);
+      }, _callee6, null, [[4, 11]]);
     }));
 
     return function (_x7) {
@@ -70505,20 +71821,20 @@ if (document.querySelector("#excel-form")) {
               excel['dob'] = document.getElementById("dob-check").checked;
               excel['fees'] = document.getElementById("fees-check").checked;
               excel['sessionfilter'] = document.getElementById("session-filter").value;
-              excel['classfilter'] = document.getElementById("class-filter").value;
-              console.log(excel, "***********");
-              _context8.next = 11;
+              excel['classfilter'] = document.getElementById("class-filter").value; // console.log(excel,"***********");
+
+              _context8.next = 10;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/excel',
                 data: excel
               });
 
-            case 11:
+            case 10:
               data = _context8.sent;
               window.open("/users.xlsx");
 
-            case 13:
+            case 12:
             case "end":
               return _context8.stop();
           }
@@ -70539,8 +71855,7 @@ if (document.querySelector("#signup-form")) {
     var _ref9 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee9(e) {
-      var data, _data8, entries;
-
+      var data, data1, entries;
       return regeneratorRuntime.wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
@@ -70550,27 +71865,27 @@ if (document.querySelector("#signup-form")) {
               data.email = document.querySelector("#email-signup").value;
               data.password = document.querySelector("#password-signup").value;
               data.username = document.querySelector("#username-signup").value;
-              data.passwordConfirm = document.querySelector("#passwordConfirm-signup").value;
-              console.log(data);
-              _context9.prev = 7;
-              _context9.next = 10;
+              data.passwordConfirm = document.querySelector("#passwordConfirm-signup").value; // console.log(data);
+
+              _context9.prev = 6;
+              _context9.next = 9;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/userInfo/signup',
                 data: data
               });
 
-            case 10:
-              _data8 = _context9.sent;
-              console.log(_data8);
-              if (_data8.status == 201) window.location.href = '/';
-              _context9.next = 19;
+            case 9:
+              data1 = _context9.sent;
+              // console.log(data1);
+              if (data1.status == 201) window.location.href = '/';
+              _context9.next = 16;
               break;
 
-            case 15:
-              _context9.prev = 15;
-              _context9.t0 = _context9["catch"](7);
-              console.log(_context9.t0.response.data);
+            case 13:
+              _context9.prev = 13;
+              _context9.t0 = _context9["catch"](6);
+              // console.log(err.response.data);
               if (_context9.t0.response.data.err.code === 11000) window.alert("Email already taken");else {
                 entries = Object.entries(_context9.t0.response.data.err.errors);
                 entries.forEach(function (el) {
@@ -70582,12 +71897,12 @@ if (document.querySelector("#signup-form")) {
                 });
               }
 
-            case 19:
+            case 16:
             case "end":
               return _context9.stop();
           }
         }
-      }, _callee9, null, [[7, 15]]);
+      }, _callee9, null, [[6, 13]]);
     }));
 
     return function (_x10) {
@@ -70597,8 +71912,7 @@ if (document.querySelector("#signup-form")) {
 }
 
 if (document.getElementById("fees-record")) {
-  var options = document.getElementsByClassName("fee-option");
-  console.log(options);
+  var options = document.getElementsByClassName("fee-option"); // console.log(options);
 
   var _iterator2 = _createForOfIteratorHelper(options),
       _step2;
@@ -70637,7 +71951,7 @@ if (document.getElementById("fees-record")) {
     var _ref10 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee10(e) {
-      var start_class, end_class, full_data, objs, i, feedesc, start_date, end_date, dates, classes, pr, url, _objs, start_month, end_month, month_list, _i, _feedesc, session, end_session, months_limit, _start_date, _end_date, _dates, _classes, _pr;
+      var start_class, end_class, full_data, classList, objs, i, feedesc, start_date, end_date, dates, classes, pr, url, _objs, start_month, end_month, month_list, _i, _feedesc, session, end_session, months_limit, _start_date, _end_date, _dates, _classes, _pr;
 
       return regeneratorRuntime.wrap(function _callee10$(_context10) {
         while (1) {
@@ -70647,17 +71961,19 @@ if (document.getElementById("fees-record")) {
               start_class = document.querySelector("#class-from").value;
               end_class = document.querySelector("#class-to").value;
               full_data = true;
+              classList = ["PG", 'LKG', 'UKG', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']; // console.log(start_class,end_class);
 
               if (document.querySelector(".get-by-month").classList.contains('invisible') === true) {
                 objs = [];
 
                 for (i = start_class; i <= end_class; i++) {
                   feedesc = new Object();
-                  feedesc["class"] = i * 1;
+                  feedesc["class"] = classList[i * 1];
                   feedesc["total"] = 0 * 1;
                   if (full_data) feedesc["data"] = [];
                   objs.push(feedesc);
-                }
+                } // console.log(objs);
+
 
                 start_date = document.querySelector("#date-from").value;
                 end_date = document.querySelector("#date-to").value;
@@ -70670,10 +71986,10 @@ if (document.getElementById("fees-record")) {
                 objs.push(dates);
                 objs.push(classes);
                 pr = JSON.stringify(objs);
-                url = new URL("http://".concat(window.location.host, "/studentInfo/displayFeeRecord"));
-                console.log(window.location.host);
-                url.searchParams.set('data', pr);
-                console.log(url.search);
+                url = new URL("http://".concat(window.location.host, "/studentInfo/displayFeeRecord")); // // console.log(window.location.host);
+
+                url.searchParams.set('data', pr); // console.log(url.search);
+
                 window.location.href = "".concat(url);
               } else {
                 _objs = [];
@@ -70690,8 +72006,8 @@ if (document.getElementById("fees-record")) {
                   _objs.push(_feedesc);
                 }
 
-                session = document.getElementById("fee-session").value;
-                console.log(session);
+                session = document.getElementById("fee-session").value; // console.log(session);
+
                 end_session = session;
                 months_limit = new Object();
                 months_limit["maxm"] = end_month;
@@ -70703,10 +72019,10 @@ if (document.getElementById("fees-record")) {
                   end_session = end_session * 1 + 1;
                 }
 
-                _start_date = new Date(session, start_month * 1 + 2, 1);
-                console.log(_start_date);
-                _end_date = new Date(end_session, end_month * 1 + 1, 0);
-                console.log(_end_date);
+                _start_date = new Date(session, start_month * 1 + 2, 1); // console.log(start_date);
+
+                _end_date = new Date(end_session, end_month * 1 + 1, 0); // console.log(end_date)
+
                 _dates = new Object();
                 _dates["start_date"] = _start_date;
                 _dates["end_date"] = _end_date;
@@ -70720,16 +72036,16 @@ if (document.getElementById("fees-record")) {
 
                 _objs.push(_classes);
 
-                _pr = JSON.stringify(_objs);
-                console.log(_objs);
-                url = new URL("http://".concat(window.location.host, "/studentInfo/displayFeeRecord"));
-                console.log(window.location.host);
-                url.searchParams.set('data', _pr);
-                console.log(url.search);
+                _pr = JSON.stringify(_objs); // console.log(objs);
+
+                url = new URL("http://".concat(window.location.host, "/studentInfo/displayFeeRecord")); // console.log(window.location.host);
+
+                url.searchParams.set('data', _pr); // console.log(url.search);
+
                 window.location.href = "".concat(url);
               }
 
-            case 5:
+            case 6:
             case "end":
               return _context10.stop();
           }
@@ -70747,7 +72063,7 @@ if (document.querySelector("#get-sr-main")) {
   document.querySelector("#get-sr-main").addEventListener("submit", function (e) {
     e.preventDefault();
     var section = document.querySelector("#sr-main-section").value;
-    var name = document.querySelector("#sr-main-name").value;
+    var name = document.querySelector("#sr-main-name").value.toUpperCase();
     var srno = document.querySelector("#sr-main-srno").value;
     if (name === "") name = "NULL";
     if (srno === "") srno = "NULL";
@@ -70762,7 +72078,7 @@ if (document.querySelector("#get-student-sr-data")) {
     var _ref11 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee11(e) {
-      var objs, obj1, _obj, _obj2, _obj3, _obj4, _obj5, _obj6, _obj7, _obj8, _obj9, _data9, _data10;
+      var objs, obj1, _obj, _obj2, _obj3, _obj4, _obj5, _obj6, _obj7, _obj8, _obj9, _obj10, data, _data3;
 
       return regeneratorRuntime.wrap(function _callee11$(_context11) {
         while (1) {
@@ -70781,77 +72097,83 @@ if (document.querySelector("#get-student-sr-data")) {
               objs["father_name"] = document.querySelector("#student-sr-father").value;
               objs["mother_name"] = document.querySelector("#student-sr-mother").value;
               objs["address"] = document.querySelector("#student-sr-address").value;
-              objs["occupation"] = document.querySelector("#student-sr-occupation").value;
-              console.log(objs);
+              objs["occupation"] = document.querySelector("#student-sr-occupation").value; // console.log(objs);
+
+              if (document.querySelector("#student-sr-pg_admission")) {
+                obj1 = new Object();
+                obj1["admission"] = document.querySelector("#student-sr-pg_admission").value;
+                obj1["passing"] = document.querySelector("#student-sr-pg_passing").value;
+                objs["pg"] = obj1;
+              }
 
               if (document.querySelector("#student-sr-lkg_admission")) {
-                obj1 = new Object();
-                obj1["admission"] = document.querySelector("#student-sr-lkg_admission").value;
-                obj1["passing"] = document.querySelector("#student-sr-lkg_passing").value;
-                objs["lkg"] = obj1;
+                _obj = new Object();
+                _obj["admission"] = document.querySelector("#student-sr-lkg_admission").value;
+                _obj["passing"] = document.querySelector("#student-sr-lkg_passing").value;
+                objs["lkg"] = _obj;
               }
 
               if (document.querySelector("#student-sr-ukg_admission")) {
-                _obj = new Object();
-                _obj["admission"] = document.querySelector("#student-sr-ukg_admission").value;
-                _obj["passing"] = document.querySelector("#student-sr-ukg_passing").value;
-                objs["ukg"] = _obj;
+                _obj2 = new Object();
+                _obj2["admission"] = document.querySelector("#student-sr-ukg_admission").value;
+                _obj2["passing"] = document.querySelector("#student-sr-ukg_passing").value;
+                objs["ukg"] = _obj2;
               }
 
               if (document.querySelector("#student-sr-one_admission")) {
-                _obj2 = new Object();
-                _obj2["admission"] = document.querySelector("#student-sr-one_admission").value;
-                _obj2["passing"] = document.querySelector("#student-sr-one_passing").value;
-                objs["one"] = _obj2;
+                _obj3 = new Object();
+                _obj3["admission"] = document.querySelector("#student-sr-one_admission").value;
+                _obj3["passing"] = document.querySelector("#student-sr-one_passing").value;
+                objs["one"] = _obj3;
               }
 
               if (document.querySelector("#student-sr-two_admission")) {
-                _obj3 = new Object();
-                _obj3["admission"] = document.querySelector("#student-sr-two_admission").value;
-                _obj3["passing"] = document.querySelector("#student-sr-two_passing").value;
-                objs["two"] = _obj3;
+                _obj4 = new Object();
+                _obj4["admission"] = document.querySelector("#student-sr-two_admission").value;
+                _obj4["passing"] = document.querySelector("#student-sr-two_passing").value;
+                objs["two"] = _obj4;
               }
 
               if (document.querySelector("#student-sr-three_admission")) {
-                _obj4 = new Object();
-                _obj4["admission"] = document.querySelector("#student-sr-three_admission").value;
-                _obj4["passing"] = document.querySelector("#student-sr-three_passing").value;
-                objs["three"] = _obj4;
+                _obj5 = new Object();
+                _obj5["admission"] = document.querySelector("#student-sr-three_admission").value;
+                _obj5["passing"] = document.querySelector("#student-sr-three_passing").value;
+                objs["three"] = _obj5;
               }
 
               if (document.querySelector("#student-sr-four_admission")) {
-                _obj5 = new Object();
-                _obj5["admission"] = document.querySelector("#student-sr-four_admission").value;
-                _obj5["passing"] = document.querySelector("#student-sr-four_passing").value;
-                objs["four"] = _obj5;
+                _obj6 = new Object();
+                _obj6["admission"] = document.querySelector("#student-sr-four_admission").value;
+                _obj6["passing"] = document.querySelector("#student-sr-four_passing").value;
+                objs["four"] = _obj6;
               }
 
               if (document.querySelector("#student-sr-five_admission")) {
-                _obj6 = new Object();
-                _obj6["admission"] = document.querySelector("#student-sr-five_admission").value;
-                _obj6["passing"] = document.querySelector("#student-sr-five_passing").value;
-                objs["five"] = _obj6;
+                _obj7 = new Object();
+                _obj7["admission"] = document.querySelector("#student-sr-five_admission").value;
+                _obj7["passing"] = document.querySelector("#student-sr-five_passing").value;
+                objs["five"] = _obj7;
               }
 
               if (document.querySelector("#student-sr-six_admission")) {
-                _obj7 = new Object();
-                _obj7["admission"] = document.querySelector("#student-sr-six_admission").value;
-                _obj7["passing"] = document.querySelector("#student-sr-six_passing").value;
-                objs["six"] = _obj7;
+                _obj8 = new Object();
+                _obj8["admission"] = document.querySelector("#student-sr-six_admission").value;
+                _obj8["passing"] = document.querySelector("#student-sr-six_passing").value;
+                objs["six"] = _obj8;
               }
 
               if (document.querySelector("#student-sr-seven_admission")) {
-                _obj8 = new Object();
-                _obj8["admission"] = document.querySelector("#student-sr-seven_admission").value;
-                _obj8["passing"] = document.querySelector("#student-sr-seven_passing").value;
-                objs["seven"] = _obj8;
+                _obj9 = new Object();
+                _obj9["admission"] = document.querySelector("#student-sr-seven_admission").value;
+                _obj9["passing"] = document.querySelector("#student-sr-seven_passing").value;
+                objs["seven"] = _obj9;
               }
 
               if (document.querySelector("#student-sr-eight_admission")) {
-                _obj9 = new Object();
-                _obj9["admission"] = document.querySelector("#student-sr-eight_admission").value;
-                _obj9["passing"] = document.querySelector("#student-sr-eight_passing").value;
-                objs["eight"] = _obj9;
+                _obj10 = new Object();
+                _obj10["admission"] = document.querySelector("#student-sr-eight_admission").value;
+                _obj10["passing"] = document.querySelector("#student-sr-eight_passing").value;
+                objs["eight"] = _obj10;
               }
 
               objs["last_class"] = document.querySelector("#student-sr-last_class").value;
@@ -70861,7 +72183,7 @@ if (document.querySelector("#get-student-sr-data")) {
               objs["brother_sister"] = document.querySelector("#student-sr-brother_sister").value;
 
               if (!document.querySelector("#get-student-sr-data").classList.contains("sr-update")) {
-                _context11.next = 42;
+                _context11.next = 41;
                 break;
               }
 
@@ -70874,50 +72196,50 @@ if (document.querySelector("#get-student-sr-data")) {
               });
 
             case 34:
-              _data9 = _context11.sent;
-              console.log(_data9);
-              location.reload();
-              _context11.next = 42;
+              data = _context11.sent;
+              // console.log(data)
+              setTimeout(function () {
+                location.reload();
+              }, 500);
+              _context11.next = 41;
               break;
 
-            case 39:
-              _context11.prev = 39;
+            case 38:
+              _context11.prev = 38;
               _context11.t0 = _context11["catch"](31);
               window.alert(_context11.t0.response.data.message);
 
-            case 42:
-              console.log(document.querySelector("#get-student-sr-data").classList);
-
+            case 41:
               if (!document.querySelector("#get-student-sr-data").classList.contains("sr-add")) {
-                _context11.next = 54;
+                _context11.next = 52;
                 break;
               }
 
-              _context11.prev = 44;
-              _context11.next = 47;
+              _context11.prev = 42;
+              _context11.next = 45;
               return (0, _axios.default)({
                 method: 'POST',
                 url: "/api/v1/studentInfo/add-sr",
                 data: objs
               });
 
-            case 47:
-              _data10 = _context11.sent;
+            case 45:
+              _data3 = _context11.sent;
               location.reload();
-              _context11.next = 54;
+              _context11.next = 52;
               break;
 
-            case 51:
-              _context11.prev = 51;
-              _context11.t1 = _context11["catch"](44);
+            case 49:
+              _context11.prev = 49;
+              _context11.t1 = _context11["catch"](42);
               window.alert(_context11.t1.response.data.message);
 
-            case 54:
+            case 52:
             case "end":
               return _context11.stop();
           }
         }
-      }, _callee11, null, [[31, 39], [44, 51]]);
+      }, _callee11, null, [[31, 38], [42, 49]]);
     }));
 
     return function (_x12) {
@@ -70930,11 +72252,30 @@ if (document.querySelector(".student-sr-options")) {
   var prePrimary = document.querySelectorAll(".pre_primary");
   var primary = document.querySelectorAll(".primary");
   var upperPrimary = document.querySelectorAll(".upper_primary");
-  console.log(prePrimary);
+  var playGroup = document.querySelectorAll(".play_group"); // console.log(prePrimary);
+
   document.querySelector(".student-sr-options").addEventListener("change", function (e) {
+    if (document.querySelector(".student-sr-options").value === "PG") {
+      prePrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+      playGroup.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+      primary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+      upperPrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+    }
+
     if (document.querySelector(".student-sr-options").value === "LKG TO UKG") {
       prePrimary.forEach(function (el) {
         el.classList.remove("invisible");
+      });
+      playGroup.forEach(function (el) {
+        el.classList.add("invisible");
       });
       primary.forEach(function (el) {
         el.classList.add("invisible");
@@ -70948,6 +72289,9 @@ if (document.querySelector(".student-sr-options")) {
       prePrimary.forEach(function (el) {
         el.classList.add("invisible");
       });
+      playGroup.forEach(function (el) {
+        el.classList.add("invisible");
+      });
       primary.forEach(function (el) {
         el.classList.remove("invisible");
       });
@@ -70958,6 +72302,9 @@ if (document.querySelector(".student-sr-options")) {
 
     if (document.querySelector(".student-sr-options").value === "6 TO 8") {
       prePrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+      playGroup.forEach(function (el) {
         el.classList.add("invisible");
       });
       primary.forEach(function (el) {
@@ -70977,25 +72324,24 @@ if (document.querySelector("#set-fees-form")) {
     var _ref12 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee12(e) {
-      var obj, _data11;
-
+      var obj, data;
       return regeneratorRuntime.wrap(function _callee12$(_context12) {
         while (1) {
           switch (_context12.prev = _context12.next) {
             case 0:
               e.preventDefault();
               obj = new Object();
-              obj["pg"] = document.querySelector("#fees-pg").value;
-              obj["lkg"] = document.querySelector("#fees-lkg").value;
-              obj["ukg"] = document.querySelector("#fees-ukg").value;
-              obj["one"] = document.querySelector("#fees-one").value;
-              obj["two"] = document.querySelector("#fees-two").value;
-              obj["three"] = document.querySelector("#fees-three").value;
-              obj["four"] = document.querySelector("#fees-four").value;
-              obj["five"] = document.querySelector("#fees-five").value;
-              obj["six"] = document.querySelector("#fees-six").value;
-              obj["seven"] = document.querySelector("#fees-seven").value;
-              obj["eight"] = document.querySelector("#fees-eight").value;
+              obj["0"] = document.querySelector("#fees-pg").value;
+              obj["1"] = document.querySelector("#fees-lkg").value;
+              obj["2"] = document.querySelector("#fees-ukg").value;
+              obj["3"] = document.querySelector("#fees-one").value;
+              obj["4"] = document.querySelector("#fees-two").value;
+              obj["5"] = document.querySelector("#fees-three").value;
+              obj["6"] = document.querySelector("#fees-four").value;
+              obj["7"] = document.querySelector("#fees-five").value;
+              obj["8"] = document.querySelector("#fees-six").value;
+              obj["9"] = document.querySelector("#fees-seven").value;
+              obj["10"] = document.querySelector("#fees-eight").value;
               _context12.prev = 13;
               _context12.next = 16;
               return (0, _axios.default)({
@@ -71005,7 +72351,8 @@ if (document.querySelector("#set-fees-form")) {
               });
 
             case 16:
-              _data11 = _context12.sent;
+              data = _context12.sent;
+              // console.log(data);
               location.reload();
               _context12.next = 23;
               break;
@@ -71029,13 +72376,138 @@ if (document.querySelector("#set-fees-form")) {
   }());
 }
 
-if (document.querySelector("#promote-form")) {
-  var promoteNext = document.querySelectorAll(".promote-next");
-  document.querySelector("#promote-class").addEventListener("change", function () {
-    var curr = document.querySelector("#promote-class").value;
-    console.log(curr);
+if (document.querySelector("#promote-student-fee")) {
+  var click_ct = 0;
+  document.querySelector("#promote-student-fee").addEventListener("click",
+  /*#__PURE__*/
+  _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee13() {
+    var randnum, enteredNum, data;
+    return regeneratorRuntime.wrap(function _callee13$(_context13) {
+      while (1) {
+        switch (_context13.prev = _context13.next) {
+          case 0:
+            randnum = Math.round(Math.random() * 10000) + 100000 * 1;
+            enteredNum = prompt("Enter the code ".concat(randnum), "");
 
-    if (curr === "UKG" || curr === "5" || curr === "8") {
+            if (!(enteredNum * 1 !== randnum * 1)) {
+              _context13.next = 4;
+              break;
+            }
+
+            return _context13.abrupt("return", window.alert("Wrong Code"));
+
+          case 4:
+            _context13.next = 6;
+            return (0, _axios.default)({
+              method: 'POST',
+              url: "/api/v1/studentInfo/promote-student-fees/".concat(new Date().getFullYear() * 1 - 1)
+            });
+
+          case 6:
+            data = _context13.sent;
+            if (data.status === 201) window.alert("All Students Promoted 🥳🥳");
+
+          case 8:
+          case "end":
+            return _context13.stop();
+        }
+      }
+    }, _callee13);
+  })));
+}
+
+if (document.querySelector("#promote-form")) {
+  var promoteNext = document.querySelectorAll(".promote-next-message");
+  var promoteClass = document.querySelector("#promote-class");
+  var promoteSr = document.querySelector("#promote-sr");
+
+  var _prePrimary = document.querySelectorAll(".pre_primary");
+
+  var _primary = document.querySelectorAll(".primary");
+
+  var _upperPrimary = document.querySelectorAll(".upper_primary");
+
+  var _playGroup = document.querySelectorAll(".play_group");
+
+  promoteSr.addEventListener("change", function () {
+    if (promoteSr.value === "PG") {
+      _playGroup.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+
+      _prePrimary.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+
+      _primary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _upperPrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+    }
+
+    if (promoteSr.value === "LKG TO UKG") {
+      _playGroup.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _prePrimary.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+
+      _primary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _upperPrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+    }
+
+    if (promoteSr.value === "1 TO 5") {
+      _playGroup.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _prePrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _primary.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+
+      _upperPrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+    }
+
+    if (promoteSr.value === "6 TO 8") {
+      _playGroup.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _prePrimary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _primary.forEach(function (el) {
+        el.classList.add("invisible");
+      });
+
+      _upperPrimary.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+    }
+  });
+  document.querySelector("#promote-class").addEventListener("change", function () {
+    var curr = document.querySelector("#promote-class").value; // console.log(curr);
+
+    if (curr === "ukg" || curr === "5" || curr === "8" || curr === "pg") {
       var _iterator3 = _createForOfIteratorHelper(promoteNext),
           _step3;
 
@@ -71070,54 +72542,50 @@ if (document.querySelector("#promote-form")) {
   document.querySelector("#promote-form").addEventListener("submit",
   /*#__PURE__*/
   function () {
-    var _ref13 = _asyncToGenerator(
+    var _ref14 = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee13(e) {
-      var promoteSr, promoteClass, promotePassingDate, promoteNextAdmissionDate, promotePassingMessage, wordArray, _data12;
-
-      return regeneratorRuntime.wrap(function _callee13$(_context13) {
+    regeneratorRuntime.mark(function _callee14(e) {
+      var promoteSr, promoteClass, promotePassingDate, promoteNextAdmissionDate, promotePassingMessage, data;
+      return regeneratorRuntime.wrap(function _callee14$(_context14) {
         while (1) {
-          switch (_context13.prev = _context13.next) {
+          switch (_context14.prev = _context14.next) {
             case 0:
               e.preventDefault();
               promoteSr = document.querySelector("#promote-sr").value;
-              promoteClass = document.querySelector("#promote-class").value.toLowerCase();
+              promoteClass = document.querySelector("#promote-class").value;
               promotePassingDate = document.querySelector("#promote-passing-date").value;
               promoteNextAdmissionDate = document.querySelector("#promote-next-admission-date").value;
               if (document.querySelector("#promote-passing-message")) promotePassingMessage = document.querySelector("#promote-passing-message").value;
-              wordArray = ["one", "two", "three", "four", "five", "six", "seven", "eight"];
-              if ((0, _lodash.isInteger)(promoteClass * 1)) promoteClass = wordArray[promoteClass * 1 - 1];
-              console.log(promoteClass.toUpperCase());
-              if (promotePassingMessage === "") promotePassingMessage = "Passed Class ".concat(promoteClass[0].toUpperCase() + promoteClass.slice(1));
-              _context13.prev = 10;
-              _context13.next = 13;
+              if (promotePassingMessage === "") promotePassingMessage = "Passed Class ".concat(promoteClass.toUpperCase());
+              _context14.prev = 7;
+              _context14.next = 10;
               return (0, _axios.default)({
                 method: "POST",
                 url: "/api/v1/studentInfo/promote-student/".concat(promoteSr, "/").concat(promoteClass, "/").concat(promotePassingMessage, "/").concat(promotePassingDate, "/").concat(promoteNextAdmissionDate)
               });
 
-            case 13:
-              _data12 = _context13.sent;
-              console.log(_data12.data);
+            case 10:
+              data = _context14.sent;
+              // console.log(data.data);
               location.reload();
-              _context13.next = 21;
+              _context14.next = 17;
               break;
 
-            case 18:
-              _context13.prev = 18;
-              _context13.t0 = _context13["catch"](10);
-              window.alert(_context13.t0.response.data.message);
+            case 14:
+              _context14.prev = 14;
+              _context14.t0 = _context14["catch"](7);
+              window.alert(_context14.t0.response.data.message);
 
-            case 21:
+            case 17:
             case "end":
-              return _context13.stop();
+              return _context14.stop();
           }
         }
-      }, _callee13, null, [[10, 18]]);
+      }, _callee14, null, [[7, 14]]);
     }));
 
     return function (_x14) {
-      return _ref13.apply(this, arguments);
+      return _ref14.apply(this, arguments);
     };
   }());
 }
@@ -71126,14 +72594,13 @@ if (document.querySelector(".upload-pic-btn")) {
   document.querySelector(".upload-pic-btn").addEventListener("click",
   /*#__PURE__*/
   function () {
-    var _ref14 = _asyncToGenerator(
+    var _ref15 = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee14(e) {
-      var formPic, _data13;
-
-      return regeneratorRuntime.wrap(function _callee14$(_context14) {
+    regeneratorRuntime.mark(function _callee15(e) {
+      var formPic, data;
+      return regeneratorRuntime.wrap(function _callee15$(_context15) {
         while (1) {
-          switch (_context14.prev = _context14.next) {
+          switch (_context15.prev = _context15.next) {
             case 0:
               document.querySelector(".upload-pic-btn").style.padding = "0.2rem";
               document.querySelector(".upload-pic-btn").style.margin = "0.8rem auto 0.8rem auto";
@@ -71145,37 +72612,37 @@ if (document.querySelector(".upload-pic-btn")) {
               formPic.append('sr', document.getElementById("student-sr").value);
               formPic.append('student_name', document.querySelector("#student-sr-name").value);
               formPic.append('student_id', document.getElementById("student-sr-id").textContent);
-              formPic.append('pic', document.getElementById('picUp').files[0]);
-              console.log(formPic);
-              _context14.prev = 9;
-              _context14.next = 12;
+              formPic.append('pic', document.getElementById('picUp').files[0]); // console.log(formPic);
+
+              _context15.prev = 8;
+              _context15.next = 11;
               return (0, _axios.default)({
                 method: "POST",
                 url: "/api/v1/documentInfo/uploadPic",
                 data: formPic
               });
 
-            case 12:
-              _data13 = _context14.sent;
+            case 11:
+              data = _context15.sent;
               location.reload();
-              _context14.next = 19;
+              _context15.next = 18;
               break;
 
-            case 16:
-              _context14.prev = 16;
-              _context14.t0 = _context14["catch"](9);
-              window.alert(_context14.t0.response.data.message);
+            case 15:
+              _context15.prev = 15;
+              _context15.t0 = _context15["catch"](8);
+              window.alert(_context15.t0.response.data.message);
 
-            case 19:
+            case 18:
             case "end":
-              return _context14.stop();
+              return _context15.stop();
           }
         }
-      }, _callee14, null, [[9, 16]]);
+      }, _callee15, null, [[8, 15]]);
     }));
 
     return function (_x15) {
-      return _ref14.apply(this, arguments);
+      return _ref15.apply(this, arguments);
     };
   }());
 }
@@ -71184,14 +72651,13 @@ if (document.querySelector("#document-upload-form")) {
   document.querySelector("#document-upload-form").addEventListener("submit",
   /*#__PURE__*/
   function () {
-    var _ref15 = _asyncToGenerator(
+    var _ref16 = _asyncToGenerator(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee15(e) {
-      var formDoc, _data14;
-
-      return regeneratorRuntime.wrap(function _callee15$(_context15) {
+    regeneratorRuntime.mark(function _callee16(e) {
+      var formDoc, data;
+      return regeneratorRuntime.wrap(function _callee16$(_context16) {
         while (1) {
-          switch (_context15.prev = _context15.next) {
+          switch (_context16.prev = _context16.next) {
             case 0:
               e.preventDefault();
               formDoc = new FormData();
@@ -71200,8 +72666,8 @@ if (document.querySelector("#document-upload-form")) {
               formDoc.append('desc', document.querySelector("#upload-desc").value);
               formDoc.append('student_name', document.querySelector("#student-sr-name").value);
               formDoc.append('doc', document.querySelector("#upload-doc").files[0]);
-              _context15.prev = 7;
-              _context15.next = 10;
+              _context16.prev = 7;
+              _context16.next = 10;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/documentInfo/uploadDoc',
@@ -71209,26 +72675,26 @@ if (document.querySelector("#document-upload-form")) {
               });
 
             case 10:
-              _data14 = _context15.sent;
+              data = _context16.sent;
               location.reload();
-              _context15.next = 17;
+              _context16.next = 17;
               break;
 
             case 14:
-              _context15.prev = 14;
-              _context15.t0 = _context15["catch"](7);
-              window.alert(_context15.t0.response.data.message);
+              _context16.prev = 14;
+              _context16.t0 = _context16["catch"](7);
+              window.alert(_context16.t0.response.data.message);
 
             case 17:
             case "end":
-              return _context15.stop();
+              return _context16.stop();
           }
         }
-      }, _callee15, null, [[7, 14]]);
+      }, _callee16, null, [[7, 14]]);
     }));
 
     return function (_x16) {
-      return _ref15.apply(this, arguments);
+      return _ref16.apply(this, arguments);
     };
   }());
 }
@@ -71238,56 +72704,55 @@ if (document.querySelector(".del-doc")) {
     el.addEventListener("click",
     /*#__PURE__*/
     function () {
-      var _ref16 = _asyncToGenerator(
+      var _ref17 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee16(e) {
-        var obj, _data15;
-
-        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+      regeneratorRuntime.mark(function _callee17(e) {
+        var obj, data;
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
-                obj = new Object();
-                console.log(el);
+                obj = new Object(); // console.log(el);
+
                 obj.doc_name = el.name;
                 obj.doc_id = el.id;
                 obj.student_sr = document.querySelector("#student-sr").value;
-                obj.student_id = document.querySelector("#student-sr-id").textContent;
-                console.log(obj);
-                _context16.prev = 7;
-                _context16.next = 10;
+                obj.student_id = document.querySelector("#student-sr-id").textContent; // console.log(obj);
+
+                _context17.prev = 5;
+                _context17.next = 8;
                 return (0, _axios.default)({
                   method: "DELETE",
                   url: "/api/v1/documentInfo/deleteDoc",
                   data: obj
                 });
 
-              case 10:
-                _data15 = _context16.sent;
+              case 8:
+                data = _context17.sent;
                 location.reload();
-                _context16.next = 17;
+                _context17.next = 15;
                 break;
 
-              case 14:
-                _context16.prev = 14;
-                _context16.t0 = _context16["catch"](7);
-                window.alert(_context16.t0.response.data.message);
+              case 12:
+                _context17.prev = 12;
+                _context17.t0 = _context17["catch"](5);
+                window.alert(_context17.t0.response.data.message);
 
-              case 17:
+              case 15:
               case "end":
-                return _context16.stop();
+                return _context17.stop();
             }
           }
-        }, _callee16, null, [[7, 14]]);
+        }, _callee17, null, [[5, 12]]);
       }));
 
       return function (_x17) {
-        return _ref16.apply(this, arguments);
+        return _ref17.apply(this, arguments);
       };
     }());
   });
 }
-},{"core-js/modules/es6.array.copy-within":"../../node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.fill":"../../node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.find":"../../node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"../../node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.from":"../../node_modules/core-js/modules/es6.array.from.js","core-js/modules/es7.array.includes":"../../node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es6.array.iterator":"../../node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.array.of":"../../node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.sort":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es6.array.species":"../../node_modules/core-js/modules/es6.array.species.js","core-js/modules/es6.date.to-primitive":"../../node_modules/core-js/modules/es6.date.to-primitive.js","core-js/modules/es6.function.has-instance":"../../node_modules/core-js/modules/es6.function.has-instance.js","core-js/modules/es6.function.name":"../../node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.map":"../../node_modules/core-js/modules/es6.map.js","core-js/modules/es6.math.acosh":"../../node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"../../node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"../../node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"../../node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"../../node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"../../node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"../../node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"../../node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"../../node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"../../node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"../../node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"../../node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"../../node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"../../node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"../../node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"../../node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"../../node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es6.number.constructor":"../../node_modules/core-js/modules/es6.number.constructor.js","core-js/modules/es6.number.epsilon":"../../node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.is-finite":"../../node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"../../node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-nan":"../../node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.is-safe-integer":"../../node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"../../node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.number.min-safe-integer":"../../node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.parse-float":"../../node_modules/core-js/modules/es6.number.parse-float.js","core-js/modules/es6.number.parse-int":"../../node_modules/core-js/modules/es6.number.parse-int.js","core-js/modules/es6.object.assign":"../../node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es7.object.define-getter":"../../node_modules/core-js/modules/es7.object.define-getter.js","core-js/modules/es7.object.define-setter":"../../node_modules/core-js/modules/es7.object.define-setter.js","core-js/modules/es7.object.entries":"../../node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es6.object.freeze":"../../node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es7.object.get-own-property-descriptors":"../../node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es6.object.get-own-property-names":"../../node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.get-prototype-of":"../../node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es7.object.lookup-getter":"../../node_modules/core-js/modules/es7.object.lookup-getter.js","core-js/modules/es7.object.lookup-setter":"../../node_modules/core-js/modules/es7.object.lookup-setter.js","core-js/modules/es6.object.prevent-extensions":"../../node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is":"../../node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.is-frozen":"../../node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"../../node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"../../node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.keys":"../../node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.seal":"../../node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.set-prototype-of":"../../node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es7.object.values":"../../node_modules/core-js/modules/es7.object.values.js","core-js/modules/es6.promise":"../../node_modules/core-js/modules/es6.promise.js","core-js/modules/es7.promise.finally":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es6.reflect.apply":"../../node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"../../node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"../../node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"../../node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"../../node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"../../node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"../../node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"../../node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"../../node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"../../node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"../../node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"../../node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.regexp.constructor":"../../node_modules/core-js/modules/es6.regexp.constructor.js","core-js/modules/es6.regexp.flags":"../../node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"../../node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"../../node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"../../node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"../../node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.regexp.to-string":"../../node_modules/core-js/modules/es6.regexp.to-string.js","core-js/modules/es6.set":"../../node_modules/core-js/modules/es6.set.js","core-js/modules/es6.symbol":"../../node_modules/core-js/modules/es6.symbol.js","core-js/modules/es7.symbol.async-iterator":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es6.string.anchor":"../../node_modules/core-js/modules/es6.string.anchor.js","core-js/modules/es6.string.big":"../../node_modules/core-js/modules/es6.string.big.js","core-js/modules/es6.string.blink":"../../node_modules/core-js/modules/es6.string.blink.js","core-js/modules/es6.string.bold":"../../node_modules/core-js/modules/es6.string.bold.js","core-js/modules/es6.string.code-point-at":"../../node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.ends-with":"../../node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.fixed":"../../node_modules/core-js/modules/es6.string.fixed.js","core-js/modules/es6.string.fontcolor":"../../node_modules/core-js/modules/es6.string.fontcolor.js","core-js/modules/es6.string.fontsize":"../../node_modules/core-js/modules/es6.string.fontsize.js","core-js/modules/es6.string.from-code-point":"../../node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.includes":"../../node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.string.italics":"../../node_modules/core-js/modules/es6.string.italics.js","core-js/modules/es6.string.iterator":"../../node_modules/core-js/modules/es6.string.iterator.js","core-js/modules/es6.string.link":"../../node_modules/core-js/modules/es6.string.link.js","core-js/modules/es7.string.pad-start":"../../node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"../../node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/es6.string.raw":"../../node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.repeat":"../../node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.small":"../../node_modules/core-js/modules/es6.string.small.js","core-js/modules/es6.string.starts-with":"../../node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.strike":"../../node_modules/core-js/modules/es6.string.strike.js","core-js/modules/es6.string.sub":"../../node_modules/core-js/modules/es6.string.sub.js","core-js/modules/es6.string.sup":"../../node_modules/core-js/modules/es6.string.sup.js","core-js/modules/es6.typed.array-buffer":"../../node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"../../node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"../../node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"../../node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"../../node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"../../node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"../../node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"../../node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"../../node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"../../node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.weak-map":"../../node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"../../node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es7.array.flat-map":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/web.timers":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","axios":"../../node_modules/axios/index.js","lodash":"../../node_modules/lodash/lodash.js","util":"../../node_modules/node-libs-browser/node_modules/util/util.js","../../model/documents":"../../model/documents.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/modules/es6.array.copy-within":"../../node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.fill":"../../node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.find":"../../node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"../../node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.from":"../../node_modules/core-js/modules/es6.array.from.js","core-js/modules/es7.array.includes":"../../node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es6.array.iterator":"../../node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.array.of":"../../node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.sort":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es6.array.species":"../../node_modules/core-js/modules/es6.array.species.js","core-js/modules/es6.date.to-primitive":"../../node_modules/core-js/modules/es6.date.to-primitive.js","core-js/modules/es6.function.has-instance":"../../node_modules/core-js/modules/es6.function.has-instance.js","core-js/modules/es6.function.name":"../../node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.map":"../../node_modules/core-js/modules/es6.map.js","core-js/modules/es6.math.acosh":"../../node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"../../node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"../../node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"../../node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"../../node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"../../node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"../../node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"../../node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"../../node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"../../node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"../../node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"../../node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"../../node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"../../node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"../../node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"../../node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"../../node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es6.number.constructor":"../../node_modules/core-js/modules/es6.number.constructor.js","core-js/modules/es6.number.epsilon":"../../node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.is-finite":"../../node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"../../node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-nan":"../../node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.is-safe-integer":"../../node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"../../node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.number.min-safe-integer":"../../node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.parse-float":"../../node_modules/core-js/modules/es6.number.parse-float.js","core-js/modules/es6.number.parse-int":"../../node_modules/core-js/modules/es6.number.parse-int.js","core-js/modules/es6.object.assign":"../../node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es7.object.define-getter":"../../node_modules/core-js/modules/es7.object.define-getter.js","core-js/modules/es7.object.define-setter":"../../node_modules/core-js/modules/es7.object.define-setter.js","core-js/modules/es7.object.entries":"../../node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es6.object.freeze":"../../node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es7.object.get-own-property-descriptors":"../../node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es6.object.get-own-property-names":"../../node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.get-prototype-of":"../../node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es7.object.lookup-getter":"../../node_modules/core-js/modules/es7.object.lookup-getter.js","core-js/modules/es7.object.lookup-setter":"../../node_modules/core-js/modules/es7.object.lookup-setter.js","core-js/modules/es6.object.prevent-extensions":"../../node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is":"../../node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.is-frozen":"../../node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"../../node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"../../node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.keys":"../../node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.seal":"../../node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.set-prototype-of":"../../node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es7.object.values":"../../node_modules/core-js/modules/es7.object.values.js","core-js/modules/es6.promise":"../../node_modules/core-js/modules/es6.promise.js","core-js/modules/es7.promise.finally":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es6.reflect.apply":"../../node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"../../node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"../../node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"../../node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"../../node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"../../node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"../../node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"../../node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"../../node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"../../node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"../../node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"../../node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.regexp.constructor":"../../node_modules/core-js/modules/es6.regexp.constructor.js","core-js/modules/es6.regexp.flags":"../../node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"../../node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"../../node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"../../node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"../../node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.regexp.to-string":"../../node_modules/core-js/modules/es6.regexp.to-string.js","core-js/modules/es6.set":"../../node_modules/core-js/modules/es6.set.js","core-js/modules/es6.symbol":"../../node_modules/core-js/modules/es6.symbol.js","core-js/modules/es7.symbol.async-iterator":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es6.string.anchor":"../../node_modules/core-js/modules/es6.string.anchor.js","core-js/modules/es6.string.big":"../../node_modules/core-js/modules/es6.string.big.js","core-js/modules/es6.string.blink":"../../node_modules/core-js/modules/es6.string.blink.js","core-js/modules/es6.string.bold":"../../node_modules/core-js/modules/es6.string.bold.js","core-js/modules/es6.string.code-point-at":"../../node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.ends-with":"../../node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.fixed":"../../node_modules/core-js/modules/es6.string.fixed.js","core-js/modules/es6.string.fontcolor":"../../node_modules/core-js/modules/es6.string.fontcolor.js","core-js/modules/es6.string.fontsize":"../../node_modules/core-js/modules/es6.string.fontsize.js","core-js/modules/es6.string.from-code-point":"../../node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.includes":"../../node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.string.italics":"../../node_modules/core-js/modules/es6.string.italics.js","core-js/modules/es6.string.iterator":"../../node_modules/core-js/modules/es6.string.iterator.js","core-js/modules/es6.string.link":"../../node_modules/core-js/modules/es6.string.link.js","core-js/modules/es7.string.pad-start":"../../node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"../../node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/es6.string.raw":"../../node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.repeat":"../../node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.small":"../../node_modules/core-js/modules/es6.string.small.js","core-js/modules/es6.string.starts-with":"../../node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.strike":"../../node_modules/core-js/modules/es6.string.strike.js","core-js/modules/es6.string.sub":"../../node_modules/core-js/modules/es6.string.sub.js","core-js/modules/es6.string.sup":"../../node_modules/core-js/modules/es6.string.sup.js","core-js/modules/es6.typed.array-buffer":"../../node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"../../node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"../../node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"../../node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"../../node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"../../node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"../../node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"../../node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"../../node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"../../node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.weak-map":"../../node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"../../node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es7.array.flat-map":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/web.timers":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","axios":"../../node_modules/axios/index.js","console":"../../node_modules/console-browserify/index.js","lodash":"../../node_modules/lodash/lodash.js","util":"../../node_modules/node-libs-browser/node_modules/util/util.js","../../model/documents":"../../model/documents.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -71315,7 +72780,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63381" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57960" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

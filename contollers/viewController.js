@@ -5,10 +5,12 @@ const todayFees = require("./../model/todayFees");
 const fees = require("./../model/fees");
 const excel = require("exceljs");
 const axios = require("axios");
+const pgTopg = require('./../model/pgTopg');
 const lkgToukg = require('./../model/lkgToukg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
 const flatten = require("flat");
+
 
 exports.overview = async (req,res)=>
 {
@@ -55,6 +57,7 @@ exports.getAllStudentData= async(req,res)=>{
 
     data = await data;
 
+
     res.status(201).render('print-data',{
 students:data
     });
@@ -91,7 +94,7 @@ students:data
 exports.getOneStudentData= async(req,res)=>{
 
     const student = await Student.findOne({_id:req.params.id});
-// // console.log(student.name);
+// console.log(student);
     res.status(201).render('one-student-data',{
     student
     });
@@ -140,7 +143,7 @@ exports.feesToday = async(req,res)=>{
 dateNow+='Z';
     const data = await todayFees.find({date:dateNow});
 
-    console.log(data);
+    // console.log(data);
 
     res.status(200).render('feesToday',{
         data
@@ -214,7 +217,7 @@ exports.excelPrintData = async(req,res)=>{
         }
     ]
 
-    console.log(req.body);
+    // console.log(req.body);
 
     let data=Student.find().sort({year:1,class:1});
 
@@ -285,17 +288,16 @@ exports.displayFeeRecord = async(req,res)=>{
 
     const params = JSON.parse(req.query.data);
 
-    console.log(params);
+  
+    // axios.defaults.withCredentials = true;
+    // console.log(req.get('host'));
+    const data1 = await axios.post(`${req.hostname}:${req.get('host')}/api/v1/studentInfo/searchFeesDate`,{params},
+{
+    headers: {
+        'authorization': `Bearer ${req.cookies.jwt}`,
+    }});
 
-    console.log(req.get('host'));
-
-    const data1 = await axios({
-method:'POST',
-url:`${req.hostname}:${req.get('host')}/api/v1/studentInfo/searchFeesDate`,
-data:params
-    })
-
-    // console.log(data.data)
+  
 
 const render_data = data1.data.data;
 
@@ -316,7 +318,13 @@ res.status(201).render("sr-main");
 exports.srFind= async(req,res)=>{
 
     let data;
-
+    if(req.params.id1==="pg")
+    if(req.params.id3!=="NULL")
+data =  pgTopg.find({sr_no:req.params.id3});
+    else if(req.params.id2!=="NULL")
+    data = pgTopg.find({name:{$regex:"^"+req.params.id2}});
+    else
+    data =  pgTopg.find({});
     if(req.params.id1==="lkgtoukg")
     if(req.params.id3!=="NULL")
 data =  lkgToukg.find({sr_no:req.params.id3});
@@ -361,6 +369,9 @@ student = await oneToFive.findById(req.params.id2);
 
     if(req.params.id1==="6to8")
 student = await sixToeight.findById(req.params.id2);
+
+if(req.params.id1==="pg")
+student = await pgTopg.findById(req.params.id2);
 }
  res.status(201).render("get-one-sr",{
 student
@@ -373,11 +384,82 @@ exports.excelPrintSr = async(req,res)=>{
 
     const workbook = new excel.Workbook();
 
+    const worksheet0 = workbook.addWorksheet('PG');
     const worksheet1 = workbook.addWorksheet('LKG TO UKG');
     const worksheet2 = workbook.addWorksheet('1 TO 5');
     const worksheet3 = workbook.addWorksheet("6 TO 8");
 
+    worksheet0.columns=[
+        {
+            header:'Sr No.',key:'sr_no',width:10
+        },
+        {
+            header:'Name',key:'name',width:10
+        },
+        {
+            header:'DOB',key:'dob',width:10
+        },
+        {
+            header:'DOB in words',key:'dob_in_word',width:10
+        },
+        {
+            header:'Caste',key:'caste',width:10
+        },
+        {
+            header:'Religion',key:'religion',width:10
+        },
+        {
+            header:'Father\'s Name',key:'father_name',width:10
+        },
+        {
+            header:'Mother\'s Name',key:'mother_name',width:10
+        },
+        {
+            header:'PG-A',key:`lkg.admission`,width:10
+        },
+        {
+            header:'PG-P',key:`lkg.passing`,width:10
+        },
+        {
+            header:'Last Class',key:'last_class',width:10
+        },
+        {
+            header:'Leave Date',key:'leave_date',width:10
+        },
+        {
+            header:'Leave Reason',key:'leave_reason',width:10
+        },
+        {
+            header:'Remark',key:'remark',width:10
+        },
+        {
+            header:'Brother/Sister',key:'brother_sister',width:10
+        },
+    ]
+
+    const data0 = await pgTopg.find({}).sort({sr_no:1});
+
+    for(el of data0)
+   {
+    // await flatten(el);
+     el =JSON.stringify(el);
+    el =JSON.parse(el);
+     el = flatten(el);
+    //  console.log(el);
+        worksheet0.addRow(el);
+   
+};
+
+worksheet0.getRow(1).eachCell((el)=>{
+el.font={
+    bold:true
+}
+})
+
     worksheet1.columns=[
+        {
+            header:'Prev Sr No.',key:'prev_sr_no',width:10 
+        },
         {
             header:'Sr No.',key:'sr_no',width:10
         },
@@ -439,7 +521,7 @@ exports.excelPrintSr = async(req,res)=>{
      el =JSON.stringify(el);
     el =JSON.parse(el);
      el = flatten(el);
-     console.log(el);
+     // console.log(el);
         worksheet1.addRow(el);
 };
 
@@ -532,7 +614,7 @@ for(el of data2)
  el =JSON.stringify(el);
 el =JSON.parse(el);
  el = flatten(el);
- console.log(el);
+ // console.log(el);
     worksheet2.addRow(el);
 };
 
@@ -613,7 +695,7 @@ for(el of data3)
  el =JSON.stringify(el);
 el =JSON.parse(el);
  el = flatten(el);
- console.log(el);
+ // console.log(el);
     worksheet3.addRow(el);
 };
 
@@ -637,9 +719,9 @@ exports.feesUpdate=async(req,res)=>{
         let feeDetail = await fees.create();
     }
     else
-    feeDetail = data;
+    feeDetail = data[0];
 
-    console.log(data);
+    // console.log(data);
 
     
 
@@ -658,6 +740,9 @@ exports.srPrint = async (req,res)=>{
 
     let data =0;
 
+    if(req.params.id1==="PG")
+    data = await pgTopg.findById(req.params.id2);
+
     if(req.params.id1==="LKG TO UKG")
     data = await lkgToukg.findById(req.params.id2);
 
@@ -667,7 +752,7 @@ exports.srPrint = async (req,res)=>{
     if(req.params.id1==="6 TO 8")
     data = await sixToeight.findById(req.params.id2);
 
-    console.log(data);
+    // console.log(data);
 
     res.status(201).render("print-one-sr",{
         data

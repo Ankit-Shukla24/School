@@ -39,6 +39,11 @@ block content
                 input#student-sr-address(type="text" name="address" value=student.address)
                 label(for="occupation") Occupation
                 input#student-sr-occupation(type="text" name="occupation" value=student.occupation)
+                if(student.pg)
+                    label(for="pg_admission") PG Admission
+                    input#student-sr-pg_admission(type="text" name="pg_admission" value=student.pg.admission)
+                    label(for="pg_passing") PG Passing
+                    input#student-sr-pg_passing(type="text" name="pg_passing" value=student.pg.passing)
                 if(student.lkg)
                     label(for="lkg_admission") LKG Admission
                     input#student-sr-lkg_admission(type="text" name="lkg_admission" value=student.lkg.admission)
@@ -49,7 +54,7 @@ block content
                     input#student-sr-ukg_admission(type="text" name="ukg_admission" value=student.ukg.admission)
                     label(for="ukg_passing") UKG Passing
                     input#student-sr-ukg_passing(type="text" name="ukg_passing" value=student.ukg.passing)
-                -console.log(student.one)
+                -// console.log(student.one)
                 if(student.one)
                     label(for="one_admission") 1st Admission
                     input#student-sr-one_admission(type="text" name="one_admission" value=student.one.admission)
@@ -119,7 +124,10 @@ block content
         .margin5
             a(href=`/api/v1/studentInfo/sr-delete/${student.sr}/${student.id}`)
                     button.option--btn.option--btn--small Delete Record
-            if(student.sr==='1 TO 5')    
+            if(student.sr==='LKG TO UKG')    
+                a(href=`/studentInfo/sr-find/pg/NULL/${student.prev_sr_no}`)
+                    button.option--btn.option--btn--small Prev Sr
+            else if(student.sr==='1 TO 5')    
                 a(href=`/studentInfo/sr-find/lkgtoukg/NULL/${student.prev_sr_no}`)
                     button.option--btn.option--btn--small Prev Sr
             else if(student.sr==='6 TO 8')
@@ -134,6 +142,7 @@ block content
                 p.center Add Student Data
                 label(for="sr") Sr
                 select#student-sr.student-sr-options(name="sr")
+                    option(value="PG") PG
                     option(value="LKG TO UKG") LKG TO UKG
                     option(value="1 TO 5") 1 TO 5
                     option(value="6 TO 8") 6 TO 8
@@ -158,15 +167,21 @@ block content
                 label(for="occupation") Occupation
                 input#student-sr-occupation(type="text" name="occupation" placeholder="Enter Occupation")
                 
-                label.pre_primary(for="lkg_admission") LKG Admission
-                input.pre_primary#student-sr-lkg_admission(type="text" name="lkg_admission" placeholder="LKG Admission date")
-                label.pre_primary(for="lkg_passing") LKG Passing
-                input.pre_primary#student-sr-lkg_passing(type="text" name="lkg_passing" placeholder="LKG Admission date")
+               
+                label.play_group(for="pg_admission") PG Admission
+                input.play_group#student-sr-pg_admission(type="text" name="pg_admission" placeholder="PG Admission date")
+                label.play_group(for="pg_passing") PG Passing
+                input.play_group#student-sr-pg_passing(type="text" name="pg_passing" placeholder="PG Admission date")
                 
-                label.pre_primary(for="ukg_admission") UKG Admission
-                input.pre_primary#student-sr-ukg_admission(type="text" name="ukg_admission" placeholder="UKG Admission date")
-                label.pre_primary(for="ukg_passing") UKG Passing
-                input.pre_primary#student-sr-ukg_passing(type="text" name="ukg_passing" placeholder="UKG Admission date")
+                label.pre_primary.invisible(for="lkg_admission") LKG Admission
+                input.pre_primary.invisible#student-sr-lkg_admission(type="text" name="lkg_admission" placeholder="LKG Admission date")
+                label.pre_primary.invisible(for="lkg_passing") LKG Passing
+                input.pre_primary.invisible#student-sr-lkg_passing(type="text" name="lkg_passing" placeholder="LKG Admission date")
+                
+                label.pre_primary.invisible(for="ukg_admission") UKG Admission
+                input.pre_primary.invisible#student-sr-ukg_admission(type="text" name="ukg_admission" placeholder="UKG Admission date")
+                label.pre_primary.invisible(for="ukg_passing") UKG Passing
+                input.pre_primary.invisible#student-sr-ukg_passing(type="text" name="ukg_passing" placeholder="UKG Admission date")
         
                 label.primary.invisible(for="one_admission") 1st Admission
                 input.primary.invisible#student-sr-one_admission(type="text" name="one_admission" placeholder="1st Admission date")

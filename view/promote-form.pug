@@ -2,19 +2,32 @@ extend base
 
 block content
     .form-div
+        button.option--btn#promote-student-fee Promote Fees Section
         form.get-form#promote-form
-            p Enter the required data
+            p For SR Section Update
             label(for="promote-class") Enter S.R
             select#promote-sr(name="promote-sr")
+                option(value="PG") PG 
                 option(value="LKG TO UKG") LKG TO UKG
                 option(value="1 TO 5") 1 TO 5
                 option(value="6 TO 8") 6 TO 8
             label(for="promote-class") Enter Class
-            input#promote-class(type="text" name="promote-class" value="" placeholder="Enter class in selected S.R ange")
+            select#promote-class(name="promote-class")
+                option.play_group(value="pg") PG
+                option.pre_primary.invisible(value="lkg" ) LKG
+                option.pre_primary.invisible(value="ukg") UKG
+                option.primary.invisible(value="one" ) 1st
+                option.primary.invisible(value="two") 2nd
+                option.primary.invisible(value="three") 3rd
+                option.primary.invisible(value="four") 4th
+                option.primary.invisible(value="five") 5th
+                option.upper_primary.invisible(value="six" ) 6th
+                option.upper_primary.invisible(value="seven") 7th
+                option.upper_primary.invisible(value="eight") 8th
             label(for="promote-passing-date") Enter Passing Date
             input#promote-passing-date(type="text" name="promote-passing-date" value="" placeholder="Enter passing date")
             label(for="promote-next-admission-date") Enter Next Admission Date
             input#promote-next-admission-date(type="text" name="promote-next-admission-date" value="" placeholder="Enter next admission date")
-            label.invisible.promote-next(for="promote-passing-message") Enter Passing Message
-            input.invisible.promote-next#promote-passing-message(type="text" name="promote-passing-message" value="" placeholder="Enter message in case of classes UKG,5TH & 8th ")
+            label.promote-next-message(for="promote-passing-message") Enter Passing Message
+            input.promote-next-message#promote-passing-message(type="text" name="promote-passing-message" value="" placeholder="Enter message in case of classes PG,UKG,5TH & 8th ")
             input#submit-promote-form(type="submit" name="submit" value="Submit")

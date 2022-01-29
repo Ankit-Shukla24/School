@@ -24,7 +24,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
         const vals = row.values;
 
-        console.log(vals);
+        // console.log(vals);
 
         obj["prev_sr_no"] = vals[1];
         obj["sr_no"]=vals[2];
@@ -37,6 +37,15 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         if(vals[5])
         {obj["caste"] = vals[5].split(" ")[0];
         obj["religion"] = vals[5].split(" ")[1];}
+
+        if(!obj["religion"])
+        {
+            obj["religion"]= vals[5].split(" ")[0];
+            obj["caste"]="";
+        }
+
+        console.log(obj);
+
         obj["father_name"]= vals[6];
         obj["mother_name"] = vals[7];
         obj["address"] = vals[8];
@@ -48,7 +57,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         {passobj["admission"] = (vals[10].split(" ")[0]);
         passobj["passing"] = (vals[10].split(" ")[1]);
         
-        console.log((vals[10].split(" ")[1]));
+        // console.log((vals[10].split(" ")[1]));
 
 
         obj["lkg"] = lodash.cloneDeep(passobj);
@@ -69,11 +78,11 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         obj["remark"]= vals[14];
         obj["brother_sister"] = vals[15];
 
-        console.log(obj);
+        // console.log(obj);
 
         const data =await lkgToukg.create(obj);
 
-    console.log(data);
+    // // console.log(data);
 
     });
 
@@ -83,7 +92,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
         const vals = row.values;
 
-        console.log(vals);
+        // console.log(vals);
 
         obj["prev_sr_no"] = vals[1];
         obj["sr_no"]=vals[2];
@@ -102,11 +111,17 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         obj["address"] = vals[8];
         obj["occupation"] = vals[9];
         
+        if(!obj["religion"])
+        {
+            obj["religion"]= vals[5].split(" ")[0];
+            obj["caste"]="";
+        }
+
         const passobj = new Object();
 
         if(vals[10])
        { 
-           console.log(typeof(vals[10]));
+           // console.log(typeof(vals[10]));
            passobj["admission"] = (vals[10].split(" ")[0]);
         passobj["passing"] = (vals[10].split(" ")[1]);
     
@@ -116,7 +131,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
        { passobj["admission"] =  vals[11].split(" ")[0];
         passobj["passing"] = vals[11].split(" ")[1];
         
-console.log(passobj);
+// console.log(passobj);
         obj["two"] = lodash.cloneDeep(passobj);}
         if(vals[12])
    {     passobj["admission"] = (vals[12].split(" ")[0]);
@@ -152,9 +167,9 @@ console.log(passobj);
 
         const ct = await oneToFive.count();
 
-        console.log(ct);
+        // console.log(ct);
 
-    console.log(data);
+    // console.log(data);
 
     });
 
@@ -164,7 +179,7 @@ console.log(passobj);
 
         const vals = row.values;
 
-        console.log(vals);
+        // console.log(vals);
 
         obj["prev_sr_no"] = vals[1];
         obj["sr_no"]=vals[2];
@@ -179,6 +194,14 @@ console.log(passobj);
         if(vals[5])
  {       obj["caste"] = vals[5].split(" ")[0];
         obj["religion"] = vals[5].split(" ")[1];}
+
+        if(!obj["religion"])
+        {
+            obj["religion"]= vals[5].split(" ")[0];
+            obj["caste"]="";
+        }
+
+
         obj["father_name"]= vals[6];
         obj["mother_name"] = vals[7];
         obj["address"] = vals[8];
@@ -212,7 +235,7 @@ console.log(passobj);
 
         const data =await sixToeight.create(obj);
 
-    console.log(data);
+    // console.log(data);
 
     });
 
@@ -223,7 +246,7 @@ console.log(passobj);
 
 //         const vals = row.values;
 
-//         console.log(vals);
+//         // console.log(vals);
 
 //         obj["prev_sr_no"] = vals[1];
 //         obj["sr_no"]=vals[2];
@@ -261,8 +284,9 @@ console.log(passobj);
 
 //         const data =await pg.create(obj);
 
-//     console.log(data);
+//     // console.log(data);
 
 //     });
+
 
 })
