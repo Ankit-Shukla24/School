@@ -1,5 +1,6 @@
 extend base
 
+
 block content
     if student    
         .form-div-data
@@ -15,95 +16,164 @@ block content
                     span.upload-pic-btn Upload Pic
                     input.upload-pic(type="file" name="pic" id="picUp" accept="image/*")
                 label.side-pic(for="sr") Sr
-                input.side-pic#student-sr(type="text" value=`${student.sr}` name="sr") 
+                -let sr_="";
+                -if(student.sr=="PG")
+                    -sr_ = "JUNIOR PRIMARY"
+                -if(student.sr=="LKG TO UKG")
+                    -sr_ = "PRE-PRIMARY"
+                -if(student.sr=="1 TO 5")
+                    -sr_ = "PRIMARY"
+                -if(student.sr=="6 TO 8")
+                    -sr_ = "UPPER-PRIMARY"
+                input.side-pic#student-sr(type="text" value=sr_ name="sr") 
                 label.side-pic(for="sr_no") Sr. No.
                 input.side-pic#student-sr_no(type="text" value=`${student.sr_no}` name="sr_no")
-                if(student.prev_sr_no)
-                    label.side-pic(for="prev_sr_no") Prev Sr. No.
-                    input.side-pic#student-prev_sr_no(type="text" name="prev_sr_no" value=`${student.prev_sr_no}`)
+                label.side-pic(for="prev_sr_no") Prev Sr. No.
+                input.side-pic#student-prev_sr_no(type="text" name="prev_sr_no" value=`${student.prev_sr_no}`)
                 label.side-pic(for="student") Student's name
                 input.side-pic#student-sr-name(type="text" name="student" value=`${student.name}`)
+                -const dob_ = student.dob?.toISOString().split('T')[0];
                 label.side-pic(for="dob") Date of birth
-                input.side-pic#student-sr-dob(type="Date" name="dob" value=student.dob)
-                label(for="dob_in_word") Date of birth(in words)
-                input.side-pic#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
-                label.side-pic(for="caste") Caste
-                input.side-pic#student-sr-caste(type="text" name="caste" value=student.caste)
-                label(for="religion") Religion
+                input.side-pic#student-sr-dob(type="Date" name="dob" value=dob_)
+                label(for="student-sr-dob_in_word") Date of birth(in words)
+                input.side-pic_pc#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
+                label(for="student-sr-class") Class
+                input#student-sr-class(type="text" name="class" value=student.class)
+                label(for="student-sr-date_of_admission") Date of admission
+                -const date_of_admission_= student.date_of_admission?.toISOString().split('T')[0];
+                input#student-sr-date_of_admission(type="Date" name="date_of_admission" value=date_of_admission_)
+                label(for="student-sr-sex") Sex
+                input#student-sr-sex(type="text" name="sex" value=student.sex)
+                label(for="caste") Caste
+                input#student-sr-caste(type="text" name="caste" value=student.caste)
+                label(for="student-sr-religion") Religion
                 input#student-sr-religion(type="text" name="religion" value=student.religion)
-                label(for="father") Father's name
-                input#student-sr-father(type="text" name="father" value=`${student.father_name}`)
-                label(for="mother") Mother's name
-                input#student-sr-mother(type="text" name="mother" value=`${student.mother_name}`)            
-                label(for="address") Address
-                input#student-sr-address(type="text" name="address" value=student.address)
-                label(for="occupation") Occupation
+                label(for="student-sr-nationality") Nationality
+                input#student-sr-nationality(type="text" name="nationality" value=student.nationality)
+                label(for="student-sr-category") Category
+                input#student-sr-category(type="text" name="category" value=student.category)
+                label(for="student-sr-father-name") Father's name
+                input#student-sr-father-name(type="text" name="father-name" value=`${student.father.name}`)
+                label(for="student-sr-mother-name") Mother's name
+                input#student-sr-mother-name(type="text" name="mother-name" value=`${student.mother.name}`)
+                label(for="student-sr-father-age") Father's age
+                input#student-sr-father-age(type="text" name="father-age" value=`${student.father.age}`)
+                label(for="student-sr-mother-age") Mother's age
+                input#student-sr-mother-age(type="text" name="mother-age" value=`${student.mother.age}`)  
+                label(for="student-sr-father-qualification") Father's Qualification
+                input#student-sr-father-qualification(type="text" name="father-qualification" value=`${student.father.qualification}`)
+                label(for="student-sr-mother-qualification") Mother's Qualification
+                input#student-sr-mother-qualification(type="text" name="mother-qualification" value=`${student.mother.qualification}`)   
+                label(for="student-sr-father-occupation") Father's Occupation
+                input#student-sr-father-occupation(type="text" name="father-occupation" value=`${student.father.occupation}`)
+                label(for="student-sr-mother-occupation") Mother's Occupation
+                input#student-sr-mother-occupation(type="text" name="mother-occupation" value=`${student.mother.occupation}`)                
+                label(for="student-sr-address-permanent") Permanent Address
+                input#student-sr-address-permanent(type="text" name="address-permanemt" value=student.address.permanent)
+                label(for="student-sr-address-local") Local Address
+                input#student-sr-address-local(type="text" name="address-local" value=student.address.local)
+                label(for="student-sr-address-work") Business/Office Address
+                input#student-sr-address-work(type="text" name="address-work" value=student.address.work)
+                label(for="student-sr-occupation") Occupation
                 input#student-sr-occupation(type="text" name="occupation" value=student.occupation)
                 if(student.pg)
-                    label(for="pg_admission") PG Admission
-                    input#student-sr-pg_admission(type="Date" name="pg_admission" value=student.pg.admission)
-                    label(for="pg_passing") PG Passing
-                    input#student-sr-pg_passing(type="Date" name="pg_passing" value=student.pg.passing)
+                    -const pg_admission= student.pg.admission?.toISOString().split('T')[0];
+                    -const pg_passing = student.pg.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-pg_admission") PG Admission
+                    input#student-sr-pg_admission(type="Date" name="pg_admission" value=pg_admission)
+                    label(for="student-sr-pg_passing") PG Passing
+                    input#student-sr-pg_passing(type="Date" name="pg_passing" value=pg_passing)
                 if(student.lkg)
-                    label(for="lkg_admission") LKG Admission
-                    input#student-sr-lkg_admission(type="Date" name="lkg_admission" value=student.lkg.admission)
-                    label(for="lkg_passing") LKG Passing
-                    input#student-sr-lkg_passing(type="Date" name="lkg_passing" value=student.lkg.passing)
+                    -const lkg_admission= student.lkg.admission?.toISOString().split('T')[0];
+                    -const lkg_passing = student.lkg.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-lkg_admission") LKG Admission
+                    input#student-sr-lkg_admission(type="Date" name="lkg_admission" value=lkg_admission)
+                    label(for="student-sr-lkg_passing") LKG Passing
+                    input#student-sr-lkg_passing(type="Date" name="lkg_passing" value=lkg_passing)
                 if(student.ukg)
-                    label(for="ukg_admission") UKG Admission
-                    input#student-sr-ukg_admission(type="Date" name="ukg_admission" value=student.ukg.admission)
-                    label(for="ukg_passing") UKG Passing
-                    input#student-sr-ukg_passing(type="Date" name="ukg_passing" value=student.ukg.passing)
+                    -const ukg_admission= student.ukg.admission?.toISOString().split('T')[0];
+                    -const ukg_passing = student.ukg.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-ukg_admission") UKG Admission
+                    input#student-sr-ukg_admission(type="Date" name="ukg_admission" value=ukg_admission)
+                    label(for="student-sr-ukg_passing") UKG Passing
+                    input#student-sr-ukg_passing(type="Date" name="ukg_passing" value=ukg_passing)
                 -// console.log(student.one)
                 if(student.one)
-                    label(for="one_admission") 1st Admission
-                    input#student-sr-one_admission(type="Date" name="one_admission" value=student.one.admission)
-                    label(for="one_passing") 1st Passing
-                    input#student-sr-one_passing(type="Date" name="one_passing" value=student.one.passing)
+                    -const one_admission= student.one.admission?.toISOString().split('T')[0];
+                    -const one_passing = student.one.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-one_admission") 1st Admission
+                    input#student-sr-one_admission(type="Date" name="one_admission" value=one_admission)
+                    label(for="student-sr-one_passing") 1st Passing
+                    input#student-sr-one_passing(type="Date" name="one_passing" value=one_passing)
                 if(student.two)
-                    label(for="two_admission") 2nd Admission
-                    input#student-sr-two_admission(type="Date" name="two_admission" value=student.two.admission)
-                    label(for="two_passing") 2nd Passing
-                    input#student-sr-two_passing(type="Date" name="two_passing" value=student.two.passing)
+                    -const two_admission= student.two.admission?.toISOString().split('T')[0];
+                    -const two_passing = student.two.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-two_admission") 2nd Admission
+                    input#student-sr-two_admission(type="Date" name="two_admission" value=two_admission)
+                    label(for="student-sr-two_passing") 2nd Passing
+                    input#student-sr-two_passing(type="Date" name="two_passing" value=one_passing)
                 if(student.three)
-                    label(for="three_admission") 3rd Admission
-                    input#student-sr-three_admission(type="Date" name="three_admission" value=student.three.admission)
-                    label(for="three_passing") 3rd Passing
-                    input#student-sr-three_passing(type="Date" name="three_passing" value=student.three.passing)
+                    -const three_admission= student.three.admission?.toISOString().split('T')[0];
+                    -const three_passing = student.three.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-three_admission") 3rd Admission
+                    input#student-sr-three_admission(type="Date" name="three_admission" value=three_admission)
+                    label(for="student-sr-three_passing") 3rd Passing
+                    input#student-sr-three_passing(type="Date" name="three_passing" value=three_passing)
                 if(student.four)
-                    label(for="four_admission") 4th Admission
-                    input#student-sr-four_admission(type="Date" name="four_admission" value=student.four.admission)
-                    label(for="four_passing") 4th Passing
-                    input#student-sr-four_passing(type="Date" name="four_passing" value=student.four.passing)
+                    -const four_admission= student.four.admission?.toISOString().split('T')[0];
+                    -const four_passing = student.four.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-four_admission") 4th Admission
+                    input#student-sr-four_admission(type="Date" name="four_admission" value=four_admission)
+                    label(for="student-sr-four_passing") 4th Passing
+                    input#student-sr-four_passing(type="Date" name="four_passing" value=four_passing)
                 if(student.five)
-                    label(for="five_admission") 5th Admission
-                    input#student-sr-five_admission(type="Date" name="five_admission" value=student.five.admission)
-                    label(for="five_passing") 5th Passing
-                    input#student-sr-five_passing(type="Date" name="five_passing" value=student.five.passing)
+                    -const five_admission= student.five.admission?.toISOString().split('T')[0];
+                    -const five_passing = student.five.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-five_admission") 5th Admission
+                    input#student-sr-five_admission(type="Date" name="five_admission" value=five_admission)
+                    label(for="student-sr-five_passing") 5th Passing
+                    input#student-sr-five_passing(type="Date" name="five_passing" value=five_passing)
                 if(student.six)
-                    label(for="six_admission") 6th Admission
-                    input#student-sr-six_admission(type="Date" name="six_admission" value=student.six.admission)
-                    label(for="six_passing") 6th Passing
-                    input#student-sr-six_passing(type="Date" name="six_passing" value=student.six.passing)
+                    -const six_admission= student.six.admission?.toISOString().split('T')[0];
+                    -const six_passing = student.six.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-six_admission") 6th Admission
+                    input#student-sr-six_admission(type="Date" name="six_admission" value=six_admission)
+                    label(for="student-sr-six_passing") 6th Passing
+                    input#student-sr-six_passing(type="Date" name="six_passing" value=six_passing)
                 if(student.seven)
-                    label(for="seven_admission") 7th Admission
-                    input#student-sr-seven_admission(type="Date" name="seven_admission" value=student.seven.admission)
-                    label(for="seven_passing") 7th Passing
-                    input#student-sr-seven_passing(type="Date" name="seven_passing" value=student.seven.passing)
+                    -const seven_admission= student.seven.admission?.toISOString().split('T')[0];
+                    -const seven_passing = student.seven.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-seven_admission") 7th Admission
+                    input#student-sr-seven_admission(type="Date" name="seven_admission" value=seven_admission)
+                    label(for="student-sr-seven_passing") 7th Passing
+                    input#student-sr-seven_passing(type="Date" name="seven_passing" value=seven_passing)
                 if(student.eight)
-                    label(for="eight_admission") 8th Admission
-                    input#student-sr-eight_admission(type="Date" name="eight_admission" value=student.eight.admission)
-                    label(for="eight_passing") 8th Passing
-                    input#student-sr-eight_passing(type="Date" name="eight_passing" value=student.eight.passing)
-                label(for="last_class") Last Class
-                input#student-sr-last_class(type="Date" name="last_class" value=student.last_class)
-                label(for="leave_date") Leave Date
-                input#student-sr-leave_date(type="Date" name="leave_date" value=student.leave_date)
-                label(for="remark") Remark
+                    -const eight_admission= student.eight.admission?.toISOString().split('T')[0];
+                    -const eight_passing = student.eight.passing?.toISOString().split('T')[0];
+                    label(for="student-sr-eight_admission") 8th Admission
+                    input#student-sr-eight_admission(type="Date" name="eight_admission" value=eight_admission)
+                    label(for="student-sr-eight_passing") 8th Passing
+                    input#student-sr-eight_passing(type="Date" name="eight_passing" value=eight_passing)
+                
+                -const last_class_ = student.last_class?.toISOString().split('T')[0];
+                label(for="student-sr-last_class") Last Class
+                input#student-sr-last_class(type="Date" name="last_class" value=last_class_)
+                label(for="student-sr-phone_no1") Phone NO.
+                input#student-sr-phone_no1(type="text" name="phone_no1" value=student.phone_number[0])
+                label(for="student-sr-phone_no2") Alternate Phone No.
+                input#student-sr-phone_no2(type="text" name="phone_no2" value=student.phone_number[1])
+                label(for="student-sr-whatsapp_no") Whatsapp Phone No.
+                input#student-sr-whatsapp_no(type="text" name="whatsapp_no" value=student.whatsapp_number)
+                -const leave_date_ = student.leave_date?.toISOString().split('T')[0];
+                label(for="student-sr-leave_date") Leave Date
+                input#student-sr-leave_date(type="Date" name="leave_date" value=leave_date_)
+                label(for="student-sr-remark") Remark
                 input#student-sr-remark(type="text" name="remark" value=student.remark)
-                label(for="leave_reason") Leave Reason
+                label(for="student-sr-leave_reason") Leave Reason
                 input#student-sr-leave_reason(type="text" name="leave_reason" value=student.leave_reason)
-                label(for="brother_sister") Brother/Sister
+                label(for="student-sr-last_school") Last School
+                input#student-sr-last_school(type="text" name="last_school" value=student.last_school)
+                label(for="student-sr-brother_sister") Brother/Sister
                 input#student-sr-brother_sister(type="text" name="brother_sister" value=student.brother_sister)
                 input#submit-sr(type="submit" value ="Submit")    
             .doc-palette
@@ -117,7 +187,7 @@ block content
                         button.del-doc(id=docs.doc_id name=docs.name) Delete  
             form.get-form#document-upload-form.left
                 p.center Upload Documents
-                label(for="upload-desc") Description
+                label(for="student-sr-upload-desc") Description
                 input#upload-desc(type="text" placeholder="Enter description")
                 input#upload-doc(type="file" accept="*" name="docs") 
                 input(type="submit" value="Upload Document" name="submit")
@@ -133,41 +203,66 @@ block content
             else if(student.sr==='6 TO 8')
                 a(href=`/studentInfo/sr-find/1to5/NULL/${student.prev_sr_no}`)
                     button.option--btn.option--btn--small Prev Sr 
-            a(href=`/studentInfo/get-one/false/false/${student.name}/${student.father_name}`)
+            a(href=`/studentInfo/get-one/false/false/${student.name}/${student.father.name}`)
                 button.option--btn.option--btn--small Get Fee Record
         span#student-sr-id= student.id
     else
         .form-div-data 
             form#get-student-sr-data.get-form.left.sr-add
                 p.center Add Student Data
-                label(for="sr") Sr
+                label(for="student-sr-sr") Sr
                 select#student-sr.student-sr-options(name="sr")
                     option(value="PG") PG
                     option(value="LKG TO UKG") LKG TO UKG
                     option(value="1 TO 5") 1 TO 5
                     option(value="6 TO 8") 6 TO 8
-                label(for="prev_sr_no") Prev Sr. No.
+                label(for="student-sr-prev_sr_no") Prev Sr. No.
                 input#student-prev_sr_no(type="text" name="prev_sr_no" value=NULL placeholder="Enter prev Sr No")
-                label(for="student") Student's name
+                label(for="student-sr-student") Student's name
                 input#student-sr-name(type="text" name="student" placeholder="Enter the name")
-                label(for="dob") Date of birth
+                label(for="student-sr-dob") Date of birth
                 input#student-sr-dob(type="Date" name="dob" placeholder="Enter DOB")
-                label(for="dob_in_word") Date of birth(in words)
+                label(for="student-sr-dob_in_word") Date of birth(in words)
                 input#student-sr-dob_in_word(type="text" name="dob_in_word" placeholder="Enter DOB in words")
-                label(for="caste") Caste
+                label(for="student-sr-class") Class
+                input#student-sr-class(type="text" name="class" placeholder="Enter Class of admission")
+                label(for="student-sr-date_of_admission") Date of admission
+                input#student-sr-date_of_admission(type="Date" name="date_of_admission" placeholder="Enter Date of admission")
+                label(for="student-sr-sex") Sex
+                input#student-sr-sex(type="text" name="sex" placeholder="Enter student's sex")
+                label(for="student-sr-caste") Caste
                 input#student-sr-caste(type="text" name="caste" placeholder="Enter Caste")
-                label(for="religion") Religion
+                label(for="student-sr-religion") Religion
                 input#student-sr-religion(type="text" name="religion" placeholder="Enter Religion")
-                label(for="father") Father's name
-                input#student-sr-father(type="text" name="father" placeholder="Enter Father's Name")
-                label(for="mother") Mother's name
-                input#student-sr-mother(type="text" name="mother" placeholder="Enter Mother's Name")            
-                label(for="address") Address
-                input#student-sr-address(type="text" name="address" placeholder="Enter Address")
-                label(for="occupation") Occupation
+                label(for="student-sr-nationality") Nationality
+                input#student-sr-nationality(type="text" name="nationality" placeholder="Enter Nationality")
+                label(for="student-sr-category") Category
+                input#student-sr-category(type="text" name="category" placeholder="Enter Category")
+                label(for="student-sr-father-name") Father's name
+                input#student-sr-father-name(type="text" name="father-name" placeholder="Enter Father's Name")
+                label(for="student-sr-mother-name") Mother's name
+                input#student-sr-mother-name(type="text" name="mother-name" placeholder="Enter Mother's Name")
+                label(for="student-sr-father-age") Father's age
+                input#student-sr-father-age(type="text" name="father-age" placeholder="Enter Father's Age")
+                label(for="student-sr-mother-age") Mother's age
+                input#student-sr-mother-age(type="text" name="mother-age" placeholder="Enter Mothers's Age")  
+                label(for="student-sr-father-Qualification") Father's Qualification
+                input#student-sr-father-qualification(type="text" name="father-qualification" placeholder="Enter Father Qualification")
+                label(for="student-sr-mother-qualification") Mother's Qualification
+                input#student-sr-mother-qualification(type="text" name="mother-qualification" placeholder="Enter Mother's Qualification")   
+                label(for="student-sr-father-occupation") Father's Occupation
+                input#student-sr-father-occupation(type="text" name="father-occupation" placeholder="Enter Father's Occupation")
+                label(for="student-sr-mother-occupation") Mother's Occupation
+                input#student-sr-mother-occupation(type="text" name="mother-occupation" placeholder="Enter Mother's Occupation")                
+                label(for="student-sr-address-permanent") Permanent Address
+                input#student-sr-address-permanent(type="text" name="address-permanemt" placeholder="Enter Permanent Address")
+                label(for="student-sr-address-local") Local Address
+                input#student-sr-address-local(type="text" name="address-local" placeholder="Enter Local Address")
+                label(for="student-sr-address-work") Business/Office Address
+                input#student-sr-address-work(type="text" name="address-work" placeholder="Enter Business/Office address")
+                label(for="student-sr-occupation") Occupation
                 input#student-sr-occupation(type="text" name="occupation" placeholder="Enter Occupation")
                 
-               
                 label.play_group(for="pg_admission") PG Admission
                 input.play_group#student-sr-pg_admission(type="Date" name="pg_admission" placeholder="PG Admission date")
                 label.play_group(for="pg_passing") PG Passing
@@ -222,14 +317,22 @@ block content
                 input.upper_primary.invisible#student-sr-eight_admission(type="Date" name="eight_admission" placeholder="8th Admission date")
                 label.upper_primary.invisible(for="eight_passing") 8th Passing
                 input.upper_primary.invisible#student-sr-eight_passing(type="Date" name="eight_passing" placeholder="8th Passing date")
-                label(for="last_class") Last Class
+                label(for="student-sr-phone_no1") Phone NO.
+                input#student-sr-phone_no1(type="text" name="phone_no1" placeholder="Enter Phone Number")
+                label(for="student-sr-phone_no2") Alternate Phone No.
+                input#student-sr-phone_no2(type="text" name="phone_no2" placeholder="Enter Alternate Phone Number")
+                label(for="student-sr-whatsapp_no") Whatsapp Phone No.
+                input#student-sr-whatsapp_no(type="text" name="whatsapp_no" placeholder="Enter Whatsapp Number")
+                label(for="student-sr-last_class") Last Class
                 input#student-sr-last_class(type="Date" name="last_class" placeholder="Last class date")
-                label(for="leave_date") Leave Date
+                label(for="student-sr-leave_date") Leave Date
                 input#student-sr-leave_date(type="Date" name="leave_date" placeholder="Leave class date")
-                label(for="leave_reason") Leave Reason
+                label(for="student-sr-leave_reason") Leave Reason
                 input#student-sr-leave_reason(type="text" name="leave_reason" placeholder="Leave class reason")
-                label(for="remark") Remark
+                label(for="student-sr-remark") Remark
                 input#student-sr-remark(type="text" name="remark" placeholder="Last class remark")
-                label(for="brother_sister") Brother/Sister
+                label(for="student-sr-last_school") Last School
+                input#student-sr-last_school(type="text" name="last_school" placeholder="Enter Last School")
+                label(for="student-sr-brother_sister") Brother/Sister
                 input#student-sr-brother_sister(type="text" name="brother_sister" placeholder="Brother/Sister")
                 input#submit-sr(type="submit" value ="Submit")    

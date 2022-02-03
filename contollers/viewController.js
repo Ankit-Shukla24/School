@@ -10,7 +10,7 @@ const lkgToukg = require('./../model/lkgToukg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
 const flatten = require("flat");
-
+const AppError=require("./../public/utils/appError");
 
 exports.overview = async (req,res)=>
 {
@@ -156,6 +156,30 @@ exports.login= (req,res)=>{
 
 exports.excelPrintData = async(req,res)=>{
 
+    const header_obj ={
+
+        year:"Session",
+        class:"Class",
+        roll_no:"Roll No.",
+        name:"Name",
+        father_name:"Father\'s Name",
+        date_of_birth:"D.O.B",
+        april:"April",
+        may:"May",
+        june:"June",
+        july:"Juy",
+        august:"August",
+        september:"September",
+        october:"October",
+        november:"November",
+        december:"December",
+        january:"January",
+        february:"February",
+        march:"March",
+    
+    
+    }
+
     const workbook = new excel.Workbook();
 
     const worksheet = workbook.addWorksheet('students');
@@ -174,7 +198,7 @@ exports.excelPrintData = async(req,res)=>{
             header:'Name',key:'name',width:10
         },
         {
-            header:'Father Name',key:'father_name',width:10
+            header:'Father\'s Name',key:'father_name',width:10
         },
         {
             header:'D.O.B',key:'date_of_birth',width:10
@@ -249,11 +273,22 @@ exports.excelPrintData = async(req,res)=>{
     {worksheet.spliceColumns(7-k,12);
     k++}
 
+    let counter =0;
 
     data.forEach((el)=>
    {
+       counter++;
         worksheet.addRow(el);
-});
+
+        if(counter%10===0)
+        {
+            worksheet.addRow(header_obj).eachCell((el)=>{
+                el.font={
+                    bold:true
+                }
+                });
+        }
+    });
 
 worksheet.getRow(1).eachCell((el)=>{
 el.font={
@@ -315,8 +350,12 @@ res.status(201).render("sr-main");
 
 }
 
-exports.srFind= async(req,res)=>{
+exports.srFind= async(req,res,next)=>{
 
+    if(req.params.id3==="null")
+    {return next(new AppError("Invalid Sr No."))
+   
+}
     let data;
     if(req.params.id1==="pg")
     if(req.params.id3!=="NULL")
@@ -372,7 +411,10 @@ student = await sixToeight.findById(req.params.id2);
 
 if(req.params.id1==="pg")
 student = await pgTopg.findById(req.params.id2);
+
 }
+
+// console.log(student);
  res.status(201).render("get-one-sr",{
 student
     })
@@ -383,6 +425,48 @@ student
 exports.excelPrintSr = async(req,res)=>{
 
     const workbook = new excel.Workbook();
+
+    const obj_header =
+    {
+        sr_no:"Sr No.",
+        name:"Name",
+        prev_sr_no:"Prev Sr. No.",
+        dob:"DOB",
+        dob_in_word:"DOB in words",
+        caste:"Caste",
+        religion:"Religion",
+        "address.permanent":"Address",
+        occupation:"Occupation",
+        "father.name":"Father\'s Name",
+        "mother.name":"Mother\'s Name",
+        "pg.admission":"PG-A",
+        "pg.passing":"PG-P",
+        "lkg.admission":"LKG-A",
+        "lkg.passing":"LKG-P",
+        "ukg.admission":"UKG-A",
+        "ukg.passing":"UKG-P",
+        "one.admission":"1-A",
+        "one.passing":"1-P",
+        "two.admission":"2-A",
+        "two.passing":"2-P",
+        "three.admission":"3-A",
+        "three.passing":"3-P",
+        "four.admission":"4-A",
+        "four.passing":"4-P",
+        "five.admission":"5-A",
+        "five.passing":"5-P",
+        "six.admission":"6-A",
+        "six.passing":"6-P",
+        "seven.admission":"7-A",
+        "seven.passing":"7-P",
+        "eight.admission":"8-A",
+        "eight.passing":"8-P",
+        last_class:"Last Class",
+        leave_date:"Leave Date",
+        remark:"Remark",
+        leave_reason:"Leave Reason",
+        brother_sister:"Brother/Sister"
+    } 
 
     const worksheet0 = workbook.addWorksheet('PG');
     const worksheet1 = workbook.addWorksheet('LKG TO UKG');
@@ -409,16 +493,22 @@ exports.excelPrintSr = async(req,res)=>{
             header:'Religion',key:'religion',width:10
         },
         {
-            header:'Father\'s Name',key:'father_name',width:10
+            header:'Address',key:'address.permanent',width:10
         },
         {
-            header:'Mother\'s Name',key:'mother_name',width:10
+            header:'Occupation',key:'occupation',width:10
         },
         {
-            header:'PG-A',key:`lkg.admission`,width:10
+            header:'Father\'s Name',key:'father.name',width:10
         },
         {
-            header:'PG-P',key:`lkg.passing`,width:10
+            header:'Mother\'s Name',key:'mother.name',width:10
+        },
+        {
+            header:'PG-A',key:`pg.admission`,width:10
+        },
+        {
+            header:'PG-P',key:`pg.passing`,width:10
         },
         {
             header:'Last Class',key:'last_class',width:10
@@ -439,15 +529,25 @@ exports.excelPrintSr = async(req,res)=>{
 
     const data0 = await pgTopg.find({}).sort({sr_no:1});
 
+    let counter =0;
+
     for(el of data0)
    {
+       counter++;
     // await flatten(el);
      el =JSON.stringify(el);
     el =JSON.parse(el);
      el = flatten(el);
     //  console.log(el);
         worksheet0.addRow(el);
-   
+   if(counter%6==0)
+   {
+    worksheet0.addRow(obj_header).eachCell((el)=>{
+        el.font={
+            bold:true
+        }
+        });
+   }
 };
 
 worksheet0.getRow(1).eachCell((el)=>{
@@ -458,10 +558,10 @@ el.font={
 
     worksheet1.columns=[
         {
-            header:'Prev Sr No.',key:'prev_sr_no',width:10 
+            header:'Prev Sr No.',key:'prev_sr_no',width:5 
         },
         {
-            header:'Sr No.',key:'sr_no',width:10
+            header:'Sr No.',key:'sr_no',width:5
         },
         {
             header:'Name',key:'name',width:10
@@ -479,10 +579,16 @@ el.font={
             header:'Religion',key:'religion',width:10
         },
         {
-            header:'Father\'s Name',key:'father_name',width:10
+            header:'Address',key:'address.permanent',width:10
         },
         {
-            header:'Mother\'s Name',key:'mother_name',width:10
+            header:'Occupation',key:'occupation',width:10
+        },
+        {
+            header:'Father\'s Name',key:'father.name',width:10
+        },
+        {
+            header:'Mother\'s Name',key:'mother.name',width:10
         },
         {
             header:'LKG-A',key:`lkg.admission`,width:10
@@ -515,14 +621,25 @@ el.font={
 
     const data = await lkgToukg.find({}).sort({sr_no:1});
 
+    counter=0;
+
     for(el of data)
    {
+       counter++
     // await flatten(el);
      el =JSON.stringify(el);
     el =JSON.parse(el);
      el = flatten(el);
      // console.log(el);
         worksheet1.addRow(el);
+        if(counter%6==0)
+        {
+         worksheet1.addRow(obj_header).eachCell((el)=>{
+             el.font={
+                 bold:true
+             }
+             });
+        }
 };
 
 worksheet1.getRow(1).eachCell((el)=>{
@@ -533,10 +650,10 @@ el.font={
 
 worksheet2.columns=[
     {
-        header:'Prev Sr No.',key:'prev_sr_no',width:10 
+        header:'Prev Sr No.',key:'prev_sr_no',width:5 
     },
     {
-        header:'Sr No.',key:'sr_no',width:10
+        header:'Sr No.',key:'sr_no',width:5
     },
     {
         header:'Name',key:'name',width:10
@@ -554,10 +671,16 @@ worksheet2.columns=[
         header:'Religion',key:'religion',width:10
     },
     {
-        header:'Father\'s Name',key:'father_name',width:10
+        header:'Occupation',key:'occupation',width:10
     },
     {
-        header:'Mother\'s Name',key:'mother_name',width:10
+        header:'Address',key:'address.permanent',width:10
+    },
+    {
+        header:'Father\'s Name',key:'father.name',width:10
+    },
+    {
+        header:'Mother\'s Name',key:'mother.name',width:10
     },
     {
         header:'1-A',key:`one.admission`,width:10
@@ -608,14 +731,25 @@ worksheet2.columns=[
 
 const data2 = await oneToFive.find({}).sort({sr_no:1});
 
+counter=0;
+
 for(el of data2)
 {
 // await flatten(el);
+counter++;
  el =JSON.stringify(el);
 el =JSON.parse(el);
  el = flatten(el);
  // console.log(el);
     worksheet2.addRow(el);
+    if(counter%6==0)
+    {
+     worksheet2.addRow(obj_header).eachCell((el)=>{
+         el.font={
+             bold:true
+         }
+         });
+    }
 };
 
 worksheet2.getRow(1).eachCell((el)=>{
@@ -626,10 +760,10 @@ bold:true
 
 worksheet3.columns=[
     {
-        header:'Prev Sr No.',key:'prev_sr_no',width:10 
+        header:'Prev Sr No.',key:'prev_sr_no',width:5 
     },
     {
-        header:'Sr No.',key:'sr_no',width:10
+        header:'Sr No.',key:'sr_no',width:5
     },
     {
         header:'Name',key:'name',width:10
@@ -647,10 +781,16 @@ worksheet3.columns=[
         header:'Religion',key:'religion',width:10
     },
     {
-        header:'Father\'s Name',key:'father_name',width:10
+        header:'Address',key:'address.permanent',width:10
     },
     {
-        header:'Mother\'s Name',key:'mother_name',width:10
+        header:'Occupation',key:'occupation',width:10
+    },
+    {
+        header:'Father\'s Name',key:'father.name',width:10
+    },
+    {
+        header:'Mother\'s Name',key:'mother.name',width:10
     },
     {
         header:'6-A',key:`six.admission`,width:10
@@ -688,15 +828,24 @@ worksheet3.columns=[
 ]
 
 const data3 = await sixToeight.find({}).sort({sr_no:1});
-
+counter=0;
 for(el of data3)
 {
+    counter++;
 // await flatten(el);
  el =JSON.stringify(el);
 el =JSON.parse(el);
  el = flatten(el);
  // console.log(el);
     worksheet3.addRow(el);
+    if(counter%6==0)
+    {
+     worksheet3.addRow(obj_header).eachCell((el)=>{
+         el.font={
+             bold:true
+         }
+         });
+    }
 };
 
 worksheet3.getRow(1).eachCell((el)=>{

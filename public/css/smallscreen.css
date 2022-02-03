@@ -257,3 +257,107 @@ transition: 0.3s ease-in-out;
     text-align: left;
     padding: 0.2rem;
 }
+
+.get-form>.side-pic_pc
+{
+    width: 100% !important;
+}
+
+.sr-print-LKGTOUKG
+{
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "sex sex class class"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "religion religion caste caste"
+    "nationality nationality category category"
+    "parents parents parents parents"
+    " address address address address" 
+    "phone_number1 phone_number1 occupation occupation"
+    "phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school  last-school"
+    "date-of-admission date-of-admission  date-of-admission date-of-admission"
+     "lkg lkg lkg lkg"
+     "ukg ukg ukg ukg "
+    "last-class last-class leave-date leave-date"
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 0rem;
+}
+
+.sr-print-1TO5
+{
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "sex sex class class"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "religion religion caste caste"
+    "nationality nationality category category"
+    "parents parents parents parents"
+    " address address address address" 
+    "phone_number1 phone_number1 occupation occupation"
+    "phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school  last-school"
+    "date-of-admission date-of-admission  date-of-admission date-of-admission"
+     "one one one one"
+     "two two two two"
+     "three three three three"
+     "four four four four"
+     "five five five five"
+    "last-class last-class leave-date leave-date"
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 0rem;
+}
+
+.sr-print-6TO8
+{
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "sex sex class class"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "religion religion caste caste"
+    "nationality nationality category category"
+    "parents parents parents parents"
+    " address address address address" 
+    "phone_number1 phone_number1 occupation occupation"
+    "phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school  last-school"
+    "date-of-admission date-of-admission  date-of-admission date-of-admission"
+     "six six six six"
+"seven seven seven seven"
+     "eight eight eight eight"
+    "last-class last-class leave-date leave-date"
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 0rem;
+}
+
+.sr-print-PG
+{
+    grid-template-areas:
+    "sr prev-sr img img"
+    "name sr-no img img"
+    "dob dob img img"
+    "sex sex class class"
+    "dob-in-words dob-in-words dob-in-words dob-in-words"
+    "religion religion caste caste"
+    "nationality nationality category category"
+    "parents parents parents parents"
+    " address address address address" 
+    "phone_number1 phone_number1 occupation occupation"
+    "phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school  last-school"
+    "date-of-admission date-of-admission  date-of-admission date-of-admission"
+     "pg pg pg pg"
+    "last-class last-class leave-date leave-date"
+    "leave-reason leave-reason remark remark"
+    ;
+    margin: 0rem;
+}

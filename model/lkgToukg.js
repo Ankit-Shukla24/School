@@ -1,7 +1,9 @@
 
 const mongoose = require("mongoose");
 
-const obj_img ={}
+const obj_img ={};
+
+const obj_date ={};
 
 const img= new mongoose.Schema({
     img_link:{
@@ -36,15 +38,73 @@ const docs= new mongoose.Schema({
         default:""
     }
 });
+
 const passdatesschema = new mongoose.Schema({
 
     admission:{
-        type:Date
+        type:Date,
+        default:""
     },
     passing:{
-        type:Date
+        type:Date,
+        default:""
     }
 })
+
+const addressSchema = new mongoose.Schema({
+
+    permanent:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    },
+    local:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    } ,
+    work:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    }
+
+})
+
+const parentSchema = new mongoose.Schema({
+
+name:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+},
+date_of_admission:{
+    type:Date
+},
+age:{
+    type:Number,
+    default:""
+},
+qualification:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+},
+occupation:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+}
+
+})
+
+
 
 const lkgToukgschema = new mongoose.Schema({
 
@@ -52,7 +112,35 @@ const lkgToukgschema = new mongoose.Schema({
 type:String,
 default:'LKG TO UKG'
     },
-
+sex:{
+    type:String,
+    enum:["MALE","FEMALE",""],
+    default:""
+},
+nationality:{
+    type:String,
+trim:true,
+uppercase:true,
+default:""
+},
+last_school:{
+    type:String,
+    trim:true,
+    uppercase:true,
+    default:""
+},
+category:{
+    type:String,
+    trim:true,
+    uppercase:true,
+    default:""
+},
+class:{
+    type:String,
+trim:true,
+uppercase:true,
+default:""
+},
     image:{
         type:img,
         default:obj_img
@@ -90,23 +178,14 @@ default:""
         uppercase:true,
         default:""
     },
-    father_name:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+    father:{
+       type:parentSchema
     },
-    mother_name:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+    mother:{
+       type:parentSchema
     },
     address:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+  type:addressSchema
     },
     occupation:{
         type:String,
@@ -115,10 +194,12 @@ default:""
         uppercase:true,
     },
     lkg:{
-        type:passdatesschema
+        type:passdatesschema,
+        default:obj_date
     },
     ukg:{
-        type:passdatesschema
+        type:passdatesschema,
+        default:obj_date
     },
     last_class:{
         type:Date
@@ -144,7 +225,11 @@ default:""
         default:"",
         uppercase:true,
     },
-    documents:[docs]
+    documents:[docs],
+    phone_number:[String],
+    whatsapp_number:{
+        type:String
+    }
 })
 
 lkgToukgschema.index({sr_no:-1});

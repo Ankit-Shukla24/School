@@ -44,7 +44,7 @@ app.use('/api/v1/collectionInfo',collectionRouter);
 app.use('/api/v1/documentInfo',documentRouter);
 
 app.use((err, req, res, next) => {
-  // console.log(err.stack);
+  console.log(err.stack);
 
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';

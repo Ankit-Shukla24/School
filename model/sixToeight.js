@@ -19,7 +19,10 @@ const docs= new mongoose.Schema({
     }
 });
 
+const obj_date ={};
+
 const obj_img={};
+
 
 const img= new mongoose.Schema({
     img_link:{
@@ -40,12 +43,68 @@ const img= new mongoose.Schema({
 const passdatesschema = new mongoose.Schema({
 
     admission:{
-        type:Date
+        type:Date,
+        default:""
     },
     passing:{
-        type:Date
+        type:Date,
+        default:""
     }
 })
+
+const addressSchema = new mongoose.Schema({
+
+    permanent:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    },
+    local:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    },
+    work:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    }
+
+})
+
+const parentSchema = new mongoose.Schema({
+
+name:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+},
+date_of_admission:{
+    type:Date
+},
+age:{
+    type:Number,
+    default:""
+},
+qualification:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+},
+occupation:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+}
+
+})
+
 
 const sixToeightschema = new mongoose.Schema({
 
@@ -57,7 +116,29 @@ const sixToeightschema = new mongoose.Schema({
         type:img,
         default:obj_img
     },
-
+    sex:{
+        type:String,
+        enum:["MALE","FEMALE",""],
+        default:""
+    },
+    nationality:{
+        type:String,
+    trim:true,
+    uppercase:true,
+    default:""
+    },
+    class:{
+        type:String,
+    trim:true,
+    uppercase:true,
+    default:""
+    },
+    last_school:{
+        type:String,
+        trim:true,
+        uppercase:true,
+        default:""
+    },
     prev_sr_no:{
         type:Number,
         default:""
@@ -82,6 +163,12 @@ const sixToeightschema = new mongoose.Schema({
         uppercase:true,
         default:""
     },
+    category:{
+        type:String,
+        trim:true,
+        uppercase:true,
+        default:""
+    },
     caste:{
 type:String,
 trim:true,
@@ -94,23 +181,14 @@ default:""
         default:"",
         uppercase:true,
     },
-    father_name:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+    father:{
+     type:parentSchema
     },
-    mother_name:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+    mother:{
+     type:parentSchema
     },
     address:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+      type:addressSchema
     },
     occupation:{
         type:String,
@@ -118,13 +196,16 @@ default:""
         default:""
     },
     six:{
-        type:passdatesschema
+        type:passdatesschema,
+        default:obj_date
     },
     seven:{
-        type:passdatesschema
+        type:passdatesschema,
+        default:obj_date
     },
     eight:{
-        type:passdatesschema
+        type:passdatesschema,
+        default:obj_date
     },
     last_class:{
         type:Date
@@ -150,7 +231,11 @@ default:""
         default:"",
         uppercase:true,
     },
-    documents:[docs]
+    documents:[docs],
+    phone_number:[String],
+    whatsapp_number:{
+        type:String
+    }
 })
 
 sixToeightschema.index({sr_no:-1});

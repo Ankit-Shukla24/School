@@ -6,7 +6,7 @@
     --secondary-color:white;
     
 }
-.get-form>.side-pic
+.get-form>.side-pic,.get-form>.side-pic_pc
 {
     width: 25vw !important;
 }
@@ -651,15 +651,11 @@ cursor: pointer;
     grid-area: name;
 }
 
-.print-student-sr-father-name
+.print-student-sr-parents
 {
-    grid-area: father-name;
+    grid-area: parents;
 }
 
-.print-student-sr-mother-name
-{
-    grid-area: mother-name;
-}
 
 .print-student-sr-dob
 {
@@ -669,6 +665,51 @@ cursor: pointer;
 .print-student-sr-dob-in-words
 {
     grid-area: dob-in-words;
+}
+
+.print-student-sr-class
+{
+    grid-area: class;
+}
+
+.print-student-sr-date-of-admission
+{
+    grid-area: date-of-admission;
+}
+
+.print-student-sr-category
+{
+    grid-area: category;
+}
+
+.print-student-sr-nationality
+{
+grid-area:nationality;
+}
+
+.print-student-sr-phone_number1
+{
+grid-area:phone_number1;
+}
+
+.print-student-sr-phone_number2
+{
+grid-area:phone_number2;
+}
+
+.print-student-sr-whatsapp_number
+{
+grid-area:whatsapp_number;
+}
+
+.print-student-sr-sex
+{
+    grid-area:sex;
+}
+
+.print-student-sr-last_school
+{
+    grid-area: last-school;
 }
 
 .print-student-sr-address
@@ -780,17 +821,21 @@ cursor: pointer;
     display: grid;
     background-color: black;
     grid-template-areas:
-    "sr prev-sr img img"
-    "name sr-no img img"
-    "dob dob img img"
-    "dob-in-words dob-in-words dob-in-words dob-in-words"
-    "father-name father-name father-name father-name"
-    "mother-name mother-name mother-name mother-name"
-    "address address address address" 
-    "religion caste occupation occupation"
-    "lkg lkg ukg ukg"
-    "last-class last-class leave-date leave-date"
-    "leave-reason leave-reason remark remark"
+    "sr sr prev-sr sr-no img img"
+    "name name name class img img"
+    "dob dob sex sex img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words"
+    "nationality nationality religion religion caste caste"
+    "category category category occupation occupation occupation"
+    "parents parents parents parents parents parents"
+    "address address address address address address" 
+    "phone_number1 phone_number1 phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school last-school last-school last-school"
+    "date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission"
+    "lkg lkg lkg lkg lkg lkg"
+    "ukg ukg ukg ukg ukg ukg"
+    "last-class last-class last-class leave-date leave-date leave-date"
+    "leave-reason leave-reason leave-reason remark remark remark" 
     ;
     margin: 2rem;
     grid-gap: 2pxpx;
@@ -802,19 +847,24 @@ cursor: pointer;
     display: grid;
     background-color: black;
     grid-template-areas:
-    "sr prev-sr img img"
-    "name sr-no img img"
-    "dob dob img img"
-    "dob-in-words dob-in-words dob-in-words dob-in-words"
-    "father-name father-name father-name father-name"
-    "mother-name mother-name mother-name mother-name"
-    "address address address address" 
-    "religion caste occupation occupation"
-    "one one two two " 
-    "three three four four"
-    "five five last-class leave-date "
-    "leave-reason leave-reason remark remark"
-    
+    "sr sr prev-sr sr-no img img"
+    "name name name class img img"
+    "dob dob sex sex img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words"
+    "nationality nationality religion religion caste caste"
+    "category category category occupation occupation occupation"
+    "parents parents parents parents parents parents"
+    "address address address address address address" 
+    "phone_number1 phone_number1 phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school last-school last-school last-school"
+    "date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission"
+     "one one one one one one"
+     "two two two two two two"
+     "three three three three three three"
+     "four four four four four four"
+     "five five five five five five"
+    "last-class last-class last-class leave-date leave-date leave-date"
+    "leave-reason leave-reason leave-reason remark remark remark" 
     ;
     margin: 2rem;
     grid-gap: 2px;
@@ -826,17 +876,22 @@ cursor: pointer;
     display: grid;
     background-color: black;
     grid-template-areas:
-    "sr prev-sr img img"
-    "name sr-no img img"
-    "dob dob img img"
-    "dob-in-words dob-in-words dob-in-words dob-in-words"
-    "father-name father-name father-name father-name"
-    "mother-name mother-name mother-name mother-name"
-    "address address address address" 
-    "religion caste occupation occupation"
-    "six six seven seven"
-    "eight eight last-class leave-date "
-    "leave-reason leave-reason remark remark"
+    "sr sr prev-sr sr-no img img"
+    "name name name class img img"
+    "dob dob sex sex img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words"
+    "nationality nationality religion religion caste caste"
+    "category category category occupation occupation occupation"
+    "parents parents parents parents parents parents"
+    "address address address address address address" 
+    "phone_number1 phone_number1 phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school last-school last-school last-school"
+    "date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission"
+     "six six six six six six"
+     "seven seven seven seven seven seven"
+     "eight eight eight eight eight eight"
+    "last-class last-class last-class leave-date leave-date leave-date"
+    "leave-reason leave-reason leave-reason remark remark remark" 
     ;
     margin: 2rem;
     grid-gap: 2px;
@@ -848,21 +903,24 @@ cursor: pointer;
     display: grid;
     background-color: black;
     grid-template-areas:
-    "sr prev-sr img img"
-    "name sr-no img img"
-    "dob dob img img"
-    "dob-in-words dob-in-words dob-in-words dob-in-words"
-    "father-name father-name father-name father-name"
-    "mother-name mother-name mother-name mother-name"
-    "address address address address" 
-    "religion caste occupation occupation"
-    "pg pg pg pg"
-    "last-class last-class leave-date leave-date"
-    "leave-reason leave-reason remark remark"
+    "sr sr prev-sr sr-no img img"
+    "name name name class img img"
+    "dob dob sex sex img img"
+    "dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words dob-in-words"
+    "nationality nationality religion religion caste caste"
+    "category category category occupation occupation occupation"
+    "parents parents parents parents parents parents"
+    "address address address address address address" 
+    "phone_number1 phone_number1 phone_number2 phone_number2 whatsapp_number whatsapp_number"
+    "last-school last-school last-school last-school last-school last-school"
+    "date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission date-of-admission"
+     "pg pg pg pg pg pg"
+    "last-class last-class last-class leave-date leave-date leave-date"
+    "leave-reason leave-reason leave-reason remark remark remark" 
     ;
     margin: 2rem;
-    grid-gap: 2px;
-    border: 0.2rem solid black;
+    grid-gap: 0.5px;
+    border: 0.5px solid black;
 }
 
 .sr-print-grid>div
@@ -879,14 +937,16 @@ cursor: pointer;
 
 .sr-print-grid>div>table th,td,tr
 {
-    border:0.1rem solid black;
+    border:0.01rem solid black;
     text-align: center;
-    margin: 0.1rem;
 }
 
 .sr-print-grid>div>table
 {
     border-collapse: collapse;
+    border: 0;
+    width: 100%;
+    margin: 0;
 }
 
 .invisible
@@ -912,4 +972,8 @@ cursor: pointer;
     width: 50vw !important;
     text-align: left;
     padding: 0.2rem;
+}
+
+.class-pass th{
+    min-width: 30vw !important;
 }

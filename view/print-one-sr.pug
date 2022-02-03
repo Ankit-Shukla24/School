@@ -6,20 +6,29 @@ html
             meta(name="viewport" content='width=device-width,initial-scale=1.0')
             link(rel='stylesheet' href="/css/style.css")
             link(rel="shortcut icon" type="image/png" href="/img/favicon.png")
-            link(rel="stylesheet" media="screen and (max-width: 600px)" href="/css/smallscreen.css")
-            link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
-            <link href="https://fonts.googleapis.com/css2?family=Pushster&display=swap" rel="stylesheet">
+            link(rel="stylesheet" media="screen and (max-width:600px)" href="/css/smallscreen.css")
+            link(rel='stylesheet' href='https:&nbsp//fonts.googleapis.com/css?family=Lato:&nbsp300,300i,700')
+            <link href="https:&nbsp//fonts.googleapis.com/css2?family=Pushster&display=swap" rel="stylesheet">
             title VSEC || KANPUR 
 
 div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
     .print-student-sr
-        strong Sr. :
-        span= data.sr
+        strong Sr. :&nbsp
+        -let sr_="";
+        -if(data.sr=="PG")
+            -sr_ = "JUNIOR PRIMARY"
+        -if(data.sr=="LKG TO UKG")
+            -sr_ = "PRE-PRIMARY"
+        -if(data.sr=="1 TO 5")
+            -sr_ = "PRIMARY"
+        -if(data.sr=="6 TO 8")
+            -sr_ = "UPPER-PRIMARY"
+        span= sr_
     .print-student-sr-no
-        strong Sr. No. : 
+        strong Sr. No. :&nbsp 
         span= data.sr_no
     .print-student-prev-sr
-        strong Prev Sr. No.: 
+        strong Prev Sr. No.:&nbsp 
         if(data.prev_sr)
             span= data.prev_sr
         else 
@@ -30,163 +39,238 @@ div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
         else
             img(src="/img/no-pic.png")
     .print-student-sr-name
-        strong Name : 
+        strong Name :&nbsp 
         span= data.name
     .print-student-sr-dob
-        strong  Date of birth : 
-        span= data.dob
+        strong  Date of birth :&nbsp 
+        -const dob_= data.dob?.toLocaleString().split(',')[0];
+        span= dob_
     .print-student-sr-dob-in-words
-        strong  Date of birth(in words) :  
+        strong  Date of birth(in words) :&nbsp  
         span= data.dob_in_word
-    .print-student-sr-father-name
-        strong Father's Name :  
-        span= data.father_name 
-    .print-student-sr-mother-name
-        strong Mother's Name :  
-        span= data.mother_name
+    .print-student-sr-class
+        strong  Class :&nbsp   
+        span= data.class
+    .print-student-sr-sex
+        strong  Sex :&nbsp   
+        span= data.sex
+    .print-student-sr-parents
+        table
+            tr
+            th 
+            th Name
+            th Age 
+            th Qualification 
+            th Occupation
+            tr
+            th Father
+            td= data.father.name
+            td= data.father.age
+            td= data.father.qualification
+            td= data.father.occupation
+            tr
+            th Mother
+            td= data.mother.name
+            td= data.mother.age
+            td= data.mother.qualification
+            td= data.mother.occupation
     .print-student-sr-address
-        strong Address :  
-        span= data.address
+        strong Permanent Address :&nbsp  
+        span= data.address.permanent
+        hr
+        strong Local Address :&nbsp  
+        span= data.address.local
+        hr
+        strong Business/Office Address :&nbsp  
+        if(data.address.work)
+            span= data.address.work
     .print-student-sr-caste
-        strong Caste  :  
+        strong Caste  :&nbsp  
         span= data.caste
     .print-student-sr-religion
-        strong Religion :  
+        strong Religion :&nbsp  
         span= data.religion
+    .print-student-sr-category
+        strong Category :&nbsp  
+        span= data.category
+    .print-student-sr-nationality
+        strong Nationality :&nbsp  
+        span= data.nationality
     .print-student-sr-occupation
-        strong Occupation :  
+        strong Occupation :&nbsp  
         span= data.occupation
+    .print-student-sr-phone_number1
+        strong Phone No. :&nbsp  
+        span= data.phone_number[0]
+    .print-student-sr-phone_number2
+        strong Alternate Phone No. :&nbsp  
+        if(data.phone_number[1])
+            span= data.phone_number[1]
+    .print-student-sr-whatsapp_number
+        strong Whatsapp No. :&nbsp  
+        span= data.whatsapp_number
+    .print-student-sr-last_school
+        strong Last School :&nbsp  
+        span= data.last_school
+    .print-student-sr-date-of-admission
+        strong Date of admission :&nbsp  
+        -const date_of_admission_= data.date_of_admission?.toLocaleString().split(',')[0];
+        span= date_of_admission_
     if(data.pg)    
         .print-student-sr-pg
-            table
+            table.class-pass
                 tr
                 th(colspan="2") PG
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.pg.admission
-                td= data.pg.passing
+                -const pg_admission= data.pg.admission?.toLocaleString().split(',')[0];
+                -const pg_passing = data.pg.passing?.toLocaleString().split(',')[0];
+                td= pg_admission
+                td= pg_passing
     if(data.lkg)    
         .print-student-sr-lkg
-            table
+            table.class-pass
                 tr
                 th(colspan="2") LKG
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.lkg.admission
-                td= data.lkg.passing
+                -const lkg_admission= data.lkg.admission?.toLocaleString().split(',')[0];
+                -const lkg_passing = data.lkg.passing?.toLocaleString().split(',')[0];
+                td= lkg_admission
+                td= lkg_passing
     if(data.ukg)    
         .print-student-sr-ukg
-            table
+            table.class-pass
                 tr
                 th(colspan="2") UKG
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.ukg.admission
-                td= data.ukg.passing
+                -const ukg_admission= data.ukg.admission?.toLocaleString().split(',')[0];
+                -const ukg_passing = data.ukg.passing?.toLocaleString().split(',')[0];
+                td= ukg_admission
+                td= ukg_passing
     if(data.one)    
         .print-student-sr-one
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 1st
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.one.admission
-                td= data.one.passing
+                -const one_admission= data.one.admission?.toLocaleString().split(',')[0];
+                -const one_passing = data.one.passing?.toLocaleString().split(',')[0];
+                td= one_admission
+                td= one_passing
     if(data.two)    
         .print-student-sr-two
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 2nd
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.two.admission
-                td= data.two.passing
+                -const two_admission= data.two.admission?.toLocaleString().split(',')[0];
+                -const two_passing = data.two.passing?.toLocaleString().split(',')[0];
+                td= two_admission
+                td= two_passing
     if(data.three)    
         .print-student-sr-three
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 3rd
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.three.admission
-                td= data.three.passing
+                -const three_admission= data.three.admission?.toLocaleString().split(',')[0];
+                -const three_passing = data.three.passing?.toLocaleString().split(',')[0];
+                td= three_admission
+                td= three_passing
     if(data.four)    
         .print-student-sr-four
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 4th
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.four.admission
-                td= data.four.passing
+                -const four_admission= data.four.admission?.toLocaleString().split(',')[0];
+                -const four_passing = data.four.passing?.toLocaleString().split(',')[0];
+                td= four_admission
+                td= four_passing
     if(data.five)    
         .print-student-sr-five
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 5th
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.five.admission
-                td= data.five.passing
+                -const five_admission= data.five.admission?.toLocaleString().split(',')[0];
+                -const five_passing = data.five.passing?.toLocaleString().split(',')[0];
+                td= five_admission
+                td= five_passing
     if(data.six)    
         .print-student-sr-six
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 6th
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.six.admission
-                td= data.six.passing 
+                -const six_admission= data.six.admission?.toLocaleString().split(',')[0];
+                -const six_passing = data.six.passing?.toLocaleString().split(',')[0];
+                td= six_admission
+                td= six_passing 
     if(data.seven)    
         .print-student-sr-seven
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 7th
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.seven.admission
-                td= data.seven.passing
+                -const seven_admission= data.seven.admission?.toLocaleString().split(',')[0];
+                -const seven_passing = data.seven.passing?.toLocaleString().split(',')[0];
+                td= seven_admission
+                td= seven_passing
     if(data.eight)    
         .print-student-sr-eight
-            table
+            table.class-pass
                 tr
                 th(colspan="2") 8th
                 tr 
                 th Admission 
                 th Passing
                 tr
-                td= data.eight.admission
-                td= data.eight.passing
+                -const eight_admission= data.eight.admission?.toLocaleString().split(',')[0];
+                -const eight_passing = data.eight.passing?.toLocaleString().split(',')[0];
+                td= eight_admission
+                td= eight_passing
     .print-student-sr-last-class
-        strong Last Class : 
-        span= data.last_class
+        strong Last Class :&nbsp 
+        -const last_class_= data.last_class?.toLocaleString().split(',')[0];
+        span= data.last_class_
     .print-student-sr-leave-date
-        strong Leave Date : 
-        span= data.leave_date
+        strong Leave Date :&nbsp 
+        -const leave_date_= data.leave_date_?.toLocaleString().split(',')[0];
+        span= data.leave_date_
     .print-student-sr-leave-reason
-        strong Leave Reason : 
+        strong Leave Reason :&nbsp 
         span= data.leave_reason
     .print-student-sr-remark
-        strong Remark : 
+        strong Remark :&nbsp 
         span= data.remark
 script(src="/js/bundle.js")

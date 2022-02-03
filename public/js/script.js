@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import axios from 'axios';
 import { Console } from 'console';
 import lodash, { forEach, isInteger } from 'lodash'; 
+import moment from 'moment'; 
 import {promisify} from 'util';
 import documents from '../../model/documents';
 
@@ -622,12 +623,46 @@ if(document.querySelector("#get-student-sr-data"))
         objs["dob_in_word"] = document.querySelector("#student-sr-dob_in_word").value;
         objs["caste"] =  document.querySelector("#student-sr-caste").value;
         objs["religion"] =  document.querySelector("#student-sr-religion").value;
-        objs["father_name"] =  document.querySelector("#student-sr-father").value;
-        objs["mother_name"] =  document.querySelector("#student-sr-mother").value;
-        objs["address"] =  document.querySelector("#student-sr-address").value;
+        objs["nationality"] =  document.querySelector("#student-sr-nationality").value;
+        objs["category"] =  document.querySelector("#student-sr-category").value;
         objs["occupation"] =  document.querySelector("#student-sr-occupation").value;
-       
-        // console.log(objs);
+        objs["sex"] = document.querySelector("#student-sr-sex").value;
+        objs["last_school"] = document.querySelector("#student-sr-last_school").value;
+        objs["class"] = document.querySelector("#student-sr-class").value;
+        objs["date_of_admission"] = document.querySelector("#student-sr-date_of_admission").value;
+        
+        const father = new Object();
+        const mother = new Object();
+        const address = new Object();
+
+        father.name = document.querySelector("#student-sr-father-name").value;
+        mother.name = document.querySelector("#student-sr-mother-name").value;
+
+        father.age = document.querySelector("#student-sr-father-age").value;
+        mother.age = document.querySelector("#student-sr-mother-age").value;
+
+        if(objs["prev_sr_no"]==="null")
+        objs["prev_sr_no"]="";
+
+        if(father.age==="null")
+        father.age = "";
+
+        if(mother.age==="null")
+        mother.age="";
+
+        father.qualification = document.querySelector("#student-sr-father-qualification").value;
+        mother.qualification = document.querySelector("#student-sr-mother-qualification").value;
+
+        father.occupation = document.querySelector("#student-sr-father-occupation").value;
+        mother.occupation = document.querySelector("#student-sr-mother-occupation").value;
+
+        address.permanent = document.querySelector("#student-sr-address-permanent").value;
+        address.local = document.querySelector("#student-sr-address-local").value;
+        address.work =  document.querySelector("#student-sr-address-work").value;
+
+        objs["father"] = father;
+        objs["mother"] = mother;
+        objs["address"] = address;
 
         if(document.querySelector("#student-sr-pg_admission"))
         {
@@ -717,11 +752,22 @@ if(document.querySelector("#get-student-sr-data"))
             objs["eight"]=obj1;
         }
 
-        objs["last_class"]=document.querySelector("#student-sr-last_class").value;
-        objs["leave_date"]=document.querySelector("#student-sr-leave_date").value;
+        const phone_nos = [];
+
+        phone_nos.push(document.querySelector("#student-sr-phone_no1").value);
+        phone_nos.push(document.querySelector("#student-sr-phone_no2").value);
+
+        objs["phone_number"] = phone_nos;
+
+        objs["whatsapp_number"] = document.querySelector("#student-sr-whatsapp_no").value;
+
+        objs["last_class"]= document.querySelector("#student-sr-last_class").value;
+        objs["leave_date"]= document.querySelector("#student-sr-leave_date").value;
         objs["remark"]=document.querySelector("#student-sr-remark").value;
         objs["leave_reason"]=document.querySelector("#student-sr-leave_reason").value;
         objs["brother_sister"]=document.querySelector("#student-sr-brother_sister").value;
+
+        console.log(objs);
 
         if(document.querySelector("#get-student-sr-data").classList.contains("sr-update"))
        {
@@ -1142,11 +1188,9 @@ window.alert(err.response.data.message);
 
 if(document.querySelector("#del-sr-record"))
 {
-    document.querySelector("#del-sr-record").addEventListener("click",(e)=>{
+    document.querySelector("#del-sr-record").addEventListener("click",async (e)=>{
         
         e.preventDefault();
-
-        console.log( document.querySelector("#del-sr-record"));
 
         const randnum = Math.round(Math.random()*10000)+100000*1
 
@@ -1155,6 +1199,18 @@ if(document.querySelector("#del-sr-record"))
        if(enteredNum*1!==randnum*1)
       return  window.alert("Wrong Code");
 
+const data = await axios({
+    method:"DELETE",
+    url:`${document.querySelector("#del-sr-record").href}`
+})
+
+console.log(data);
+
+    window.location.href="/studentInfo/sr-main";
+
     })
 
 }
+
+
+

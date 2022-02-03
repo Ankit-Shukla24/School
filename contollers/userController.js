@@ -7,7 +7,7 @@ const AppError = require('./../public/utils/appError');
 exports.signup = async (req,res,next)=>
 {
     try{
-        console.log(req.body);
+        // console.log(req.body);
 const newUser =await User.create({
     username:req.body.username,
     email:req.body.email,

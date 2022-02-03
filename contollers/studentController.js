@@ -209,27 +209,43 @@ res.status(201).json({
 exports.updateSr= async (req,res,next)=>{
 
     let data;
+    let sr;
+    // console.log(req.params);
 
-    if(req.params.id1==="pg")
+    if(req.params.id1==="juniorprimary")
+{sr="pg"
+req.body.sr = "PG"}
+if(req.params.id1==="pre-primary")
+{sr="lkgtoukg"
+req.body.sr = "LKG TO UKG"}
+if(req.params.id1==="primary")
+{sr="1to5"
+req.body.sr = "1 TO 5"}
+if(req.params.id1==="senior-primary")
+{sr="6to8"
+req.body.sr = "6 TO 8"}
+    if(sr==="pg")
     data = await pgTopg.findByIdAndUpdate(req.params.id2,req.body,{
        new:true
    });
 
-    else if(req.params.id1==="lkgtoukg")
+    else if(sr==="lkgtoukg")
      data = await lkgToukg.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
 
-    else if(req.params.id1==="1to5")
+    else if(sr==="1to5")
      data = await oneToFive.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
 
-    else if(req.params.id1==="6to8")
+    else if(sr==="6to8")
      data = await sixToeight.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
   
+
+    // console.log(data);
 
     res.status(201).json({
         data
@@ -302,7 +318,9 @@ exports.srDelete=async(req,res,next)=>{
     if(req.params.id1==="6 TO 8")
     await sixToeight.findByIdAndDelete(req.params.id2);
 
-    next();
+    res.status(201).json({
+        status:"success"
+    });
 
 }
 

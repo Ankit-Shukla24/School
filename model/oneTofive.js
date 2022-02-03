@@ -20,7 +20,9 @@ const docs= new mongoose.Schema({
     }
 });
 
+
 const obj_img={};
+const obj_date ={};
 
 const img= new mongoose.Schema({
     img_link:{
@@ -40,11 +42,66 @@ const img= new mongoose.Schema({
 const passdatesschema = new mongoose.Schema({
 
     admission:{
-        type:Date
+        type:Date,
+        default:""
     },
     passing:{
-        type:Date
+        type:Date,
+        default:""
     }
+})
+
+const addressSchema = new mongoose.Schema({
+
+    permanent:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    },
+    local:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    },
+    work:{
+        type:String,
+        trim:true,
+        default:"",
+        uppercase:true,
+    }
+
+})
+
+const parentSchema = new mongoose.Schema({
+
+name:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+},
+date_of_admission:{
+    type:Date
+},
+age:{
+    type:Number,
+    default:""
+},
+qualification:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+},
+occupation:{
+    type:String,
+    trim:true,
+    default:"",
+    uppercase:true,
+}
+
 })
 
 const oneTofiveschema = new mongoose.Schema({
@@ -53,6 +110,39 @@ const oneTofiveschema = new mongoose.Schema({
         type:String,
         default:'1 TO 5',
         immutable:true
+    },
+    prev_sr_no:{
+        type:Number,
+        default:""
+    },
+    sex:{
+        type:String,
+        enum:["MALE","FEMALE",""],
+        default:""
+    },
+    nationality:{
+        type:String,
+    trim:true,
+    uppercase:true,
+    default:""
+    },
+    category:{
+        type:String,
+        trim:true,
+        uppercase:true,
+        default:""
+    },
+    class:{
+        type:String,
+    trim:true,
+    uppercase:true,
+    default:""
+    },
+    last_school:{
+        type:String,
+        trim:true,
+        uppercase:true,
+        default:""
     },
     image:{
         type:img,
@@ -94,23 +184,14 @@ uppercase:true,
         default:"",
         uppercase:true,
     },
-    father_name:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+    father:{
+      type:parentSchema
     },
-    mother_name:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+    mother:{
+      type:parentSchema
     },
     address:{
-        type:String,
-        trim:true,
-        default:"",
-        uppercase:true,
+     type:addressSchema
     },
     occupation:{
         type:String,
@@ -120,23 +201,28 @@ uppercase:true,
     },
    one:
    {
-       type:passdatesschema
+       type:passdatesschema,
+       default:obj_date
    },
    two:
    {
-    type:passdatesschema
+    type:passdatesschema,
+    default:obj_date
    },
    three:
    {
-    type:passdatesschema
+    type:passdatesschema,
+    default:obj_date
    },
    four:
    {
-    type:passdatesschema
+    type:passdatesschema,
+    default:obj_date
    },
    five:
    {
-    type:passdatesschema
+    type:passdatesschema,
+    default:obj_date
    },
     last_class:{
         type:Date
@@ -162,8 +248,11 @@ uppercase:true,
         default:"",
         uppercase:true,
     },
-    documents:[docs]
-
+    documents:[docs],
+    phone_number:[String],
+    whatsapp_number:{
+        type:String
+    }
 })
 
 oneTofiveschema.index({sr_no:-1});

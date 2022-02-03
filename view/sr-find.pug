@@ -15,7 +15,7 @@ block content
                 ul
                     li= `Sr No.: ${student.sr_no}`
                     li= `Student Name: ${student.name}`
-                    li= `Father Name: ${student.father_name}`
+                    li= `Father Name: ${student.father.name}`
                     +datechanger(student.dob)
                     -if (student.sr === "PG")
                         a(href=`/studentInfo/get-one-sr/pg/${student._id}`)
