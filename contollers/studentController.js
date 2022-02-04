@@ -212,16 +212,16 @@ exports.updateSr= async (req,res,next)=>{
     let sr;
     // console.log(req.params);
 
-    if(req.params.id1==="juniorprimary")
+    if(req.params.id1==="pg")
 {sr="pg"
 req.body.sr = "PG"}
-if(req.params.id1==="pre-primary")
+if(req.params.id1==="pre primary")
 {sr="lkgtoukg"
 req.body.sr = "LKG TO UKG"}
 if(req.params.id1==="primary")
 {sr="1to5"
 req.body.sr = "1 TO 5"}
-if(req.params.id1==="senior-primary")
+if(req.params.id1==="junior highschool")
 {sr="6to8"
 req.body.sr = "6 TO 8"}
     if(sr==="pg")

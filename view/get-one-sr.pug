@@ -18,13 +18,13 @@ block content
                 label.side-pic(for="sr") Sr
                 -let sr_="";
                 -if(student.sr=="PG")
-                    -sr_ = "JUNIOR PRIMARY"
+                    -sr_ = "PG"
                 -if(student.sr=="LKG TO UKG")
-                    -sr_ = "PRE-PRIMARY"
+                    -sr_ = "PRE PRIMARY"
                 -if(student.sr=="1 TO 5")
                     -sr_ = "PRIMARY"
                 -if(student.sr=="6 TO 8")
-                    -sr_ = "UPPER-PRIMARY"
+                    -sr_ = "JUNIOR HIGHSCHOOL"
                 input.side-pic#student-sr(type="text" value=sr_ name="sr") 
                 label.side-pic(for="sr_no") Sr. No.
                 input.side-pic#student-sr_no(type="text" value=`${student.sr_no}` name="sr_no")

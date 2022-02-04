@@ -16,13 +16,13 @@ div(class=`sr-print-${data.sr.split(" ").join("")} sr-print-grid`)
         strong Sr. :&nbsp
         -let sr_="";
         -if(data.sr=="PG")
-            -sr_ = "JUNIOR PRIMARY"
+            -sr_ = "PG"
         -if(data.sr=="LKG TO UKG")
-            -sr_ = "PRE-PRIMARY"
+            -sr_ = "PRE PRIMARY"
         -if(data.sr=="1 TO 5")
             -sr_ = "PRIMARY"
         -if(data.sr=="6 TO 8")
-            -sr_ = "UPPER-PRIMARY"
+            -sr_ = "JUNIOR HIGHSCHOOL"
         span= sr_
     .print-student-sr-no
         strong Sr. No. :&nbsp 
