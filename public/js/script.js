@@ -631,6 +631,14 @@ if(document.querySelector("#get-student-sr-data"))
         objs["class"] = document.querySelector("#student-sr-class").value;
         objs["date_of_admission"] = document.querySelector("#student-sr-date_of_admission").value;
         
+        if(objs["sr"]==="PG")
+        objs["sr"] = "PG"
+        if(objs["sr"] === "PRE PRIMARY")
+        objs["sr"] = "LKG TO UKG";
+        if(objs["sr"] === "PRIMARY")
+        objs["sr"] = "1 TO 5";
+        if(objs["sr"] === "JUNIOR HIGHSCHOOL")
+        objs["sr"] = "1 TO 8";
         const father = new Object();
         const mother = new Object();
         const address = new Object();
