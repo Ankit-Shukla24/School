@@ -24,7 +24,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
         const vals = row.values;
 
-        // console.log(vals);
+        console.log(vals);
 
         obj["prev_sr_no"] = vals[1];
         obj["sr_no"]=vals[2];
@@ -32,7 +32,8 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
         if(vals[4])
        { 
-        //    obj["dob"] = (vals[4].split(" ")[0]);
+        if(moment(vals[4].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+           obj["dob"] = moment(vals[4].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
        if(vals[4].split("(")[1])
         obj["dob_in_word"] = vals[4].split("(")[1].replace(")","");}
         if(vals[5])
@@ -63,32 +64,51 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         obj["address"] = address;
         obj["occupation"] = vals[9];
         
-        const passobj = new Object();
+        let passobj = new Object();
 
-    //     if(vals[10])
-    //     {
-    //         passobj["admission"] = (vals[10].split(" ")[0]);
-    //     passobj["passing"] = (vals[10].split(" ")[1]);
+        if(vals[10])
+        {
+            if(moment(vals[10].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+            passobj["admission"] = moment(vals[10].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+            if(moment(vals[10].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+            passobj["passing"] =  moment(vals[10].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         
-    //     // console.log((vals[10].split(" ")[1]));
+        // console.log((vals[10].split(" ")[1]));
 
 
-    //     obj["lkg"] = lodash.cloneDeep(passobj);
-    // }
+        obj["lkg"] = lodash.cloneDeep(passobj);
+    }
 
-    //     if(vals[11])
-    //     {passobj["admission"] =  vals[11].split(" ")[0];
-    //     passobj["passing"] = vals[11].split(" ")[1];
+    passobj = new Object();
+
+        if(vals[11])
+        {
+            
+            if(moment(vals[11].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+            passobj["admission"] = moment(vals[11].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+            if(moment(vals[11].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+            passobj["passing"] =  moment(vals[11].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         
 
-    //     obj["ukg"] = lodash.cloneDeep(passobj);
-    //     }
-    //     obj["last_class"] = vals[12];
+        obj["ukg"] = lodash.cloneDeep(passobj);
+        }
+
+        if(moment(vals[12],"DD-MM-YYYY").format("L")!='Invalid date')
+        obj["last_class"] = moment(vals[12],"DD-MM-YYYY").format("L")+'Z';
         
         if(vals[13])
         {
-            // obj["leave_date"] =  (vals[13].split(" ")[0]);
-        obj["leave_reason"]  = vals[13].slice(9); }
+            if(vals[13].split(" ")[0])
+            obj["leave_date"] =  moment(vals[13].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+
+        obj["leave_reason"]  = vals[13].slice(9); 
+    
+        if(moment(vals[13].split(" ")[0],"DD-MM-YYYY").format("L")+'Z'=='Invalid dateZ')
+            {
+              delete obj.leave_date;
+                obj["leave_reason"]  = vals[13];
+            }
+    }
         obj["remark"]= vals[14];
         obj["brother_sister"] = vals[15];
 
@@ -114,7 +134,8 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         
         if(vals[4])
        { 
-        //    obj["dob"] = (vals[4].split(" ")[0]);
+        if(moment(vals[4].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+           obj["dob"] = moment(vals[4].split(" ")[0],"DD-MM-YYYY").format("L")+'Z'
        if(vals[4].split("(")[1])
         obj["dob_in_word"] = vals[4].split("(")[1].replace(")","");}
         
@@ -144,50 +165,84 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
             obj["caste"]="";
         }
 
-        const passobj = new Object();
+        let passobj = new Object();
 
-//         if(vals[10])
-//        { 
-//            // console.log(typeof(vals[10]));
-//            passobj["admission"] = (vals[10].split(" ")[0]);
-//         passobj["passing"] = (vals[10].split(" ")[1]);
+        if(vals[10])
+       { 
+           // console.log(typeof(vals[10]));
+           if(moment(vals[10].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+           passobj["admission"] = moment(vals[10].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+           if(moment(vals[10].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+        passobj["passing"] =moment(vals[10].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
     
         
-//         obj["one"] = lodash.cloneDeep(passobj);}
-//         if(vals[11])
-//        { passobj["admission"] =  vals[11].split(" ")[0];
-//         passobj["passing"] = vals[11].split(" ")[1];
+        obj["one"] = lodash.cloneDeep(passobj);
+    }
+
+    passobj = new Object();
+        if(vals[11])
+
+
+       {
+        if(moment(vals[11].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+        passobj["admission"] = moment(vals[11].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+        if(moment(vals[11].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+     passobj["passing"] =moment(vals[11].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         
-// // console.log(passobj);
-//         obj["two"] = lodash.cloneDeep(passobj);}
-//         if(vals[12])
-//    {     passobj["admission"] = (vals[12].split(" ")[0]);
-//         passobj["passing"] = (vals[12].split(" ")[1]);
-        
+// console.log(passobj);
+        obj["two"] = lodash.cloneDeep(passobj);}
 
-//         obj["three"] = lodash.cloneDeep(passobj);}
-//         if(vals[13])
-//    {     passobj["admission"] =  (vals[13].split(" ")[0]);
-//         passobj["passing"] = (vals[13].split(" ")[1]);
+        passobj = new Object();
 
-
-//         obj["four"] = lodash.cloneDeep(passobj);}
-        
-//         if(vals[14])
-
-//   {  
-//           passobj["admission"] = (vals[14].split(" ")[0]);
-//         passobj["passing"] = (vals[14].split(" ")[1]);
+        if(vals[12])
+   {       if(moment(vals[12].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+   passobj["admission"] = moment(vals[12].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+   if(moment(vals[12].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+passobj["passing"] =moment(vals[12].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         
 
-//         obj["five"] = lodash.cloneDeep(passobj);}
+        obj["three"] = lodash.cloneDeep(passobj);}
 
-        // obj["last_class"] = (vals[15]);
+        passobj = new Object();
+
+        if(vals[13])
+   {       if(moment(vals[13].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+   passobj["admission"] = moment(vals[13].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+   if(moment(vals[13].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+passobj["passing"] =moment(vals[13].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
+
+
+        obj["four"] = lodash.cloneDeep(passobj);}
+        
+        passobj = new Object();
+
+        if(vals[14])
+
+  {  
+    if(moment(vals[14].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+    passobj["admission"] = moment(vals[14].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+    if(moment(vals[14].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+ passobj["passing"] =moment(vals[14].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
+        
+
+        obj["five"] = lodash.cloneDeep(passobj);}
+        if(moment(vals[15],"DD-MM-YYYY").format("L")!='Invalid date')
+        obj["last_class"] = moment(vals[15],"DD-MM-YYYY").format("L")+'Z';
         if(vals[16])
        { 
-        //    obj["leave_date"] =  (vals[16].split(" ")[0]);
+           obj["leave_date"] =  moment(vals[16].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
         obj["leave_reason"]  = vals[16].slice(10); 
+     
+        if(moment(vals[16].split(" ")[0],"DD-MM-YYYY").format("L")+'Z'=='Invalid dateZ')
+        {
+          delete obj.leave_date;
+            
+          obj["leave_reason"]  = vals[16]; 
+    }
+
+     obj["leave_reason"]  = vals[16];
       }
+
         obj["remark"]= vals[17];
         obj["brother_sister"] = vals[18];
 
@@ -213,7 +268,8 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         
         if(vals[4])
        { 
-        //    obj["dob"] = (vals[4].split(" ")[0]);
+        if(moment(vals[4].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+           obj["dob"] = moment(vals[4].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
        if(vals[4].split("(")[1])
         obj["dob_in_word"] = vals[4].split("(")[1].replace(")","");
     }
@@ -246,31 +302,54 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         obj["address"] = address;
         obj["occupation"] = vals[9];
         
-        const passobj = new Object();
+        let passobj = new Object();
 
-//         if(vals[10])
-//        { passobj["admission"] = (vals[10].split(" ")[0]);
-//         passobj["passing"] = (vals[10].split(" ")[1]);
+        if(vals[10])
+
+       {
+        if(moment(vals[10].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+           passobj["admission"] = moment(vals[10].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+           if(moment(vals[10].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+        passobj["passing"] =moment(vals[10].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         
 
-//         obj["six"] = lodash.cloneDeep(passobj);}
-//         if(vals[11])
-//        { passobj["admission"] =  vals[11].split(" ")[0];
-//         passobj["passing"] = vals[11].split(" ")[1];
-//         obj["seven"] = lodash.cloneDeep(passobj);}
-//         if(vals[12])
-//    {     passobj["admission"] = (vals[12].split(" ")[0]);
-//         passobj["passing"] = (vals[12].split(" ")[1]);
+        obj["six"] = lodash.cloneDeep(passobj);}
+
+        passobj = new Object();
+
+        if(vals[11])
+       {   if(moment(vals[11].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+       passobj["admission"] = moment(vals[11].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+       if(moment(vals[11].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+    passobj["passing"] =moment(vals[11].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
+        obj["seven"] = lodash.cloneDeep(passobj);}
+        
+        passobj = new Object();
+
+        if(vals[12])
+   {       if(moment(vals[12].split(" ")[0],"DD-MM-YYYY").format("L")!='Invalid date')
+   passobj["admission"] = moment(vals[12].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+   if(moment(vals[12].split(" ")[1],"DD-MM-YYYY").format("L")!='Invalid date')
+passobj["passing"] =moment(vals[12].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         
 
-//         obj["eight"] = lodash.cloneDeep(passobj);
-//     }
+        obj["eight"] = lodash.cloneDeep(passobj);
+    }
      
-        // obj["last_class"] = (vals[13]);
-        if(vals[14])
-       { 
-        //    obj["leave_date"] =  (vals[14].split(" ")[0]);
-        obj["leave_reason"]  = vals[14].slice(10); }
+    if(moment(vals[13],"DD-MM-YYYY").format("L")!='Invalid date')
+    obj["last_class"] = moment(vals[13],"DD-MM-YYYY").format("L")+'Z';
+    if(vals[14])
+   { 
+       obj["leave_date"] =  moment(vals[14].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
+    obj["leave_reason"]  = vals[14].slice(10); 
+ 
+    if(moment(vals[14].split(" ")[0],"DD-MM-YYYY").format("L")+'Z'=='Invalid dateZ')
+    {
+      delete obj.leave_date;
+        
+      obj["leave_reason"]  = vals[14]; 
+}
+   }
         obj["remark"]= vals[15];
         obj["brother_sister"] = vals[16];
 
@@ -306,7 +385,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
 //         obj["address"] = vals[8];
 //         obj["occupation"] = vals[9];
         
-//         const passobj = new Object();
+//         let passobj = new Object();
 
 //         if(vals[10])
 //        { passobj["admission"] = (vals[10].split(" ")[0]);

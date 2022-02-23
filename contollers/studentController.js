@@ -360,7 +360,7 @@ exports.promoteStudent = async (req,res,next)=>{
                 objs["admission"] =  req.params.id5;
 
                 el["lkg"] =objs;
-
+                el.prev_sr_no = el.sr;
 delete el._id
 delete el.sr
 delete el.last_class
@@ -371,6 +371,7 @@ delete el.leave_date;
 
 el.sr_no = await lkgToukg.count()*1;
 el.sr_no = el.sr_no*1+1;
+el.new =true;
 const promotion = await lkgToukg.create(el);
 
 console.log(promotion);
@@ -389,6 +390,14 @@ console.log(promotion);
         for(const el of data)
         {
 
+            if(el.new===true)
+               {
+el.new = false;
+await lkgToukg.findByIdAndUpdate(el.id,el,{
+    new:true
+})
+continue;
+               }
             el.lkg.passing = req.params.id4;
             const obj = new Object;
 
@@ -429,7 +438,7 @@ console.log(promotion);
                 objs["admission"] =  req.params.id5;
 
                 el["one"] =objs;
-
+                el.prev_sr_no = el.sr;
 delete el._id
 delete el.sr
 delete el.last_class
@@ -440,6 +449,7 @@ delete el.leave_date;
 
 el.sr_no = await oneToFive.count()*1;
 el.sr_no = el.sr_no*1+1;
+el.new = true;
 const promotion = await oneToFive.create(el);
 
 // console.log(promotion);
@@ -456,6 +466,15 @@ const promotion = await oneToFive.create(el);
           for(const el of data)
           {
 
+            if(el.new===true)
+            {
+el.new = false;
+await oneToFive.findByIdAndUpdate(el.id,el,{
+ new:true
+})
+continue;
+            }
+
               el.one.passing = req.params.id4;
               
               const obj = new Object;
@@ -463,7 +482,7 @@ const promotion = await oneToFive.create(el);
               obj.admission = req.params.id5;
   
             el["two"] = obj;
-
+            el.new = true;
               const up = await oneToFive.findByIdAndUpdate(el.id,el,{
                   new:true
               })
@@ -473,6 +492,15 @@ const promotion = await oneToFive.create(el);
     
             for(const el of data)
             {
+
+                if(el.new===true)
+                {
+ el.new = false;
+ await oneToFive.findByIdAndUpdate(el.id,el,{
+     new:true
+ })
+ continue;
+                }
   
                 el.two.passing = req.params.id4;
 
@@ -481,6 +509,7 @@ const promotion = await oneToFive.create(el);
                 obj.admission = req.params.id5;
     
                 el["three"] = obj;
+                el.new = true;
                 const up = await oneToFive.findByIdAndUpdate(el.id,el,{
                     new:true
                 })
@@ -490,6 +519,14 @@ const promotion = await oneToFive.create(el);
   
           for(const el of data)
           {
+            if(el.new===true)
+            {
+el.new = false;
+await oneToFive.findByIdAndUpdate(el.id,el,{
+ new:true
+})
+continue;
+            }
 
               el.three.passing = req.params.id4;
               const obj = new Object;
@@ -497,7 +534,7 @@ const promotion = await oneToFive.create(el);
               obj.admission = req.params.id5;
   
               el["four"] = obj;
-  
+                el.new = true;
               const up = await oneToFive.findByIdAndUpdate(el.id,el,{
                   new:true
               })
@@ -507,6 +544,14 @@ const promotion = await oneToFive.create(el);
   
           for(const el of data)
           {
+            if(el.new===true)
+            {
+el.new = false;
+await oneToFive.findByIdAndUpdate(el.id,el,{
+ new:true
+})
+continue;
+            }
 
               el.four.passing = req.params.id4;
               const obj = new Object;
@@ -514,7 +559,7 @@ const promotion = await oneToFive.create(el);
               obj.admission = req.params.id5;
   
               el["five"] = obj;
-  
+  el.new =true;
               const up = await oneToFive.findByIdAndUpdate(el.id,el,{
                   new:true
               })
@@ -525,6 +570,15 @@ const promotion = await oneToFive.create(el);
   
         for(let el of data)
         {
+            if(el.new===true)
+            {
+el.new = false;
+await oneToFive.findByIdAndUpdate(el.id,el,{
+ new:true
+})
+continue;
+            }
+
             el.leave_date = req.params.id4;
             el.leave_reason = req.params.id3;
             el.five.passing = req.params.id4;
@@ -545,7 +599,9 @@ const promotion = await oneToFive.create(el);
 
             el["six"] =objs;
 
-delete el._id
+
+el.prev_sr_no = el.sr;
+ delete el._id
 delete el.sr
 delete el.last_class
 delete el.leave_reason
@@ -555,6 +611,7 @@ delete el.leave_date;
 
 el.sr_no = await sixToeight.count()*1;
 el.sr_no = el.sr_no*1+1;
+el.new = true;
 const promotion = await sixToeight.create(el);
 
 // console.log(promotion);
@@ -572,13 +629,22 @@ const promotion = await sixToeight.create(el);
           for(const el of data)
           {
 
+            if(el.new===true)
+            {
+el.new = false;
+await sixToeight.findByIdAndUpdate(el.id,el,{
+ new:true
+})
+continue;
+            }
+
               el.six.passing = req.params.id4;
               const obj = new Object;
 
               obj.admission = req.params.id5;
   
               el["seven"] = obj;
-  
+  el.new =true;
               const up = await sixToeight.findByIdAndUpdate(el.id,el,{
                   new:true
               })
@@ -588,6 +654,15 @@ const promotion = await sixToeight.create(el);
     
             for(const el of data)
             {
+
+                if(el.new===true)
+                {
+ el.new = false;
+ await oneToFive.findByIdAndUpdate(el.id,el,{
+     new:true
+ })
+ continue;
+                }
   
                 el.seven.passing = req.params.id4;
                 const obj = new Object;
@@ -595,7 +670,7 @@ const promotion = await sixToeight.create(el);
                 obj.admission = req.params.id5;
     
                 el["eight"] = obj;
-    
+    el.new =true;
                 const up = await sixToeight.findByIdAndUpdate(el.id,el,{
                     new:true
                 })
@@ -627,10 +702,12 @@ const promotion = await sixToeight.create(el);
 
 exports.promoteStudentFees = async (req,res,next)=>{
 
-    const data = await Students.find({year:req.params.id1,class_code:{$ne:"10"}});
+    const data = await Students.find({year:req.params.id1,class_code:{$ne:"10"}}).sort({class_code:-1});
     const classList = ["PG",'LKG','UKG','1st','2nd','3rd','4th','5th','6th','7th','8th'];
     for(const el of data)
     {
+        if(el.leave===true)
+        continue;
       try{  const student = new Object();
         student.year=el.year*1+1;
         student.name=el.name;

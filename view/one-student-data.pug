@@ -14,8 +14,10 @@ block content
         form#get-student-data.get-form
             label(for="student-year") Year
             input#student-year(type="text" value=`${student.year}` name="year")
+            label(for="student-roll_no") Roll No.
+            input#student-roll_no(type="text" value=`${student.roll_no}` name="roll_no")
             label(for="student-class") Class
-            select#student-class.student-class-select(name="Enter-class" placeholder="**")
+            select#student-class.student-class-select(name="Enter-class")
                 option(value=student.class_code selected)= student.class
                 option(value="0") PG
                 option(value="1") LKG
@@ -28,14 +30,14 @@ block content
                 option(value="8") 6th
                 option(value="9") 7th
                 option(value="10") 8th
-            label(for="student-roll_no") Roll No.
-            input#student-roll_no(type="text" name="roll_no" value=`${student.roll_no}`)
             label(for="student-student") Student's name
             input#student-name(type="text" name="student" value=`${student.name}`)
             label(for="student-father") Father's name
             input#student-father(type="text" name="father" value=`${student.father_name}`)
-            label(for="student-dob") Date of birth
-            input#student-dob(type="date" name="dob" value=student.date_of_birth.toISOString().split('T')[0])
+            if(!student.leave)
+                input#student-leave.right(type="checkbox", name="leave" checked)
+            else
+                input#student-leave.right(type="checkbox", name="leave")
         .month-palet
             each val in ['april','may','june','july','august','september','october','november','december','january','february','march']
                 .month-info-palet

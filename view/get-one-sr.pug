@@ -29,7 +29,10 @@ block content
                 label.side-pic(for="sr_no") Sr. No.
                 input.side-pic#student-sr_no(type="text" value=`${student.sr_no}` name="sr_no")
                 label.side-pic(for="prev_sr_no") Prev Sr. No.
-                input.side-pic#student-prev_sr_no(type="text" name="prev_sr_no" value=`${student.prev_sr_no}`)
+                if(student.prev_sr_no)
+                    input.side-pic#student-prev_sr_no(type="text" name="prev_sr_no" value=`${student.prev_sr_no}`)
+                else 
+                    input.side-pic#student-prev_sr_no(type="text" name="prev_sr_no" value=`No record`)
                 label.side-pic(for="student") Student's name
                 input.side-pic#student-sr-name(type="text" name="student" value=`${student.name}`)
                 -const dob_ = student.dob?.toISOString().split('T')[0];

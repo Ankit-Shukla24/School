@@ -6,6 +6,9 @@ const studentSchema = new mongoose.Schema({
     type:Number,
     required:[true,'Please Enter the year']
     },
+    sr_no:{
+        type:Number,
+    },
     class:{
         type:String,
         required:[true,'Please Enter the class'],
@@ -26,9 +29,6 @@ const studentSchema = new mongoose.Schema({
         uppercase:true,
     trim:true,
       
-    },
-    date_of_birth:{
-        type:Date
     },
     january:
     {
@@ -70,6 +70,11 @@ december:{
 },
 class_code:{
     type:Number
+},
+leave:{
+    type:Boolean,
+    default:false,
+
 }
 });
 

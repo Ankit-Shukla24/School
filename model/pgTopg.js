@@ -224,7 +224,11 @@ default:""
     phone_number:[String],
     whatsapp_number:{
         type:String
-    }
+    },
+    new:{
+        type:Boolean,
+        default:false,
+            }
 })
 
 pgTopgschema.index({sr_no:-1});

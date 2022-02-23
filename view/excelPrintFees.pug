@@ -7,13 +7,22 @@ block content
             label(for="session-check") Session
             input(type="checkbox" name="father_name" id="father-check" checked)
             label(for="father-check") Father's Name 
-            input(type="checkbox" name="date_of_birth" id="dob-check" checked)
-            label(for="dob-check") D.O.B 
             input(type="checkbox" name="fees" id="fees-check" checked)
             label(for="fees-check") Fees Record
         form.get-form#excel-form-filter
             label(for="session-filter" id = "session-filter-label") Session
-            input(type="text" id="session-filter")
+            input(type="Number" id="session-filter" placeholder="20**")
             label(for="class-filter") Class
-            input(type="text" id="class-filter")
+            select#class-filter(name="class-filter")   
+                option(value="PG") PG
+                option(value="LKG") LKG
+                option(value="UKG") UKG
+                option(value="1st") 1st
+                option(value="2nd") 2nd
+                option(value="3rd") 3rd
+                option(value="4th") 4th
+                option(value="5th") 5th
+                option(value="6th") 6th
+                option(value="7th") 7th
+                option(value="8th") 8th 
             input(type="submit" value="Submit" id="print-excel")

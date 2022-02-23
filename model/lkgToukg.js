@@ -229,6 +229,10 @@ default:""
     phone_number:[String],
     whatsapp_number:{
         type:String
+    },
+    new:{
+type:Boolean,
+default:false,
     }
 })
 

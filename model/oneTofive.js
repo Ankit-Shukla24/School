@@ -17,7 +17,8 @@ const docs= new mongoose.Schema({
     doc_id:{
         type:String,
         default:""
-    }
+    },
+    
 });
 
 
@@ -252,7 +253,11 @@ uppercase:true,
     phone_number:[String],
     whatsapp_number:{
         type:String
-    }
+    },
+    new:{
+        type:Boolean,
+        default:false,
+            }
 })
 
 oneTofiveschema.index({sr_no:-1});

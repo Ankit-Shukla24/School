@@ -163,7 +163,6 @@ exports.excelPrintData = async(req,res)=>{
         roll_no:"Roll No.",
         name:"Name",
         father_name:"Father\'s Name",
-        date_of_birth:"D.O.B",
         april:"April",
         may:"May",
         june:"June",
@@ -199,9 +198,6 @@ exports.excelPrintData = async(req,res)=>{
         },
         {
             header:'Father\'s Name',key:'father_name',width:10
-        },
-        {
-            header:'D.O.B',key:'date_of_birth',width:10
         },
         {
             header:'April',key:'april',width:10
@@ -245,13 +241,16 @@ exports.excelPrintData = async(req,res)=>{
 
     let data=Student.find().sort({year:1,class:1});
 
-    if(req.body.sessionfilter!=="")
+    
+
+    if(!req.body.promote)
+    {
+
+        if(req.body.sessionfilter!=="")
     data = Student.find({session:req.body.sessionfilter});
 
     if(req.body.classfilter!=="")
     data = Student.find({class:req.body.classfilter});
-
-    data=await data;
 
     let k=0;
 
@@ -272,9 +271,9 @@ exports.excelPrintData = async(req,res)=>{
     if(!req.body.fees)
     {worksheet.spliceColumns(7-k,12);
     k++}
-
+}
     let counter =0;
-
+    data=await data;
     data.forEach((el)=>
    {
        counter++;

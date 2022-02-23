@@ -236,13 +236,12 @@ transition: 0.3s ease-in-out;
 
 .form-div-data>form:first-child >label {
     display: inline-block;
-    width: 0 !important;
-    min-width: 27vw !important;
+    width: 35vw !important;
 }
 
 .form-div-data>form:first-child> input[type="checkbox"]
 {
-    left: 2rem !important;
+    margin:0 0 0 15vw !important;
 }
 
 .invisible
@@ -360,4 +359,11 @@ transition: 0.3s ease-in-out;
     "leave-reason leave-reason remark remark"
     ;
     margin: 0rem;
+}
+
+
+#student-leave
+{
+    display: inline;
+    width: fit-content !important;
 }

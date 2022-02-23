@@ -160,22 +160,21 @@ if(document.querySelector("#submit-all"))
         const year = document.getElementById("student-year").value;
         const name = document.getElementById("student-name").value;
         const father = document.getElementById("student-father").value;
-        const date_of_birth = document.getElementById("student-dob").value;
         const studentClassCode= document.getElementById("student-class").value;
         const studentClass = classList[studentClassCode*1];
         let dateNow = new Date().toLocaleString().split(",")[0];
         dateNow+='Z';
         const student = new Object();
         student.year=year;
+        student.leave = !document.getElementById("student-leave").checked;
         student.name=name;
         student.class=studentClass;
         student.father_name=father;
-        student.date_of_birth= date_of_birth; 
         student.class_code = studentClassCode;
         student.roll_no = document.getElementById("student-roll_no").value;
         let feesStudent = lodash.cloneDeep(student);
 
-        // // console.log(feesStudent);
+        console.log(student);
 
         if(document.querySelector("#submit-all").name==="add")
         { 
@@ -221,7 +220,7 @@ let data1;
                     url:"/api/v1/studentInfo/feesStudent",
                     data:feesStudent
                 });
-                console.log("20");
+                // console.log("20");
             }
             else if(el.classList.contains('no_change')===true&&el.value==="")
             {
@@ -360,7 +359,6 @@ if(document.querySelector("#excel-form"))
 e.preventDefault();
     excel['session'] = document.getElementById("session-check").checked;
     excel['father'] = document.getElementById("father-check").checked;
-    excel['dob'] = document.getElementById("dob-check").checked;
     excel['fees'] = document.getElementById("fees-check").checked;
 
     excel['sessionfilter'] = document.getElementById("session-filter").value;
@@ -942,8 +940,21 @@ if(document.querySelector("#promote-student-fee"))
         const randnum = Math.round(Math.random()*10000)+100000*1
 
        const enteredNum = prompt(`Enter the code ${randnum}`,"");
+       
+       const excel= new Object();
 
-       if(enteredNum*1!==randnum*1)
+       excel["promote"] = 1;
+
+       await axios({
+
+        method:'POST',
+        url:'/excel',
+        data:excel
+    })
+
+    window.open("/users.xlsx");
+      
+    if(enteredNum*1!==randnum*1)
       return  window.alert("Wrong Code");
 
 const data = await axios({
@@ -1063,6 +1074,8 @@ if(curr==="ukg"||curr==="five"||curr==="eight"||curr==="pg")
 document.querySelector("#promote-form").addEventListener("submit",async (e)=>{
 
     e.preventDefault();
+
+    window.open("/studentInfo/sr-excel");
 
     const promoteSr = document.querySelector("#promote-sr").value;
     let promoteClass = document.querySelector("#promote-class").value;

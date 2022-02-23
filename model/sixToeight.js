@@ -16,7 +16,8 @@ const docs= new mongoose.Schema({
     doc_id:{
         type:String,
         default:""
-    }
+    },
+    
 });
 
 const obj_date ={};
@@ -235,7 +236,11 @@ default:""
     phone_number:[String],
     whatsapp_number:{
         type:String
-    }
+    },
+    new:{
+        type:Boolean,
+        default:false,
+            }
 })
 
 sixToeightschema.index({sr_no:-1});
