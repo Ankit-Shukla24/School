@@ -643,11 +643,8 @@ exports.excelPrintSr = async(req,res)=>{
     for(el of data0)
    {
        counter++;
-    // await flatten(el);
-     el =JSON.stringify(el);
-    el =JSON.parse(el);
-     el = flatten(el);
-    //  console.log(el);
+       el = el.toObject();
+       el = flatten(el);
         worksheet0.addRow(el);
    if(counter%6==0)
    {
@@ -735,10 +732,10 @@ el.font={
     for(el of data)
    {
        counter++
-    // await flatten(el);
-     el =JSON.stringify(el);
-    el =JSON.parse(el);
+
+    el = el.toObject();
      el = flatten(el);
+    // console.log(el);
      // console.log(el);
         worksheet1.addRow(el);
         if(counter%6==0)
@@ -846,10 +843,8 @@ for(el of data2)
 {
 // await flatten(el);
 counter++;
- el =JSON.stringify(el);
-el =JSON.parse(el);
- el = flatten(el);
- // console.log(el);
+el = el.toObject();
+     el = flatten(el);
     worksheet2.addRow(el);
     if(counter%6==0)
     {
@@ -941,11 +936,8 @@ counter=0;
 for(el of data3)
 {
     counter++;
-// await flatten(el);
- el =JSON.stringify(el);
-el =JSON.parse(el);
- el = flatten(el);
- // console.log(el);
+    el = el.toObject();
+    el = flatten(el);
     worksheet3.addRow(el);
     if(counter%6==0)
     {

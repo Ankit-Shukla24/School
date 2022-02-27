@@ -111,7 +111,7 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
             if(vals[13].split(" ")[0])
             obj["leave_date"] =  moment(vals[13].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
 
-        obj["leave_reason"]  = vals[13].slice(9); 
+        obj["leave_reason"]  = vals[13].slice(10); 
     
         if(moment(vals[13].split(" ")[0],"DD-MM-YYYY").format("L")+'Z'=='Invalid dateZ')
             {
@@ -240,6 +240,7 @@ passobj["passing"] =moment(vals[13].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         obj["five"] = lodash.cloneDeep(passobj);}
         if(moment(vals[15],"DD-MM-YYYY").format("L")!='Invalid date')
         obj["last_class"] = moment(vals[15],"DD-MM-YYYY").format("L")+'Z';
+        
         if(vals[16])
        { 
            obj["leave_date"] =  moment(vals[16].split(" ")[0],"DD-MM-YYYY").format("L")+'Z';
@@ -252,7 +253,6 @@ passobj["passing"] =moment(vals[13].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
           obj["leave_reason"]  = vals[16]; 
     }
 
-     obj["leave_reason"]  = vals[16];
       }
 
         obj["remark"]= vals[17];
