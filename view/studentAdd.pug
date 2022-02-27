@@ -5,8 +5,7 @@ block content
     .form-div-data.add-student
         form#get-student-data.get-form
             label(for="student-year") Year
-            input#student-year(type="text" name="year")
-            br
+            input#student-year(type="text" name="year" placeholder="Session")
             label(for="student-class") Class
             select#student-class(name="Enter-class")
                 option(value="0") PG
@@ -20,17 +19,20 @@ block content
                 option(value="8") 6th
                 option(value="9") 7th
                 option(value="10") 8th
-            br
             label(for="student-roll_no") Roll No.
-            input#student-roll_no(type="text" name="roll_no")
-            br
+            input#student-roll_no(type="text" name="roll_no" placeholder="Roll No.")
             label(for="student-name") Student's name
-            input#student-name(type="text" name="name" )
-            br
+            input#student-name(type="text" name="name" placeholder="Name")
             label(for="student-father") Father's name
-            input#student-father(type="text" name="name" )
-            br
+            input#student-father(type="text" name="name" placeholder="Father's Name")
             label(for="student-dob") Date of birth
-            input#student-dob(type="date" name="name" )
+            input#student-dob(type="date" name="name" placeholder="D.O.B")
+            label(for="student-gender") Gender
+            input#student-gender(type="text" name="gender" placeholder="Gender")
+            label(for="student-religion") Religion
+            input#student-religion(type="text" name="religion" placeholder="Religion")
+            label(for="student-category") Category
+            input#student-category(type="text" name="category" placeholder="Category")
+            input#student-leave.invisible(type="checkbox" name="leave" checked disabled)
             input#submit-all(type="submit" name="add" value="Submit")            
         

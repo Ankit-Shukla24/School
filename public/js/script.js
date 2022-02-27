@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import axios from 'axios';
 import { Console } from 'console';
-import lodash, { forEach, isInteger } from 'lodash'; 
+import lodash, { forEach, isInteger, isLength } from 'lodash'; 
 import moment from 'moment'; 
 import {promisify} from 'util';
 import documents from '../../model/documents';
@@ -149,6 +149,25 @@ if(document.querySelector("#get-student-data"))
 
 }
 
+if(document.querySelector("#student-age"))
+{
+    const student_age=document.querySelector("#student-age")
+    const student_dob=document.querySelector("#student-dob")
+    student_age.addEventListener("change",(e)=>{
+
+        let time_left;
+        const year =( new Date(student_age.value)-new Date(student_dob.value))/(1000*60*60*24*365);
+
+        time_left = ( new Date(student_age.value)-new Date(student_dob.value))%(1000*60*60*24*365)
+
+        const month = time_left/(1000*60*60*30*24);
+
+// console.log(new Date(student_age.value)-new Date(student_dob.value));
+        alert(`Student is ${Math.trunc(year)} Years and ${Math.trunc(month)} Months old`);
+
+    })
+
+}
 
 if(document.querySelector("#submit-all"))
     document.querySelector("#submit-all").addEventListener("click",async function(e)
@@ -161,6 +180,10 @@ if(document.querySelector("#submit-all"))
         const name = document.getElementById("student-name").value;
         const father = document.getElementById("student-father").value;
         const studentClassCode= document.getElementById("student-class").value;
+        const religion = document.getElementById("student-religion").value;
+        const dob = document.getElementById("student-dob").value;
+        const category = document.getElementById("student-category").value;
+        const gender = document.getElementById("student-gender").value;
         const studentClass = classList[studentClassCode*1];
         let dateNow = new Date().toLocaleString().split(",")[0];
         dateNow+='Z';
@@ -168,9 +191,14 @@ if(document.querySelector("#submit-all"))
         student.year=year;
         student.leave = !document.getElementById("student-leave").checked;
         student.name=name;
+        student.dob=dob;
+        student.religion=religion;
+        student.category=category;
+        student.gender=gender;
         student.class=studentClass;
         student.father_name=father;
         student.class_code = studentClassCode;
+
         student.roll_no = document.getElementById("student-roll_no").value;
         let feesStudent = lodash.cloneDeep(student);
 
@@ -360,7 +388,7 @@ e.preventDefault();
     excel['session'] = document.getElementById("session-check").checked;
     excel['father'] = document.getElementById("father-check").checked;
     excel['fees'] = document.getElementById("fees-check").checked;
-
+    excel["add_info"] = document.getElementById("add-info-check").checked;
     excel['sessionfilter'] = document.getElementById("session-filter").value;
     excel['classfilter'] = document.getElementById("class-filter").value;
 
@@ -431,7 +459,7 @@ else
 
 if(document.getElementById("fees-record"))
 {
-
+    
    const options= document.getElementsByClassName("fee-option");
 
    // console.log(options);
@@ -453,6 +481,7 @@ for(const el of options){el.addEventListener("click",(e)=>{
         document.querySelector(".get-by-date").classList.add('invisible');
     }
 })};
+
 
 document.getElementById("fees-record").addEventListener("submit",async (e)=>{
 
@@ -1114,13 +1143,22 @@ if(document.querySelector(".upload-pic-btn"))
             document.querySelector(".upload-pic-btn").style.padding="0.5rem";
             document.querySelector(".upload-pic-btn").style.margin="0.5rem auto";
         },1);
-
+let sr_name = document.getElementById("student-sr").value;
+        if(sr_name ==="PG")
+        sr_name = "PG"
+        if(sr_name === "PRE PRIMARY")
+        sr_name = "LKG TO UKG";
+        if(sr_name === "PRIMARY")
+        sr_name = "1 TO 5";
+        if(sr_name === "JUNIOR HIGHSCHOOL")
+        sr_name = "1 TO 8";
+        
         const formPic = new FormData();
-        formPic.append('sr',document.getElementById("student-sr").value);
+        formPic.append('sr',sr_name);
         formPic.append('student_name',document.querySelector("#student-sr-name").value);
         formPic.append('student_id',document.getElementById("student-sr-id").textContent);
         formPic.append('pic',document.getElementById('picUp').files[0]);
-        
+       
         // console.log(formPic);
 
     try{    const data = await axios({
@@ -1143,12 +1181,23 @@ if(document.querySelector("#document-upload-form"))
     document.querySelector("#document-upload-form").addEventListener("submit",async (e)=>{
 e.preventDefault();
         const formDoc = new FormData();
-        formDoc.append('sr',document.getElementById("student-sr").value);
+
+        let sr_name = document.getElementById("student-sr").value;
+        if(sr_name ==="PG")
+        sr_name = "PG"
+        if(sr_name === "PRE PRIMARY")
+        sr_name = "LKG TO UKG";
+        if(sr_name === "PRIMARY")
+        sr_name = "1 TO 5";
+        if(sr_name === "JUNIOR HIGHSCHOOL")
+        sr_name = "1 TO 8";
+
+        formDoc.append('sr',sr_name);
         formDoc.append('student_id',document.getElementById("student-sr-id").textContent);
         formDoc.append('desc',document.querySelector("#upload-desc").value)
         formDoc.append('student_name',document.querySelector("#student-sr-name").value)
         formDoc.append('doc',document.querySelector("#upload-doc").files[0]);
-    
+      
      try{   const data = await axios({
             method:'POST',
             url:'/api/v1/documentInfo/uploadDoc',
@@ -1180,11 +1229,19 @@ if(document.querySelector(".del-doc"))
 
        if(enteredNum*1!==randnum*1)
       return  window.alert("Wrong Code");
-
+      let sr_name = document.getElementById("student-sr").value;
+      if(sr_name ==="PG")
+      sr_name = "PG"
+      if(sr_name === "PRE PRIMARY")
+      sr_name = "LKG TO UKG";
+      if(sr_name === "PRIMARY")
+      sr_name = "1 TO 5";
+      if(sr_name === "JUNIOR HIGHSCHOOL")
+      sr_name = "1 TO 8";
     
         obj.doc_name = el.name;
         obj.doc_id= el.id;
-        obj.student_sr = document.querySelector("#student-sr").value;
+        obj.student_sr = sr_name;
         obj.student_id = document.querySelector("#student-sr-id").textContent;
         
         // console.log(obj);
@@ -1234,4 +1291,51 @@ console.log(data);
 }
 
 
+if(document.querySelector("#update-me"))
+{
 
+    document.querySelector("#update-me-submit").addEventListener("click",async(e)=>{
+
+        e.preventDefault();
+
+const obj = new Object;
+
+obj.username = document.querySelector("#user_name").value;
+obj.email = document.querySelector("#user_email").value;
+obj.password = document.querySelector("#user_password").value;
+obj.newPassword = document.querySelector("#user_new_password").value;
+obj.confirmNewPassword = document.querySelector("#user_confirm_new_password").value;
+let data;
+try{data = await axios ({
+
+    method:'POST',
+    url:'/api/v1/userInfo/updateMe',
+    data:obj
+
+})
+
+console.log(data);
+
+if(data.data.status===201)
+window.reload();
+}
+ catch(err)
+ {
+     console.log(data);
+     console.log(err.response);
+     if(!err.response.data.err.errors)
+    { window.alert(err.response.data.message);
+     return;}
+    const entries = Object.entries(err.response.data.err.errors);
+    entries.forEach((el)=>{
+        if(el[1].path!=="password")
+        {
+                    window.alert(`${el[1].message}`);
+                }
+        else
+        {
+            window.alert(`Password is shorter than ${el[1].properties.minlength} characters` );
+        }
+        }) 
+    }
+})}

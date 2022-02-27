@@ -4,6 +4,7 @@ const documents=require("./../model/documents");
 const todayFees = require("./../model/todayFees");
 const fees = require("./../model/fees");
 const excel = require("exceljs");
+const moment = require("moment");
 const axios = require("axios");
 const pgTopg = require('./../model/pgTopg');
 const lkgToukg = require('./../model/lkgToukg');
@@ -16,6 +17,11 @@ exports.overview = async (req,res)=>
 {
 res.status(201).render('overview');
 };
+
+exports.me = (req,res)=>
+{
+    res.status(201).render("me");
+}
 
 exports.studentInfo = async (req,res)=>
 {
@@ -84,7 +90,7 @@ exports.getStudentData= async(req,res)=>{
     if(req.params.id4!=="false")
     data = data.find({father_name:req.params.id4});
 
-    data = await data;
+    data = await data.sort({"roll_no":1});
 
     res.status(201).render('student-find',{
 students:data
@@ -159,10 +165,15 @@ exports.excelPrintData = async(req,res)=>{
     const header_obj ={
 
         year:"Session",
+        leave:"Leave",
         class:"Class",
         roll_no:"Roll No.",
         name:"Name",
         father_name:"Father\'s Name",
+        dob:"D.O.B",
+        gender:"Gender",
+        religion:"Religion",
+        category:"Category",
         april:"April",
         may:"May",
         june:"June",
@@ -185,6 +196,9 @@ exports.excelPrintData = async(req,res)=>{
 
     worksheet.columns=[
         {
+            header:'Leave',key:'leave',width:10
+        },
+        {
             header:'Session',key:'year',width:10
         },
         {
@@ -198,6 +212,18 @@ exports.excelPrintData = async(req,res)=>{
         },
         {
             header:'Father\'s Name',key:'father_name',width:10
+        },
+        {
+            header:'D.O.B',key:'dob',width:10
+        },
+        {
+            header:'Gender',key:'gender',width:10
+        },
+        {
+            header:'Religion',key:'religion',width:10
+        },
+        {
+            header:'Category',key:'category',width:10
         },
         {
             header:'April',key:'april',width:10
@@ -239,9 +265,7 @@ exports.excelPrintData = async(req,res)=>{
 
     // console.log(req.body);
 
-    let data=Student.find().sort({year:1,class:1});
-
-    
+    let data=Student.find().sort({year:1,class:1,leave:-1});
 
     if(!req.body.promote)
     {
@@ -263,23 +287,24 @@ exports.excelPrintData = async(req,res)=>{
     {worksheet.spliceColumns(5-k,1);
     k++;}
 
-    if(!req.body.dob)
+    if(!req.body.add_info)
     {worksheet.spliceColumns(6-k,1);
-    k++;
+    k+=4;
     }
 
     if(!req.body.fees)
-    {worksheet.spliceColumns(7-k,12);
+    {worksheet.spliceColumns(10-k,12);
     k++}
 }
     let counter =0;
-    data=await data;
+if(!req.body.add_info)
+    {    data=await data;
     data.forEach((el)=>
    {
        counter++;
         worksheet.addRow(el);
 
-        if(counter%10===0)
+        if(counter%20===0)
         {
             worksheet.addRow(header_obj).eachCell((el)=>{
                 el.font={
@@ -287,7 +312,58 @@ exports.excelPrintData = async(req,res)=>{
                 }
                 });
         }
-    });
+    });}
+
+    else
+    {
+        const religion = ["HINDU","MUSLIM","SIKH","CHRISTIAN"];
+        const category = ["GEN","OBC","SC","ST"];
+        const gender = ["MALE","FEMALE"];
+
+        for(const religion_ of religion)
+        {
+            for(const category_ of category)
+            {
+                for(const gender_ of gender)
+                {
+                    counter = 0;
+                    let data_ = data.clone();
+                    
+                    data_ =await data_.find({religion:`${religion_}`,category:`${category_}`,gender:`${gender_}`}).sort({"roll_no":1});
+
+                    // console.log(data_.length);
+
+                    if(data_.length*1===0*1)
+                    continue ;
+
+                    data_.forEach((el)=>
+                    {
+                        counter++;
+                         worksheet.addRow(el);
+                 
+                         if(counter%20===0)
+                         {
+                             worksheet.addRow(header_obj).eachCell((el)=>{
+                                 el.font={
+                                     bold:true
+                                 }
+                                 });
+                         }
+                     })
+                     worksheet.addRow();
+                     worksheet.addRow();
+                     worksheet.addRow(header_obj).eachCell((el)=>{
+                        el.font={
+                            bold:true
+                        }
+                        });
+                }
+            }
+        }
+
+
+    }
+
 
 worksheet.getRow(1).eachCell((el)=>{
 el.font={
@@ -388,6 +464,40 @@ data =  sixToeight.find({sr_no:req.params.id3});
     data =  sixToeight.find({});
 
     data= await data.sort({sr_no:-1});
+
+res.status(201).render("sr-find",{
+    data
+})
+
+}
+
+exports.srFindFees= async(req,res,next)=>{
+
+    req.params.id3 = moment(req.params.id3,"YYYY-MM-DD").format("L")+'Z';
+
+    console.log(req.params);
+
+let data1 = await pgTopg.find({name:req.params.id1,"father.name":req.params.id2,dob:req.params.id3});
+
+let data2=await lkgToukg.find({name:req.params.id1,"father.name":req.params.id2,dob:req.params.id3});
+
+let data3=await oneToFive.find({name:req.params.id1,"father.name":req.params.id2,dob:req.params.id3});
+
+let data4=await sixToeight.find({name:req.params.id1,"father.name":req.params.id2,dob:req.params.id3});
+
+let data =[];
+
+for(let el of data1)
+data.push(el);
+
+for(let el of data2)
+data.push(el);
+
+for(let el of data3)
+data.push(el);
+
+for(let el of data4)
+data.push(el);
 
 res.status(201).render("sr-find",{
     data

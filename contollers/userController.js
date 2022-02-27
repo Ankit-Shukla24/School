@@ -4,6 +4,15 @@ const {promisify}=require('util');
 const crypto = require('crypto');
 const AppError = require('./../public/utils/appError');
 
+
+// cookieOption is a object
+const cookieOption = {
+    expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
+httpOnly:true};
+
+cookieOption.secure = false;
+
+
 exports.signup = async (req,res,next)=>
 {
     try{
@@ -18,14 +27,6 @@ const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET,{
     expiresIn:process.env.JWT_EXPIRE
 })
 
-const cookieOption = {
-    expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
-httpOnly:true,
-
-};
-
-cookieOption.secure=false;
-
 res.cookie('jwt',token,cookieOption);
 // console.log(req.body);
 res.status(201).json({
@@ -39,6 +40,7 @@ catch(err)
 return next(err);
 }
 };
+
 
 exports.login = async (req,res,next) =>{
 
@@ -67,12 +69,6 @@ const token = await jwt.sign({id:user._id},process.env.JWT_SECRET,{
 
 // console.log(token);
 
-// cookieOption is a object
-const cookieOption = {
-    expires:new Date(Date.now()+process.env.JWT_COOKIE_EXPIRE*24*60*60*1000),
-httpOnly:true};
-
-cookieOption.secure = false;
 
 res.cookie('jwt',token,cookieOption);
 // console.log(req.body);
@@ -165,3 +161,46 @@ return next(new AppError("Not allowed to view this route",500));
 
 next();
 }
+
+
+exports.updateMe= async (req,res,next)=>
+{
+   
+   try{ 
+
+    console.log(req.body);
+
+       const user = await User.findOne({email:req.body.email}).select("+password");
+
+
+if(!(req.body.password)||!(await user.correctPassword(req.body.password,user.password)))
+{
+    return next(new AppError('Incorrect Password',401));
+}
+if(req.body.newPassword!==req.body.confirmNewPassword)
+return next(new AppError('Passwords don\'t match',401));
+
+const token = await jwt.sign({id:user._id},process.env.JWT_SECRET,{
+    expiresIn:process.env.JWT_EXPIRE
+});
+
+user.password = req.body.newPassword;
+user.passwordConfirm = req.body.confirmNewPassword;
+user.username = req.body.username;
+await user.save();
+
+console.log(user);
+
+res.cookie('jwt',token,cookieOption);
+// console.log(req.body);
+res.status(201).json({
+status:"success",
+token
+});
+res.locals.user = user;
+}
+catch(err)
+{
+    next(err);
+}
+};

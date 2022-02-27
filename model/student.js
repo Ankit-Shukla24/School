@@ -6,11 +6,9 @@ const studentSchema = new mongoose.Schema({
     type:Number,
     required:[true,'Please Enter the year']
     },
-    sr_no:{
-        type:Number,
-    },
     class:{
         type:String,
+        uppercase:true,
         required:[true,'Please Enter the class'],
     },
     roll_no:{
@@ -19,16 +17,35 @@ const studentSchema = new mongoose.Schema({
     },
     name:{
         type:String,
+        uppercase:true,
         required:[true,'A student must have a name'],
       uppercase:true,
         trim:true,
     },
     father_name:{
         type:String,
+        uppercase:true,
         required:[true,'Please enter father\'s name'],
         uppercase:true,
     trim:true,
-      
+    },
+    dob:{
+type:Date,
+required: [true,"Enter date of birth"]
+    },
+    gender:{
+        type:String,
+        uppercase:true,
+        enum:["MALE","FEMALE"]
+    },
+    religion:{
+type:String,
+uppercase:true
+    },
+    category:{
+        type:String,
+        uppercase:true,
+        enum:["GEN","OBC","SC","ST"]
     },
     january:
     {
@@ -74,7 +91,6 @@ class_code:{
 leave:{
     type:Boolean,
     default:false,
-
 }
 });
 

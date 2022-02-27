@@ -7,7 +7,7 @@ header.header
     
         if user 
             a.nav--link.nav--link--logout.nav--user--link Logout
-            a.nav--link.nav--user--link= `${user.username}` 
+            a.nav--link.nav--user--link(href="/me")= `${user.username}` 
         else 
             a.nav--link.nav--user--link(href="/login") Login
             a.nav--link.nav--user--link(href="/signup") Sign Up

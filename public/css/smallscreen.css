@@ -234,14 +234,18 @@ transition: 0.3s ease-in-out;
     width: 82vw;
 }
 
+#excel-form
+{
+    margin: 12vh auto 1rem auto;
+}
 .form-div-data>form:first-child >label {
     display: inline-block;
-    width: 35vw !important;
+    width: 40vw !important;
 }
 
 .form-div-data>form:first-child> input[type="checkbox"]
 {
-    margin:0 0 0 15vw !important;
+    margin:0 0 0 10vw !important;
 }
 
 .invisible

@@ -1,0 +1,16 @@
+extend base
+
+block content
+    .form-div
+        form.get-form#update-me
+            label(for="Email") Email
+            input#user_email(type="text" value=`${user.email}` disabled)
+            label(for="user_name") Username
+            input#user_name(type="text" value=`${user.username}` placeholder="Enter username")
+            label(for="user_password") Password
+            input#user_password(type="Password"  placeholder="Enter password")
+            label(for="user_new_password") New Password
+            input#user_new_password(type="Password"  placeholder="Enter new password")
+            label(for="user_confirm_new_password") Confirm New Password
+            input#user_confirm_new_password(type="Password"  placeholder="Confirm password")
+            input#update-me-submit(type="Submit" value="Update Information")

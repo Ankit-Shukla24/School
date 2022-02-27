@@ -210,8 +210,8 @@ catch(err)
   };
 
     exports.updatePicStudent = async(req,res,next)=>{
-        
-        // console.log(req.body);
+        let data2;
+        console.log(req.body);
 try{
         if(req.body.sr==="PG")
         data2 = await pgTopg.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
@@ -221,9 +221,8 @@ try{
         data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         if(req.body.sr==="6 TO 8")
         data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
-        res.status(201).json({
-            data:data2
-        });
+
+        console.log(data2);
 
         if(data2.image.img_id&&data2.image.img_id!=="")
 {    const del = await drive.files.delete({
@@ -241,7 +240,9 @@ try{
           return next(err);
         }
 
-        res.status(201);
+        res.status(201).json({
+          data:data2
+        });
 
 }
 
@@ -291,7 +292,7 @@ exports.deleteDoc=async (req,res,next)=>{
     
   let data2=0;
 try{    
-  // console.log(req.body)
+  console.log(req.body)
 
     const del = await drive.files.delete({
         fileId: req.body.doc_id,
@@ -317,7 +318,7 @@ catch(err)
 {
     return next(err)
 }
-    // console.log(data2);
+    console.log(data2);
 
     res.status(201).json({
         data:data2

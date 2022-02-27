@@ -6,6 +6,7 @@ const userController = require('./../contollers/userController');
 router.use(userController.isLoggedIn);
 router.route("/").get(viewController.overview);
 router.get("/login",viewController.login);
+router.get("/me",viewController.me);
 router.get("/signup",viewController.signup);
 router.post("/excel",userController.protect,viewController.excelPrintData);
 router.route("/studentInfo").get( userController.protect,viewController.studentInfo);
@@ -13,6 +14,7 @@ router.route("/studentInfo/fees-update").get(userController.protect,viewControll
 router.route("/studentInfo/sr-excel").get(userController.protect,viewController.excelPrintSr);
 router.route("/studentInfo/sr-main").get(userController.protect,viewController.srMain);
 router.route("/studentInfo/sr-find/:id1/:id2/:id3").get(userController.protect,viewController.srFind);
+router.route("/studentInfo/sr-find-fee/:id1/:id2/:id3").get(userController.protect,viewController.srFindFees);
 router.route("/studentInfo/get-one-sr/:id1/:id2").get(userController.protect,viewController.srGet);
 router.route("/studentInfo/print-one-sr/:id1/:id2").get(userController.protect,viewController.srPrint);
 router.route("/studentInfo/sr-add").get(userController.protect,viewController.srGet);

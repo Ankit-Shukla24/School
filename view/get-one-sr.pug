@@ -40,7 +40,7 @@ block content
                 input.side-pic#student-sr-dob(type="Date" name="dob" value=dob_)
                 label(for="student-sr-dob_in_word") Date of birth(in words)
                 input.side-pic_pc#student-sr-dob_in_word(type="text" name="dob_in_word" value=student.dob_in_word)
-                label(for="student-sr-class") Class
+                label(for="student-sr-class") Class of admission
                 input#student-sr-class(type="text" name="class" value=student.class)
                 label(for="student-sr-date_of_admission") Date of admission
                 -const date_of_admission_= student.date_of_admission?.toISOString().split('T')[0];
@@ -227,7 +227,7 @@ block content
                 input#student-sr-dob(type="Date" name="dob" placeholder="Enter DOB")
                 label(for="student-sr-dob_in_word") Date of birth(in words)
                 input#student-sr-dob_in_word(type="text" name="dob_in_word" placeholder="Enter DOB in words")
-                label(for="student-sr-class") Class
+                label(for="student-sr-class") Class of admission
                 input#student-sr-class(type="text" name="class" placeholder="Enter Class of admission")
                 label(for="student-sr-date_of_admission") Date of admission
                 input#student-sr-date_of_admission(type="Date" name="date_of_admission" placeholder="Enter Date of admission")

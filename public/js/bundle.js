@@ -77154,13 +77154,26 @@ if (document.querySelector("#get-student-data")) {
   });
 }
 
+if (document.querySelector("#student-age")) {
+  var student_age = document.querySelector("#student-age");
+  var student_dob = document.querySelector("#student-dob");
+  student_age.addEventListener("change", function (e) {
+    var time_left;
+    var year = (new Date(student_age.value) - new Date(student_dob.value)) / (1000 * 60 * 60 * 24 * 365);
+    time_left = (new Date(student_age.value) - new Date(student_dob.value)) % (1000 * 60 * 60 * 24 * 365);
+    var month = time_left / (1000 * 60 * 60 * 30 * 24); // console.log(new Date(student_age.value)-new Date(student_dob.value));
+
+    alert("Student is ".concat(Math.trunc(year), " Years and ").concat(Math.trunc(month), " Months old"));
+  });
+}
+
 if (document.querySelector("#submit-all")) document.querySelector("#submit-all").addEventListener("click",
 /*#__PURE__*/
 function () {
   var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(e) {
-    var classList, year, name, father, studentClassCode, studentClass, dateNow, student, feesStudent, data1, fees, months, total, _iterator, _step, el, data, _data2, id;
+    var classList, year, name, father, studentClassCode, religion, dob, category, gender, studentClass, dateNow, student, feesStudent, data1, fees, months, total, _iterator, _step, el, data, _data2, id;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -77173,6 +77186,10 @@ function () {
             name = document.getElementById("student-name").value;
             father = document.getElementById("student-father").value;
             studentClassCode = document.getElementById("student-class").value;
+            religion = document.getElementById("student-religion").value;
+            dob = document.getElementById("student-dob").value;
+            category = document.getElementById("student-category").value;
+            gender = document.getElementById("student-gender").value;
             studentClass = classList[studentClassCode * 1];
             dateNow = new Date().toLocaleString().split(",")[0];
             dateNow += 'Z';
@@ -77180,6 +77197,10 @@ function () {
             student.year = year;
             student.leave = !document.getElementById("student-leave").checked;
             student.name = name;
+            student.dob = dob;
+            student.religion = religion;
+            student.category = category;
+            student.gender = gender;
             student.class = studentClass;
             student.father_name = father;
             student.class_code = studentClassCode;
@@ -77188,44 +77209,44 @@ function () {
             console.log(student);
 
             if (!(document.querySelector("#submit-all").name === "add")) {
-              _context4.next = 22;
+              _context4.next = 30;
               break;
             }
 
             return _context4.abrupt("return", StudentData(student, "add"));
 
-          case 22:
-            _context4.prev = 22;
-            _context4.next = 25;
+          case 30:
+            _context4.prev = 30;
+            _context4.next = 33;
             return (0, _axios.default)({
               method: "GET",
               url: "/api/v1/collectionInfo/get-fees"
             });
 
-          case 25:
+          case 33:
             data1 = _context4.sent;
-            _context4.next = 31;
+            _context4.next = 39;
             break;
 
-          case 28:
-            _context4.prev = 28;
-            _context4.t0 = _context4["catch"](22);
+          case 36:
+            _context4.prev = 36;
+            _context4.t0 = _context4["catch"](30);
             window.alert(_context4.t0.response.data.message);
 
-          case 31:
+          case 39:
             fees = data1.data.fees; // console.log(fees);
 
             months = document.querySelectorAll(".month"); // const monthName = ['january','february','march','april','may','june','july','august','september','october','november','december']
 
             total = 0 * 1;
             _iterator = _createForOfIteratorHelper(months);
-            _context4.prev = 35;
+            _context4.prev = 43;
 
             _iterator.s();
 
-          case 37:
+          case 45:
             if ((_step = _iterator.n()).done) {
-              _context4.next = 68;
+              _context4.next = 76;
               break;
             }
 
@@ -77233,7 +77254,7 @@ function () {
             student["".concat(el.name)] = el.value; // // console.log("10");
 
             if (!(el.classList.contains('no_change') !== true && el.value !== "")) {
-              _context4.next = 51;
+              _context4.next = 59;
               break;
             }
 
@@ -77244,21 +77265,21 @@ function () {
             // console.log(Date.now(),dateNow);
 
             total = total + fees[studentClassCode] * 1;
-            _context4.next = 48;
+            _context4.next = 56;
             return (0, _axios.default)({
               method: 'POST',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 48:
+          case 56:
             data = _context4.sent;
-            _context4.next = 65;
+            _context4.next = 73;
             break;
 
-          case 51:
+          case 59:
             if (!(el.classList.contains('no_change') === true && el.value === "")) {
-              _context4.next = 65;
+              _context4.next = 73;
               break;
             }
 
@@ -77266,15 +77287,15 @@ function () {
             feesStudent['month'] = el.name;
             feesStudent['date'] = dateNow; // console.log(Date.now(),dateNow);
 
-            _context4.prev = 55;
-            _context4.next = 58;
+            _context4.prev = 63;
+            _context4.next = 66;
             return (0, _axios.default)({
               method: 'DELETE',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 58:
+          case 66:
             _data2 = _context4.sent;
 
             if (_data2.status === 201) {
@@ -77282,49 +77303,49 @@ function () {
             } // console.log(total);
 
 
-            _context4.next = 65;
-            break;
-
-          case 62:
-            _context4.prev = 62;
-            _context4.t1 = _context4["catch"](55);
-            window.alert(_context4.t1.response.data.message);
-
-          case 65:
-            ;
-
-          case 66:
-            _context4.next = 37;
-            break;
-
-          case 68:
             _context4.next = 73;
             break;
 
           case 70:
             _context4.prev = 70;
-            _context4.t2 = _context4["catch"](35);
+            _context4.t1 = _context4["catch"](63);
+            window.alert(_context4.t1.response.data.message);
+
+          case 73:
+            ;
+
+          case 74:
+            _context4.next = 45;
+            break;
+
+          case 76:
+            _context4.next = 81;
+            break;
+
+          case 78:
+            _context4.prev = 78;
+            _context4.t2 = _context4["catch"](43);
 
             _iterator.e(_context4.t2);
 
-          case 73:
-            _context4.prev = 73;
+          case 81:
+            _context4.prev = 81;
 
             _iterator.f();
 
-            return _context4.finish(73);
+            return _context4.finish(81);
 
-          case 76:
+          case 84:
             updateCollectiondata(total, dateNow);
             id = window.location.href.split("/")[5];
             StudentData(student, id);
 
-          case 79:
+          case 87:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[22, 28], [35, 70, 73, 76], [55, 62]]);
+    }, _callee4, null, [[30, 36], [43, 78, 81, 84], [63, 70]]);
   }));
 
   return function (_x5) {
@@ -77506,21 +77527,22 @@ if (document.querySelector("#excel-form")) {
               excel['session'] = document.getElementById("session-check").checked;
               excel['father'] = document.getElementById("father-check").checked;
               excel['fees'] = document.getElementById("fees-check").checked;
+              excel["add_info"] = document.getElementById("add-info-check").checked;
               excel['sessionfilter'] = document.getElementById("session-filter").value;
               excel['classfilter'] = document.getElementById("class-filter").value; // console.log(excel,"***********");
 
-              _context8.next = 9;
+              _context8.next = 10;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/excel',
                 data: excel
               });
 
-            case 9:
+            case 10:
               data = _context8.sent;
               window.open("/users.xlsx");
 
-            case 11:
+            case 12:
             case "end":
               return _context8.stop();
           }
@@ -77917,8 +77939,7 @@ if (document.querySelector("#get-student-sr-data")) {
             case 67:
               data = _context11.sent;
               // console.log(data)
-              setTimeout(function () {
-                location.reload();
+              setTimeout(function () {// location.reload();
               }, 500);
               _context11.next = 74;
               break;
@@ -78331,7 +78352,7 @@ if (document.querySelector(".upload-pic-btn")) {
     var _ref15 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee15(e) {
-      var formPic, data;
+      var sr_name, formPic, data;
       return regeneratorRuntime.wrap(function _callee15$(_context15) {
         while (1) {
           switch (_context15.prev = _context15.next) {
@@ -78342,37 +78363,42 @@ if (document.querySelector(".upload-pic-btn")) {
                 document.querySelector(".upload-pic-btn").style.padding = "0.5rem";
                 document.querySelector(".upload-pic-btn").style.margin = "0.5rem auto";
               }, 1);
+              sr_name = document.getElementById("student-sr").value;
+              if (sr_name === "PG") sr_name = "PG";
+              if (sr_name === "PRE PRIMARY") sr_name = "LKG TO UKG";
+              if (sr_name === "PRIMARY") sr_name = "1 TO 5";
+              if (sr_name === "JUNIOR HIGHSCHOOL") sr_name = "1 TO 8";
               formPic = new FormData();
-              formPic.append('sr', document.getElementById("student-sr").value);
+              formPic.append('sr', sr_name);
               formPic.append('student_name', document.querySelector("#student-sr-name").value);
               formPic.append('student_id', document.getElementById("student-sr-id").textContent);
               formPic.append('pic', document.getElementById('picUp').files[0]); // console.log(formPic);
 
-              _context15.prev = 8;
-              _context15.next = 11;
+              _context15.prev = 13;
+              _context15.next = 16;
               return (0, _axios.default)({
                 method: "POST",
                 url: "/api/v1/documentInfo/uploadPic",
                 data: formPic
               });
 
-            case 11:
+            case 16:
               data = _context15.sent;
               location.reload();
-              _context15.next = 18;
+              _context15.next = 23;
               break;
 
-            case 15:
-              _context15.prev = 15;
-              _context15.t0 = _context15["catch"](8);
+            case 20:
+              _context15.prev = 20;
+              _context15.t0 = _context15["catch"](13);
               window.alert(_context15.t0.response.data.message);
 
-            case 18:
+            case 23:
             case "end":
               return _context15.stop();
           }
         }
-      }, _callee15, null, [[8, 15]]);
+      }, _callee15, null, [[13, 20]]);
     }));
 
     return function (_x15) {
@@ -78388,43 +78414,48 @@ if (document.querySelector("#document-upload-form")) {
     var _ref16 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee16(e) {
-      var formDoc, data;
+      var formDoc, sr_name, data;
       return regeneratorRuntime.wrap(function _callee16$(_context16) {
         while (1) {
           switch (_context16.prev = _context16.next) {
             case 0:
               e.preventDefault();
               formDoc = new FormData();
-              formDoc.append('sr', document.getElementById("student-sr").value);
+              sr_name = document.getElementById("student-sr").value;
+              if (sr_name === "PG") sr_name = "PG";
+              if (sr_name === "PRE PRIMARY") sr_name = "LKG TO UKG";
+              if (sr_name === "PRIMARY") sr_name = "1 TO 5";
+              if (sr_name === "JUNIOR HIGHSCHOOL") sr_name = "1 TO 8";
+              formDoc.append('sr', sr_name);
               formDoc.append('student_id', document.getElementById("student-sr-id").textContent);
               formDoc.append('desc', document.querySelector("#upload-desc").value);
               formDoc.append('student_name', document.querySelector("#student-sr-name").value);
               formDoc.append('doc', document.querySelector("#upload-doc").files[0]);
-              _context16.prev = 7;
-              _context16.next = 10;
+              _context16.prev = 12;
+              _context16.next = 15;
               return (0, _axios.default)({
                 method: 'POST',
                 url: '/api/v1/documentInfo/uploadDoc',
                 data: formDoc
               });
 
-            case 10:
+            case 15:
               data = _context16.sent;
               location.reload();
-              _context16.next = 17;
+              _context16.next = 22;
               break;
 
-            case 14:
-              _context16.prev = 14;
-              _context16.t0 = _context16["catch"](7);
+            case 19:
+              _context16.prev = 19;
+              _context16.t0 = _context16["catch"](12);
               window.alert(_context16.t0.response.data.message);
 
-            case 17:
+            case 22:
             case "end":
               return _context16.stop();
           }
         }
-      }, _callee16, null, [[7, 14]]);
+      }, _callee16, null, [[12, 19]]);
     }));
 
     return function (_x16) {
@@ -78441,7 +78472,7 @@ if (document.querySelector(".del-doc")) {
       var _ref17 = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee17(e) {
-        var obj, randnum, enteredNum, data;
+        var obj, randnum, enteredNum, sr_name, data;
         return regeneratorRuntime.wrap(function _callee17$(_context17) {
           while (1) {
             switch (_context17.prev = _context17.next) {
@@ -78459,36 +78490,41 @@ if (document.querySelector(".del-doc")) {
                 return _context17.abrupt("return", window.alert("Wrong Code"));
 
               case 5:
+                sr_name = document.getElementById("student-sr").value;
+                if (sr_name === "PG") sr_name = "PG";
+                if (sr_name === "PRE PRIMARY") sr_name = "LKG TO UKG";
+                if (sr_name === "PRIMARY") sr_name = "1 TO 5";
+                if (sr_name === "JUNIOR HIGHSCHOOL") sr_name = "1 TO 8";
                 obj.doc_name = el.name;
                 obj.doc_id = el.id;
-                obj.student_sr = document.querySelector("#student-sr").value;
+                obj.student_sr = sr_name;
                 obj.student_id = document.querySelector("#student-sr-id").textContent; // console.log(obj);
 
-                _context17.prev = 9;
-                _context17.next = 12;
+                _context17.prev = 14;
+                _context17.next = 17;
                 return (0, _axios.default)({
                   method: "DELETE",
                   url: "/api/v1/documentInfo/deleteDoc",
                   data: obj
                 });
 
-              case 12:
+              case 17:
                 data = _context17.sent;
                 location.reload();
-                _context17.next = 19;
+                _context17.next = 24;
                 break;
 
-              case 16:
-                _context17.prev = 16;
-                _context17.t0 = _context17["catch"](9);
+              case 21:
+                _context17.prev = 21;
+                _context17.t0 = _context17["catch"](14);
                 window.alert(_context17.t0.response.data.message);
 
-              case 19:
+              case 24:
               case "end":
                 return _context17.stop();
             }
           }
-        }, _callee17, null, [[9, 16]]);
+        }, _callee17, null, [[14, 21]]);
       }));
 
       return function (_x17) {
@@ -78546,6 +78582,78 @@ if (document.querySelector("#del-sr-record")) {
     };
   }());
 }
+
+if (document.querySelector("#update-me")) {
+  document.querySelector("#update-me-submit").addEventListener("click",
+  /*#__PURE__*/
+  function () {
+    var _ref19 = _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee19(e) {
+      var obj, data, entries;
+      return regeneratorRuntime.wrap(function _callee19$(_context19) {
+        while (1) {
+          switch (_context19.prev = _context19.next) {
+            case 0:
+              e.preventDefault();
+              obj = new Object();
+              obj.username = document.querySelector("#user_name").value;
+              obj.email = document.querySelector("#user_email").value;
+              obj.password = document.querySelector("#user_password").value;
+              obj.newPassword = document.querySelector("#user_new_password").value;
+              obj.confirmNewPassword = document.querySelector("#user_confirm_new_password").value;
+              _context19.prev = 7;
+              _context19.next = 10;
+              return (0, _axios.default)({
+                method: 'POST',
+                url: '/api/v1/userInfo/updateMe',
+                data: obj
+              });
+
+            case 10:
+              data = _context19.sent;
+              console.log(data);
+              if (data.data.status === 201) window.reload();
+              _context19.next = 24;
+              break;
+
+            case 15:
+              _context19.prev = 15;
+              _context19.t0 = _context19["catch"](7);
+              console.log(data);
+              console.log(_context19.t0.response);
+
+              if (_context19.t0.response.data.err.errors) {
+                _context19.next = 22;
+                break;
+              }
+
+              window.alert(_context19.t0.response.data.message);
+              return _context19.abrupt("return");
+
+            case 22:
+              entries = Object.entries(_context19.t0.response.data.err.errors);
+              entries.forEach(function (el) {
+                if (el[1].path !== "password") {
+                  window.alert("".concat(el[1].message));
+                } else {
+                  window.alert("Password is shorter than ".concat(el[1].properties.minlength, " characters"));
+                }
+              });
+
+            case 24:
+            case "end":
+              return _context19.stop();
+          }
+        }
+      }, _callee19, null, [[7, 15]]);
+    }));
+
+    return function (_x19) {
+      return _ref19.apply(this, arguments);
+    };
+  }());
+}
 },{"core-js/modules/es6.array.copy-within":"../../node_modules/core-js/modules/es6.array.copy-within.js","core-js/modules/es6.array.fill":"../../node_modules/core-js/modules/es6.array.fill.js","core-js/modules/es6.array.find":"../../node_modules/core-js/modules/es6.array.find.js","core-js/modules/es6.array.find-index":"../../node_modules/core-js/modules/es6.array.find-index.js","core-js/modules/es6.array.from":"../../node_modules/core-js/modules/es6.array.from.js","core-js/modules/es7.array.includes":"../../node_modules/core-js/modules/es7.array.includes.js","core-js/modules/es6.array.iterator":"../../node_modules/core-js/modules/es6.array.iterator.js","core-js/modules/es6.array.of":"../../node_modules/core-js/modules/es6.array.of.js","core-js/modules/es6.array.sort":"../../node_modules/core-js/modules/es6.array.sort.js","core-js/modules/es6.array.species":"../../node_modules/core-js/modules/es6.array.species.js","core-js/modules/es6.date.to-primitive":"../../node_modules/core-js/modules/es6.date.to-primitive.js","core-js/modules/es6.function.has-instance":"../../node_modules/core-js/modules/es6.function.has-instance.js","core-js/modules/es6.function.name":"../../node_modules/core-js/modules/es6.function.name.js","core-js/modules/es6.map":"../../node_modules/core-js/modules/es6.map.js","core-js/modules/es6.math.acosh":"../../node_modules/core-js/modules/es6.math.acosh.js","core-js/modules/es6.math.asinh":"../../node_modules/core-js/modules/es6.math.asinh.js","core-js/modules/es6.math.atanh":"../../node_modules/core-js/modules/es6.math.atanh.js","core-js/modules/es6.math.cbrt":"../../node_modules/core-js/modules/es6.math.cbrt.js","core-js/modules/es6.math.clz32":"../../node_modules/core-js/modules/es6.math.clz32.js","core-js/modules/es6.math.cosh":"../../node_modules/core-js/modules/es6.math.cosh.js","core-js/modules/es6.math.expm1":"../../node_modules/core-js/modules/es6.math.expm1.js","core-js/modules/es6.math.fround":"../../node_modules/core-js/modules/es6.math.fround.js","core-js/modules/es6.math.hypot":"../../node_modules/core-js/modules/es6.math.hypot.js","core-js/modules/es6.math.imul":"../../node_modules/core-js/modules/es6.math.imul.js","core-js/modules/es6.math.log1p":"../../node_modules/core-js/modules/es6.math.log1p.js","core-js/modules/es6.math.log10":"../../node_modules/core-js/modules/es6.math.log10.js","core-js/modules/es6.math.log2":"../../node_modules/core-js/modules/es6.math.log2.js","core-js/modules/es6.math.sign":"../../node_modules/core-js/modules/es6.math.sign.js","core-js/modules/es6.math.sinh":"../../node_modules/core-js/modules/es6.math.sinh.js","core-js/modules/es6.math.tanh":"../../node_modules/core-js/modules/es6.math.tanh.js","core-js/modules/es6.math.trunc":"../../node_modules/core-js/modules/es6.math.trunc.js","core-js/modules/es6.number.constructor":"../../node_modules/core-js/modules/es6.number.constructor.js","core-js/modules/es6.number.epsilon":"../../node_modules/core-js/modules/es6.number.epsilon.js","core-js/modules/es6.number.is-finite":"../../node_modules/core-js/modules/es6.number.is-finite.js","core-js/modules/es6.number.is-integer":"../../node_modules/core-js/modules/es6.number.is-integer.js","core-js/modules/es6.number.is-nan":"../../node_modules/core-js/modules/es6.number.is-nan.js","core-js/modules/es6.number.is-safe-integer":"../../node_modules/core-js/modules/es6.number.is-safe-integer.js","core-js/modules/es6.number.max-safe-integer":"../../node_modules/core-js/modules/es6.number.max-safe-integer.js","core-js/modules/es6.number.min-safe-integer":"../../node_modules/core-js/modules/es6.number.min-safe-integer.js","core-js/modules/es6.number.parse-float":"../../node_modules/core-js/modules/es6.number.parse-float.js","core-js/modules/es6.number.parse-int":"../../node_modules/core-js/modules/es6.number.parse-int.js","core-js/modules/es6.object.assign":"../../node_modules/core-js/modules/es6.object.assign.js","core-js/modules/es7.object.define-getter":"../../node_modules/core-js/modules/es7.object.define-getter.js","core-js/modules/es7.object.define-setter":"../../node_modules/core-js/modules/es7.object.define-setter.js","core-js/modules/es7.object.entries":"../../node_modules/core-js/modules/es7.object.entries.js","core-js/modules/es6.object.freeze":"../../node_modules/core-js/modules/es6.object.freeze.js","core-js/modules/es6.object.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.object.get-own-property-descriptor.js","core-js/modules/es7.object.get-own-property-descriptors":"../../node_modules/core-js/modules/es7.object.get-own-property-descriptors.js","core-js/modules/es6.object.get-own-property-names":"../../node_modules/core-js/modules/es6.object.get-own-property-names.js","core-js/modules/es6.object.get-prototype-of":"../../node_modules/core-js/modules/es6.object.get-prototype-of.js","core-js/modules/es7.object.lookup-getter":"../../node_modules/core-js/modules/es7.object.lookup-getter.js","core-js/modules/es7.object.lookup-setter":"../../node_modules/core-js/modules/es7.object.lookup-setter.js","core-js/modules/es6.object.prevent-extensions":"../../node_modules/core-js/modules/es6.object.prevent-extensions.js","core-js/modules/es6.object.is":"../../node_modules/core-js/modules/es6.object.is.js","core-js/modules/es6.object.is-frozen":"../../node_modules/core-js/modules/es6.object.is-frozen.js","core-js/modules/es6.object.is-sealed":"../../node_modules/core-js/modules/es6.object.is-sealed.js","core-js/modules/es6.object.is-extensible":"../../node_modules/core-js/modules/es6.object.is-extensible.js","core-js/modules/es6.object.keys":"../../node_modules/core-js/modules/es6.object.keys.js","core-js/modules/es6.object.seal":"../../node_modules/core-js/modules/es6.object.seal.js","core-js/modules/es6.object.set-prototype-of":"../../node_modules/core-js/modules/es6.object.set-prototype-of.js","core-js/modules/es7.object.values":"../../node_modules/core-js/modules/es7.object.values.js","core-js/modules/es6.promise":"../../node_modules/core-js/modules/es6.promise.js","core-js/modules/es7.promise.finally":"../../node_modules/core-js/modules/es7.promise.finally.js","core-js/modules/es6.reflect.apply":"../../node_modules/core-js/modules/es6.reflect.apply.js","core-js/modules/es6.reflect.construct":"../../node_modules/core-js/modules/es6.reflect.construct.js","core-js/modules/es6.reflect.define-property":"../../node_modules/core-js/modules/es6.reflect.define-property.js","core-js/modules/es6.reflect.delete-property":"../../node_modules/core-js/modules/es6.reflect.delete-property.js","core-js/modules/es6.reflect.get":"../../node_modules/core-js/modules/es6.reflect.get.js","core-js/modules/es6.reflect.get-own-property-descriptor":"../../node_modules/core-js/modules/es6.reflect.get-own-property-descriptor.js","core-js/modules/es6.reflect.get-prototype-of":"../../node_modules/core-js/modules/es6.reflect.get-prototype-of.js","core-js/modules/es6.reflect.has":"../../node_modules/core-js/modules/es6.reflect.has.js","core-js/modules/es6.reflect.is-extensible":"../../node_modules/core-js/modules/es6.reflect.is-extensible.js","core-js/modules/es6.reflect.own-keys":"../../node_modules/core-js/modules/es6.reflect.own-keys.js","core-js/modules/es6.reflect.prevent-extensions":"../../node_modules/core-js/modules/es6.reflect.prevent-extensions.js","core-js/modules/es6.reflect.set":"../../node_modules/core-js/modules/es6.reflect.set.js","core-js/modules/es6.reflect.set-prototype-of":"../../node_modules/core-js/modules/es6.reflect.set-prototype-of.js","core-js/modules/es6.regexp.constructor":"../../node_modules/core-js/modules/es6.regexp.constructor.js","core-js/modules/es6.regexp.flags":"../../node_modules/core-js/modules/es6.regexp.flags.js","core-js/modules/es6.regexp.match":"../../node_modules/core-js/modules/es6.regexp.match.js","core-js/modules/es6.regexp.replace":"../../node_modules/core-js/modules/es6.regexp.replace.js","core-js/modules/es6.regexp.split":"../../node_modules/core-js/modules/es6.regexp.split.js","core-js/modules/es6.regexp.search":"../../node_modules/core-js/modules/es6.regexp.search.js","core-js/modules/es6.regexp.to-string":"../../node_modules/core-js/modules/es6.regexp.to-string.js","core-js/modules/es6.set":"../../node_modules/core-js/modules/es6.set.js","core-js/modules/es6.symbol":"../../node_modules/core-js/modules/es6.symbol.js","core-js/modules/es7.symbol.async-iterator":"../../node_modules/core-js/modules/es7.symbol.async-iterator.js","core-js/modules/es6.string.anchor":"../../node_modules/core-js/modules/es6.string.anchor.js","core-js/modules/es6.string.big":"../../node_modules/core-js/modules/es6.string.big.js","core-js/modules/es6.string.blink":"../../node_modules/core-js/modules/es6.string.blink.js","core-js/modules/es6.string.bold":"../../node_modules/core-js/modules/es6.string.bold.js","core-js/modules/es6.string.code-point-at":"../../node_modules/core-js/modules/es6.string.code-point-at.js","core-js/modules/es6.string.ends-with":"../../node_modules/core-js/modules/es6.string.ends-with.js","core-js/modules/es6.string.fixed":"../../node_modules/core-js/modules/es6.string.fixed.js","core-js/modules/es6.string.fontcolor":"../../node_modules/core-js/modules/es6.string.fontcolor.js","core-js/modules/es6.string.fontsize":"../../node_modules/core-js/modules/es6.string.fontsize.js","core-js/modules/es6.string.from-code-point":"../../node_modules/core-js/modules/es6.string.from-code-point.js","core-js/modules/es6.string.includes":"../../node_modules/core-js/modules/es6.string.includes.js","core-js/modules/es6.string.italics":"../../node_modules/core-js/modules/es6.string.italics.js","core-js/modules/es6.string.iterator":"../../node_modules/core-js/modules/es6.string.iterator.js","core-js/modules/es6.string.link":"../../node_modules/core-js/modules/es6.string.link.js","core-js/modules/es7.string.pad-start":"../../node_modules/core-js/modules/es7.string.pad-start.js","core-js/modules/es7.string.pad-end":"../../node_modules/core-js/modules/es7.string.pad-end.js","core-js/modules/es6.string.raw":"../../node_modules/core-js/modules/es6.string.raw.js","core-js/modules/es6.string.repeat":"../../node_modules/core-js/modules/es6.string.repeat.js","core-js/modules/es6.string.small":"../../node_modules/core-js/modules/es6.string.small.js","core-js/modules/es6.string.starts-with":"../../node_modules/core-js/modules/es6.string.starts-with.js","core-js/modules/es6.string.strike":"../../node_modules/core-js/modules/es6.string.strike.js","core-js/modules/es6.string.sub":"../../node_modules/core-js/modules/es6.string.sub.js","core-js/modules/es6.string.sup":"../../node_modules/core-js/modules/es6.string.sup.js","core-js/modules/es6.typed.array-buffer":"../../node_modules/core-js/modules/es6.typed.array-buffer.js","core-js/modules/es6.typed.int8-array":"../../node_modules/core-js/modules/es6.typed.int8-array.js","core-js/modules/es6.typed.uint8-array":"../../node_modules/core-js/modules/es6.typed.uint8-array.js","core-js/modules/es6.typed.uint8-clamped-array":"../../node_modules/core-js/modules/es6.typed.uint8-clamped-array.js","core-js/modules/es6.typed.int16-array":"../../node_modules/core-js/modules/es6.typed.int16-array.js","core-js/modules/es6.typed.uint16-array":"../../node_modules/core-js/modules/es6.typed.uint16-array.js","core-js/modules/es6.typed.int32-array":"../../node_modules/core-js/modules/es6.typed.int32-array.js","core-js/modules/es6.typed.uint32-array":"../../node_modules/core-js/modules/es6.typed.uint32-array.js","core-js/modules/es6.typed.float32-array":"../../node_modules/core-js/modules/es6.typed.float32-array.js","core-js/modules/es6.typed.float64-array":"../../node_modules/core-js/modules/es6.typed.float64-array.js","core-js/modules/es6.weak-map":"../../node_modules/core-js/modules/es6.weak-map.js","core-js/modules/es6.weak-set":"../../node_modules/core-js/modules/es6.weak-set.js","core-js/modules/es7.array.flat-map":"../../node_modules/core-js/modules/es7.array.flat-map.js","core-js/modules/web.timers":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","axios":"../../node_modules/axios/index.js","console":"../../node_modules/console-browserify/index.js","lodash":"../../node_modules/lodash/lodash.js","moment":"../../node_modules/moment/moment.js","util":"../../node_modules/node-libs-browser/node_modules/util/util.js","../../model/documents":"../../model/documents.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -78574,7 +78682,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58402" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62166" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -15,6 +15,14 @@ const DB=process.env.DATABASE.replace('<PASSWORD>',process.env.PASSWORD);
 
 const workbook = new excel.Workbook();
 
+// const del = async ()=>{
+
+//     await lkgToukg.deleteMany({});
+//     await oneToFive.deleteMany({});
+//     await sixToeight.deleteMany({});
+// }
+
+// del();
 
 workbook.xlsx.readFile("./s.xlsx").then(el=>{
 
@@ -49,11 +57,13 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         console.log(obj);
         const father = new Object();
 
-        father.name = vals[6];
+        father.name ="MR. "+vals[6];
+        father.name = father.name.replace(/\s+/g, " ");
 
         const mother = new Object();
 
-        mother.name = vals[7];
+        mother.name ="MRS. "+vals[7];
+        mother.name = mother.name.replace(/\s+/g, " ");
 
         const address= new Object();
 
@@ -144,11 +154,13 @@ workbook.xlsx.readFile("./s.xlsx").then(el=>{
         obj["religion"] = vals[5].split(" ")[1];}
         const father = new Object();
 
-        father.name = vals[6];
+        father.name ="MR. "+vals[6];
+        father.name = father.name.replace(/\s+/g, " ");
 
         const mother = new Object();
 
-        mother.name = vals[7];
+        mother.name ="MRS. "+vals[7];
+        mother.name = mother.name.replace(/\s+/g, " ");
 
         const address= new Object();
 
@@ -287,11 +299,13 @@ passobj["passing"] =moment(vals[13].split(" ")[1],"DD-MM-YYYY").format("L")+'Z';
         console.log(obj);
         const father = new Object();
 
-        father.name = vals[6];
+        father.name ="MR. "+vals[6];
+        father.name = father.name.replace(/\s+/g, " ");
 
         const mother = new Object();
 
-        mother.name = vals[7];
+        mother.name ="MRS. "+vals[7];
+        mother.name = mother.name.replace(/\s+/g, " ");
 
         const address= new Object();
 

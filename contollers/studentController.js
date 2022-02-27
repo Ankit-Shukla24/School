@@ -1,7 +1,7 @@
 const excel = require("exceljs");
 const Students = require('./../model/student');
 const feesToday=require("./../model/todayFees");
-const loadash = require("lodash");
+const lodash = require("lodash");
 const fees = require("./../model/fees");
 const lkgToukg = require('./../model/lkgToukg');
 const pgTopg = require('./../model/pgTopg');
@@ -138,7 +138,7 @@ exports.searchFeesDate = async (req,res,next)=>{
         
         let record = new Object;
 
-        record = loadash.cloneDeep(options[i-minm_class]);
+        record = lodash.cloneDeep(options[i-minm_class]);
 // console.log(record.data);
         for(const el of data1)
         {
@@ -185,7 +185,7 @@ else{
 
         let record = new Object;
 
-        record = loadash.cloneDeep(options[i-minm]);
+        record = lodash.cloneDeep(options[i-minm]);
 // console.log(record.data);
         for(const el of data1)
         {
@@ -210,42 +210,33 @@ exports.updateSr= async (req,res,next)=>{
 
     let data;
     let sr;
-    // console.log(req.params);
+//     console.log(req.body);
 
-    if(req.params.id1==="pg")
-{sr="pg"
-req.body.sr = "PG"}
-if(req.params.id1==="pre primary")
-{sr="lkgtoukg"
-req.body.sr = "LKG TO UKG"}
-if(req.params.id1==="primary")
-{sr="1to5"
-req.body.sr = "1 TO 5"}
-if(req.params.id1==="junior highschool")
-{sr="6to8"
-req.body.sr = "6 TO 8"}
-    if(sr==="pg")
+// console.log(sr);
+// console.log(req.body);
+
+    if(req.body.sr==="pg")
     data = await pgTopg.findByIdAndUpdate(req.params.id2,req.body,{
        new:true
    });
 
-    else if(sr==="lkgtoukg")
+    else if(req.body.sr==="LKG TO UKG")
      data = await lkgToukg.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
 
-    else if(sr==="1to5")
+    else if(req.body.sr==="1 TO 5")
      data = await oneToFive.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
 
-    else if(sr==="6to8")
+    else if(req.body.sr==="6 TO 8")
      data = await sixToeight.findByIdAndUpdate(req.params.id2,req.body,{
         new:true
     });
   
 
-    // console.log(data);
+    console.log(data);
 
     res.status(201).json({
         data
@@ -708,15 +699,14 @@ exports.promoteStudentFees = async (req,res,next)=>{
     {
         if(el.leave===true)
         continue;
-      try{  const student = new Object();
-        student.year=el.year*1+1;
-        student.name=el.name;
-        student.father_name=el.father_name;
-        student.date_of_birth= el.date_of_birth; 
-        student.class_code = el.class_code*1+1;
-        student.class=classList[student.class_code*1];
-        student.roll_no = el.roll_no;
+      try{  
+        const temp = toObject(el);
 
+        const student = lodash.cloneDeep(temp);
+
+        student["year"] = student.year*1+1;
+        student["class_code"] = student.class_code*1+1;
+        student["class"]= classList[student.class_code];
         // console.log(student);
         const newStudent = await Students.create(student);
       }
