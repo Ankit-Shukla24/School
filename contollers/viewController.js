@@ -284,16 +284,16 @@ exports.excelPrintData = async(req,res)=>{
     }
 
     if(!req.body.father)
-    {worksheet.spliceColumns(5-k,1);
+    {worksheet.spliceColumns(6-k,1);
     k++;}
 
     if(!req.body.add_info)
-    {worksheet.spliceColumns(6-k,1);
+    {worksheet.spliceColumns(7-k,4);
     k+=4;
     }
 
     if(!req.body.fees)
-    {worksheet.spliceColumns(10-k,12);
+    {worksheet.spliceColumns(11-k,12);
     k++}
 }
     let counter =0;
