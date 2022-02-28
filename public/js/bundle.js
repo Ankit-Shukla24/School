@@ -77939,7 +77939,8 @@ if (document.querySelector("#get-student-sr-data")) {
             case 67:
               data = _context11.sent;
               // console.log(data)
-              setTimeout(function () {// location.reload();
+              setTimeout(function () {
+                location.reload();
               }, 500);
               _context11.next = 74;
               break;
@@ -78682,7 +78683,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62166" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54060" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

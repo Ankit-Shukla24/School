@@ -3,7 +3,7 @@ extend base
 mixin datechanger(date_change)
     -let data = date_changer
     -if(date_change!=undefined)
-        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'long', year: 'numeric'})
+        -data=date_change.toISOString().split('T')[0];
         td=data
     -else
         td=data
@@ -28,6 +28,6 @@ block content
                     td=student.roll_no
                     td=student.name
                     td=student.father_name
-                    +datechanger(student.date_of_birth)
+                    +datechanger(student.dob)
                     td=student.month[0].toUpperCase()+student.month.slice(1)
                     td=student.fees

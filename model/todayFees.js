@@ -28,7 +28,7 @@ const todayFessSchema = new mongoose.Schema({
         trim:true,
             maxlength:[40,'A tour name must be less than or equal to 40 letters'],
         },
-        date_of_birth:{
+        dob:{
             type:Date,
             default:"null"
         },
