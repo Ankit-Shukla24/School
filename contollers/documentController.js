@@ -108,7 +108,7 @@ return req;
 exports.fileUploader = upload.single('file');
 
 exports.uploadFile = async(req,res,next) =>{
-
+  try{
     req =await createFile(req);
 
     let dateNow = new Date().toLocaleString().split(",")[0];
@@ -121,7 +121,7 @@ exports.uploadFile = async(req,res,next) =>{
 
     // console.log(req.body);
 
-try{
+
     await documents.create(req.body);}
 catch(err)
 {
@@ -132,11 +132,13 @@ catch(err)
 }
 
 exports.deleteDocByParams = async (req,res,next)=>{
-try
+
+  let data;
+  try
    { 
      // console.log(req.params);
 
-    const data = await documents.findOneAndDelete({doc_id:req.params.id})
+   data = await documents.findOneAndDelete({doc_id:req.params.id})
 
     const del = await drive.files.delete({
         fileId: req.params.id,
