@@ -676,8 +676,11 @@ if(document.querySelector("#get-student-sr-data"))
         father.age = document.querySelector("#student-sr-father-age").value;
         mother.age = document.querySelector("#student-sr-mother-age").value;
 
-        if(objs["prev_sr_no"]==="null")
+        if(objs["prev_sr_no"]==="No record")
         objs["prev_sr_no"]="";
+        else if(objs["prev_sr_no"]===NULL)
+        objs["prev_sr_no"]="";
+
 
         if(father.age==="null")
         father.age = "";
@@ -1298,8 +1301,6 @@ if(document.querySelector("#update-me"))
 
         e.preventDefault();
 
-const obj = new Object;
-
 obj.username = document.querySelector("#user_name").value;
 obj.email = document.querySelector("#user_email").value;
 obj.password = document.querySelector("#user_password").value;
@@ -1316,7 +1317,7 @@ try{data = await axios ({
 
 console.log(data);
 
-if(data.data.status===201)
+if(data.status===201*1)
 window.reload();
 }
  catch(err)
@@ -1338,4 +1339,83 @@ window.reload();
         }
         }) 
     }
-})}
+})
+}
+
+
+if(document.querySelector("#forgot-password"))
+{
+    document.querySelector("#forgot-password").addEventListener("submit",async (e)=>{
+        e.preventDefault();
+        const email = document.querySelector("#email-login").value;
+       const obj = new Object();
+       obj["email"] = email;
+        console.log(email);
+        let data
+      try{  data = await axios({
+            method:'POST',
+            url:"/api/v1/userInfo/forgotPassword",
+            data:obj
+        });
+
+        console.log(data.status);
+
+        if(data.status===201*1)
+        window.location.href="/message";
+
+
+    }
+        catch(err)
+        {
+            window.alert(err.response.data.message);
+        }
+
+    })
+
+}
+
+if(document.querySelector("#forgot-email"))
+{
+    document.querySelector("#forgot-email").addEventListener("submit", async (e)=>{
+    e.preventDefault();
+
+    const obj = new Object;
+    
+    obj.email = document.querySelector("#user_email").value;
+    obj.newPassword = document.querySelector("#user_new_password").value;
+    obj.confirmNewPassword = document.querySelector("#user_confirm_new_password").value;
+    let data;
+    try{data = await axios ({
+    
+        method:'POST',
+        url:'/api/v1/userInfo/resetPassword',
+        data:obj
+    
+    })
+    
+    console.log(data);
+    
+    if(data.status===201*1)
+    window.location.href="/";
+    }
+     catch(err)
+     {
+         console.log(data);
+         console.log(err.response);
+         if(!err.response.data.err.errors)
+        { window.alert(err.response.data.message);
+         return;}
+        const entries = Object.entries(err.response.data.err.errors);
+        entries.forEach((el)=>{
+            if(el[1].path!=="password")
+            {
+                        window.alert(`${el[1].message}`);
+                    }
+            else
+            {
+                window.alert(`Password is shorter than ${el[1].properties.minlength} characters` );
+            }
+            }) 
+
+}
+})};

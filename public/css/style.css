@@ -9,7 +9,11 @@
 
 ::selection {
     color:inherit;
-    background: inherit;
+    background: var(--primary-color);
+  }
+
+  option{
+      background-color: var(--primary-color);
   }
 
 .get-form>.side-pic,.get-form>.side-pic_pc

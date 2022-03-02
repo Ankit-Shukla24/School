@@ -5,11 +5,13 @@ const userController = require('./../contollers/userController');
 
 router.use(userController.isLoggedIn);
 router.route("/").get(viewController.overview);
+router.route("/message").get(viewController.message);
 router.get("/login",viewController.login);
 router.get("/me",viewController.me);
 router.get("/signup",viewController.signup);
 router.post("/excel",userController.protect,userController.restrictTo('admin'),viewController.excelPrintData);
 router.route("/studentInfo").get( userController.protect,userController.restrictTo('admin'),viewController.studentInfo);
+router.route("/userInfo/forgot-password").get(viewController.forgotPassword);
 router.route("/studentInfo/fees-update").get(userController.protect,userController.restrictTo('admin'),viewController.feesUpdate);
 router.route("/studentInfo/sr-excel").get(userController.protect,userController.restrictTo('admin'),viewController.excelPrintSr);
 router.route("/studentInfo/sr-main").get(userController.protect,userController.restrictTo('admin'),viewController.srMain);
@@ -34,4 +36,5 @@ router.route("/studentInfo/printExcelFees").get(userController.protect,userContr
 router.route("/studentInfo/printExcel").get(userController.protect,userController.restrictTo('admin'),viewController.excelPrint);
 router.route("/studentInfo/displayFeeRecord").get(userController.protect,userController.restrictTo('admin'),viewController.displayFeeRecord);
 router.route("/studentInfo/promote-form").get(userController.protect,userController.restrictTo('admin'),viewController.promoteForm);
+router.route("/userInfo/resetPassword/:id1").get(userController.resetPasswordToken,viewController.resetPassword);
 module.exports = router;

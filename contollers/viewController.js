@@ -23,6 +23,11 @@ exports.me = (req,res)=>
     res.status(201).render("me");
 }
 
+exports.message = (req,res)=>
+{
+    res.status(201).render("message");
+}
+
 exports.studentInfo = async (req,res)=>
 {
 
@@ -51,6 +56,8 @@ exports.getAllStudent = async (req,res)=>
 {
 res.status(201).render('get-all');
 };
+
+
 
 exports.getAllStudentData= async(req,res)=>{
 
@@ -123,6 +130,12 @@ exports.documentInfo = async(req,res)=>{
 exports.downloader = async(req,res) =>{
     res.status(200).render("downloadFile");
 }
+
+exports.resetPassword = async (req,res)=>
+{
+    // console.log(res.locals.user);
+res.status(201).render('reset-password');
+};
 
 exports.documentList = async(req,res)=>{
 
@@ -394,6 +407,10 @@ exports.feesRecord=(req,res)=>{
     res.status(201).render("feesRecord");
 }
 
+exports.forgotPassword = (req,res)=>{
+    res.status(201).render("forgot-password");
+}
+
 exports.displayFeeRecord = async(req,res)=>{
 
     const params = JSON.parse(req.query.data);
@@ -427,10 +444,13 @@ res.status(201).render("sr-main");
 
 exports.srFind= async(req,res,next)=>{
 
-    if(req.params.id3==="null")
+    if(req.params.id3==="NULL"||req.params.id3==="null")
     {return next(new AppError("Invalid Sr No."))
    
 }
+
+console.log(req.params);
+
     let data;
     if(req.params.id1==="pg")
     if(req.params.id3!=="NULL")

@@ -2,6 +2,7 @@ const User = require('./../model/user');
 const jwt = require('jsonwebtoken');
 const {promisify}=require('util');
 const crypto = require('crypto');
+const emailer = require('./../public/utils/email');
 const AppError = require('./../public/utils/appError');
 
 
@@ -193,11 +194,96 @@ console.log(user);
 
 res.cookie('jwt',token,cookieOption);
 // console.log(req.body);
+res.locals.user = user;
 res.status(201).json({
 status:"success",
 token
 });
+}
+catch(err)
+{
+    next(err);
+}
+};
+
+exports.forgotPassword =async (req,res,next)=>{
+
+    try{
+        
+        const user = await User.findOne({email:req.body.email});
+
+
+    if(!user)
+    return next( new AppError("No email match found"));
+
+    const token = await jwt.sign({id:user._id},process.env.JWT_SECRET,{
+        expiresIn:process.env.JWT_EXPIRE
+    });
+
+    // console.log(user)
+
+    let link = `${req.headers.origin}/userInfo/resetPassword/${token}`;
+
+    emailer.forgotEmail(link,user.email);
+
+    res.status(201).json({
+        user
+    })
+
+    }
+catch(err)
+{
+    return next(err);
+}
+}
+
+exports.resetPasswordToken = async (req,res,next)=>
+{
+try{
+    const token = req.params.id1;
+
+    const decoded = await promisify(jwt.verify)(token,process.env.JWT_SECRET);
+
+    const newUser = await User.findById(decoded.id);
+
+    res.locals.userForgot = newUser; 
+
+}
+catch{
+    return next(new AppError("Invalid Reset Link",500));
+}
+next();
+}
+
+exports.resetPassword= async (req,res,next)=>
+{
+   
+   try{ 
+
+    // console.log(req.body);
+
+       const user = await User.findOne({email:req.body.email}).select("+password");
+
+if(req.body.newPassword!==req.body.confirmNewPassword)
+return next(new AppError('Passwords don\'t match',401));
+
+const token = await jwt.sign({id:user._id},process.env.JWT_SECRET,{
+    expiresIn:process.env.JWT_EXPIRE
+});
+
+user.password = req.body.newPassword;
+user.passwordConfirm = req.body.confirmNewPassword;
+await user.save();
+
+// console.log(user);
+
+res.cookie('jwt',token,cookieOption);
+// console.log(req.body);
 res.locals.user = user;
+res.status(201).json({
+status:"success",
+token
+});
 }
 catch(err)
 {
