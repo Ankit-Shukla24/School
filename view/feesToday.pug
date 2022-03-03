@@ -3,7 +3,7 @@ extend base
 mixin datechanger(date_change)
     -let data = date_changer
     -if(date_change!=undefined)
-        -data=date_change.toISOString().split('T')[0];
+        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'long', year: 'numeric'});
         td=data
     -else
         td=data

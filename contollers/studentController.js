@@ -108,7 +108,7 @@ exports.delFeesStudent= async (req,res,next)=>{
 
 exports.searchFeesDate = async (req,res,next)=>{
 
-    // // // console.log(req.body);
+     console.log(req.body.params);
 
     // console.log(req.body[0],"**************");
 
@@ -127,7 +127,7 @@ exports.searchFeesDate = async (req,res,next)=>{
     options.pop();
     options.pop();
     
-    if(options[0].class!==undefined)
+    if(options[0]&&options[0].class!==undefined)
     {const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({class_code:1,date:1});
 
     for(let i=minm_class;i<=maxm_class;i++)

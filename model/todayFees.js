@@ -43,6 +43,9 @@ const todayFessSchema = new mongoose.Schema({
         },
         class_code:{
             type:Number
+        },
+        date_of:{
+            type:Date
         }
 
 });

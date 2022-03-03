@@ -239,6 +239,7 @@ let data1;
                 feesStudent['fees'] = fees[studentClassCode]*1;
                 feesStudent['month'] = el.name;
                 feesStudent['date'] = dateNow;
+                feesStudent['date_of'] = el.value;
 // console.log(feesStudent);
                 // console.log(Date.now(),dateNow);
                 total=total + fees[studentClassCode]*1;
@@ -255,7 +256,7 @@ let data1;
                 feesStudent['fees'] = fees[studentClassCode]*1;
                 feesStudent['month'] = el.name;
                 feesStudent['date'] = dateNow;
-
+               
                 // console.log(Date.now(),dateNow);
 
               try{  const data =await axios({
@@ -265,7 +266,9 @@ let data1;
                 });
                 if(data.status===201)
                { 
-                   total=total-fees[studentClassCode]*1;}
+                   total=total-fees[studentClassCode]*1;
+                
+                }
     // console.log(total);
     
         }
