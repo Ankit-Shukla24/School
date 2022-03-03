@@ -235,7 +235,7 @@ let data1;
 
             if(el.classList.contains('no_change')!==true&&el.value!=="")
             {
-                student[`${el.name}`]= dateNow;
+                student[`${el.name}`]= el.value;
                 feesStudent['fees'] = fees[studentClassCode]*1;
                 feesStudent['month'] = el.name;
                 feesStudent['date'] = dateNow;

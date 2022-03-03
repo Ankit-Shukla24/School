@@ -77258,7 +77258,7 @@ function () {
               break;
             }
 
-            student["".concat(el.name)] = dateNow;
+            student["".concat(el.name)] = el.value;
             feesStudent['fees'] = fees[studentClassCode] * 1;
             feesStudent['month'] = el.name;
             feesStudent['date'] = dateNow; // console.log(feesStudent);
@@ -78805,7 +78805,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57887" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52640" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

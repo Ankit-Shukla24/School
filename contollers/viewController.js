@@ -444,7 +444,7 @@ res.status(201).render("sr-main");
 
 exports.srFind= async(req,res,next)=>{
 
-    if(req.params.id3==="NULL"||req.params.id3==="null")
+    if(req.params.id3==="NA")
     {return next(new AppError("Invalid Sr No."))
    
 }
