@@ -45,6 +45,11 @@ block content
             input#student-category(type="text" name="category" value=`${student.category}`)
             label(for="student-age") Age
             input#student-age(type="Date" name="age")
+            button#discount.discount-btn Discount
+            br.discount-option.invisible
+            label.invisible.discount-option(for="student-discount") Discount
+            input.invisible#student-discount.discount-option(type="Number" name="discount" value=0)
+            br
             if(!student.leave)
                 input#student-leave.right(type="checkbox", name="leave" checked)
             else

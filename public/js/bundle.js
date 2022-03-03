@@ -76999,12 +76999,11 @@ function () {
             _data = _context.sent;
 
           case 10:
-            location.reload();
-            _context.next = 17;
+            _context.next = 16;
             break;
 
-          case 13:
-            _context.prev = 13;
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             entries = Object.entries(_context.t0.response.data.err.errors);
             entries.forEach(function (el) {
@@ -77013,12 +77012,12 @@ function () {
               }
             });
 
-          case 17:
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 13]]);
+    }, _callee, null, [[0, 12]]);
   }));
 
   return function StudentData(_x, _x2) {
@@ -77154,6 +77153,15 @@ if (document.querySelector("#get-student-data")) {
   });
 }
 
+if (document.querySelector("#discount")) {
+  document.querySelector("#discount").addEventListener("click", function (e) {
+    e.preventDefault();
+    document.querySelectorAll(".discount-option").forEach(function (el) {
+      return el.classList.remove('invisible');
+    });
+  });
+}
+
 if (document.querySelector("#student-age")) {
   var student_age = document.querySelector("#student-age");
   var student_dob = document.querySelector("#student-dob");
@@ -77173,7 +77181,7 @@ function () {
   var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(e) {
-    var classList, year, name, father, studentClassCode, religion, dob, category, gender, studentClass, dateNow, student, feesStudent, data1, fees, months, total, _iterator, _step, el, data, _data2, id;
+    var classList, year, discount, name, father, studentClassCode, religion, dob, category, gender, studentClass, dateNow, student, feesStudent, data1, fees, months, total, _iterator, _step, el, data, _data2, id;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -77183,6 +77191,7 @@ function () {
             e.preventDefault();
             document.querySelector("#submit-all").value = "Updating";
             year = document.getElementById("student-year").value;
+            discount = document.getElementById("student-discount").value;
             name = document.getElementById("student-name").value;
             father = document.getElementById("student-father").value;
             studentClassCode = document.getElementById("student-class").value;
@@ -77209,42 +77218,42 @@ function () {
             console.log(student);
 
             if (!(document.querySelector("#submit-all").name === "add")) {
-              _context4.next = 30;
+              _context4.next = 31;
               break;
             }
 
             return _context4.abrupt("return", StudentData(student, "add"));
 
-          case 30:
-            _context4.prev = 30;
-            _context4.next = 33;
+          case 31:
+            _context4.prev = 31;
+            _context4.next = 34;
             return (0, _axios.default)({
               method: "GET",
               url: "/api/v1/collectionInfo/get-fees"
             });
 
-          case 33:
+          case 34:
             data1 = _context4.sent;
-            _context4.next = 39;
+            _context4.next = 40;
             break;
 
-          case 36:
-            _context4.prev = 36;
-            _context4.t0 = _context4["catch"](30);
+          case 37:
+            _context4.prev = 37;
+            _context4.t0 = _context4["catch"](31);
             window.alert(_context4.t0.response.data.message);
 
-          case 39:
+          case 40:
             fees = data1.data.fees; // console.log(fees);
 
             months = document.querySelectorAll(".month"); // const monthName = ['january','february','march','april','may','june','july','august','september','october','november','december']
 
             total = 0 * 1;
             _iterator = _createForOfIteratorHelper(months);
-            _context4.prev = 43;
+            _context4.prev = 44;
 
             _iterator.s();
 
-          case 45:
+          case 46:
             if ((_step = _iterator.n()).done) {
               _context4.next = 77;
               break;
@@ -77254,39 +77263,37 @@ function () {
             student["".concat(el.name)] = el.value; // // console.log("10");
 
             if (!(el.classList.contains('no_change') !== true && el.value !== "")) {
-              _context4.next = 60;
+              _context4.next = 62;
               break;
             }
 
             student["".concat(el.name)] = el.value;
-            feesStudent['fees'] = fees[studentClassCode] * 1;
+            feesStudent['fees'] = fees[studentClassCode] * 1 - fees[studentClassCode] * 1 * discount / 100;
             feesStudent['month'] = el.name;
             feesStudent['date'] = dateNow;
-            feesStudent['date_of'] = el.value; // console.log(feesStudent);
-            // console.log(Date.now(),dateNow);
+            feesStudent['date_of'] = el.value;
+            console.log(feesStudent); // console.log(Date.now(),dateNow);
 
-            total = total + fees[studentClassCode] * 1;
-            _context4.next = 57;
+            total = total + fees[studentClassCode] * 1 - fees[studentClassCode] * 1 * discount / 100;
+            _context4.next = 59;
             return (0, _axios.default)({
               method: 'POST',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 57:
+          case 59:
             data = _context4.sent;
             _context4.next = 74;
             break;
 
-          case 60:
+          case 62:
             if (!(el.classList.contains('no_change') === true && el.value === "")) {
               _context4.next = 74;
               break;
             }
 
-            feesStudent['fees'] = fees[studentClassCode] * 1;
-            feesStudent['month'] = el.name;
-            feesStudent['date'] = dateNow; // console.log(Date.now(),dateNow);
+            feesStudent['month'] = el.name; // console.log(Date.now(),dateNow);
 
             _context4.prev = 64;
             _context4.next = 67;
@@ -77300,7 +77307,8 @@ function () {
             _data2 = _context4.sent;
 
             if (_data2.status === 201) {
-              total = total - fees[studentClassCode] * 1;
+              //    console.log(data.data.data.fees);
+              total = total - _data2.data.data.fees;
             } // console.log(total);
 
 
@@ -77316,7 +77324,7 @@ function () {
             ;
 
           case 75:
-            _context4.next = 45;
+            _context4.next = 46;
             break;
 
           case 77:
@@ -77325,7 +77333,7 @@ function () {
 
           case 79:
             _context4.prev = 79;
-            _context4.t2 = _context4["catch"](43);
+            _context4.t2 = _context4["catch"](44);
 
             _iterator.e(_context4.t2);
 
@@ -77346,7 +77354,7 @@ function () {
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[30, 36], [43, 79, 82, 85], [64, 71]]);
+    }, _callee4, null, [[31, 37], [44, 79, 82, 85], [64, 71]]);
   }));
 
   return function (_x5) {
@@ -78806,7 +78814,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61769" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64543" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

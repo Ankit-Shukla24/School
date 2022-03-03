@@ -39,7 +39,7 @@ else
     })
     // console.log(data);
 }
-location.reload();    
+// location.reload();    
     }
     catch(err)
     {
@@ -149,6 +149,17 @@ if(document.querySelector("#get-student-data"))
 
 }
 
+if(document.querySelector("#discount"))
+{
+    document.querySelector("#discount").addEventListener("click",(e)=>{
+
+        e.preventDefault();
+
+        document.querySelectorAll(".discount-option").forEach((el)=>el.classList.remove('invisible'));
+
+    })
+}
+
 if(document.querySelector("#student-age"))
 {
     const student_age=document.querySelector("#student-age")
@@ -177,6 +188,7 @@ if(document.querySelector("#submit-all"))
         e.preventDefault();
         document.querySelector("#submit-all").value="Updating";
         const year = document.getElementById("student-year").value;
+        const discount = document.getElementById("student-discount").value;
         const name = document.getElementById("student-name").value;
         const father = document.getElementById("student-father").value;
         const studentClassCode= document.getElementById("student-class").value;
@@ -198,6 +210,7 @@ if(document.querySelector("#submit-all"))
         student.class=studentClass;
         student.father_name=father;
         student.class_code = studentClassCode;
+        
 
         student.roll_no = document.getElementById("student-roll_no").value;
         let feesStudent = lodash.cloneDeep(student);
@@ -236,13 +249,13 @@ let data1;
             if(el.classList.contains('no_change')!==true&&el.value!=="")
             {
                 student[`${el.name}`]= el.value;
-                feesStudent['fees'] = fees[studentClassCode]*1;
+                feesStudent['fees'] = fees[studentClassCode]*1-(fees[studentClassCode]*1*discount)/100;
                 feesStudent['month'] = el.name;
                 feesStudent['date'] = dateNow;
                 feesStudent['date_of'] = el.value;
-// console.log(feesStudent);
+console.log(feesStudent);
                 // console.log(Date.now(),dateNow);
-                total=total + fees[studentClassCode]*1;
+                total=total + fees[studentClassCode]*1-(fees[studentClassCode]*1*discount)/100;
                 const data = await axios({
 
                     method:'POST',
@@ -253,9 +266,7 @@ let data1;
             }
             else if(el.classList.contains('no_change')===true&&el.value==="")
             {
-                feesStudent['fees'] = fees[studentClassCode]*1;
                 feesStudent['month'] = el.name;
-                feesStudent['date'] = dateNow;
                
                 // console.log(Date.now(),dateNow);
 
@@ -266,7 +277,9 @@ let data1;
                 });
                 if(data.status===201)
                { 
-                   total=total-fees[studentClassCode]*1;
+                //    console.log(data.data.data.fees);
+
+                   total=total-data.data.data.fees;
                 
                 }
     // console.log(total);

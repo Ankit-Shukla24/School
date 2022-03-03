@@ -128,7 +128,7 @@ exports.searchFeesDate = async (req,res,next)=>{
     options.pop();
     
     if(options[0]&&options[0].class!==undefined)
-    {const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({class_code:1,date:1});
+    {const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date_of:{$gte:minm_date,$lte:maxm_date}}).sort({class_code:1,date:1});
 
     for(let i=minm_class;i<=maxm_class;i++)
     {
@@ -158,7 +158,7 @@ else{
 
    // console.log(minm_date,maxm_date);
 
-   const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date:{$gte:minm_date,$lte:maxm_date}}).sort({date:1,class_code:1});
+   const data = feesToday.find({class_code:{$gte:minm_class,$lte:maxm_class},date_of:{$gte:minm_date,$lte:maxm_date}}).sort({date:1,class_code:1});
 
     // const month_list =[ "April", "May", "June", "July", "August", "September", "October", "November", "December","January", "February", "March" ];
 
