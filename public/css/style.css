@@ -16,6 +16,16 @@
       background-color: var(--primary-color);
   }
 
+  #back-btn{
+      position: absolute;
+      top:20px;
+      left:10px;
+  }
+
+  #back-btn:hover{
+      cursor: pointer;
+  }
+
 .get-form>.side-pic,.get-form>.side-pic_pc
 {
     width: 25vw !important;
@@ -99,18 +109,17 @@ height: 7.5vh;
 }
 
 .nav--link{
-    text-align: left;
-    display: block;
-    margin:1.2rem auto;
-    /* background-color: turquoise; */
-    width: fit-content;
-
+    text-align: right;
+    display: inline-block;
+    margin:1.2rem auto 1.2rem 18vw;
+    /* background-color: turquoise; */;
+    /* width: 20vw; */
 }
 
 .nav--link:hover{
 
     border-bottom: 0.1rem solid white;
-    margin:1.1rem auto;
+    margin:1.1rem auto 1.1rem 18vw;
    transform: translateY(-0.2rem);
 }
 

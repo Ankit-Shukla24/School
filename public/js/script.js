@@ -5,6 +5,9 @@ import lodash, { forEach, isInteger, isLength } from 'lodash';
 import moment from 'moment'; 
 import {promisify} from 'util';
 import documents from '../../model/documents';
+import { createBrowserHistory } from "history";
+
+const backLinks =[];
 
 const updateCollectiondata = (total,dateNow)=>{
     // console.log(total,"9999999999");
@@ -64,6 +67,16 @@ catch(err)
 {
 window.alert(err.response.data.message);
 }     
+}
+
+
+
+if(document.querySelector("#back-btn"))
+{
+    document.querySelector("#back-btn").addEventListener("click",(e)=>{
+window.history.back();
+
+    })
 }
 
 

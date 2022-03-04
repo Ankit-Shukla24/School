@@ -4,12 +4,23 @@
     margin: 1.2rem 0.5rem !important;
 }
 
+.small-invisible
+{
+    display: none !important;
+}
+
 .large-invisible{
     display: block;
 }
 .month-info-palet>input[type="date"]::-webkit-calendar-picker-indicator {
  
     width: 1rem;
+}
+
+.nav--link{
+    margin:1.2rem 0.5rem ;
+    /* background-color: turquoise; */;
+    /* width: 20vw; */
 }
 
 .nav--user--link:hover
