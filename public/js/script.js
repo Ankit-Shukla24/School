@@ -73,7 +73,9 @@ window.alert(err.response.data.message);
 
 if(document.querySelector("#back-btn"))
 {
+    
     document.querySelector("#back-btn").addEventListener("click",(e)=>{
+      
 window.history.back();
 
     })
@@ -124,7 +126,7 @@ document.querySelector("#get-all-form").addEventListener("submit",function(e){
    year=false;   
    if(classSchool==="")
    classSchool = false; 
-   window.open(`/studentInfo/get-all/${year}/${classSchool}`)
+   window.location.href=`/studentInfo/get-all/${year}/${classSchool}`;
 
 });
 
@@ -144,7 +146,7 @@ let name = document.getElementById("name").value.toUpperCase();
 if(name==="")
 name = false;
 
-   window.open(`/studentInfo/get-one/${year}/${classSchool}/${name}/false`);
+   window.location.href=`/studentInfo/get-one/${year}/${classSchool}/${name}/false`;
 });
 
 if(document.querySelector("#get-student-data"))
@@ -354,7 +356,7 @@ type="NULL";
 if(date==="")
 date="NULL";
 
-    window.open(`/documentInfo/list/${type}/${date}`);
+    window.location.href=`/documentInfo/list/${type}/${date}`;
     }
     )};
 
@@ -670,6 +672,7 @@ if(document.querySelector("#get-student-sr-data"))
         const objs = new Object();
 
         objs["sr"]=document.querySelector("#student-sr").value;
+        const sr_temp=document.querySelector("#student-sr").name;
         if(document.querySelector("#student-sr_no"))
         objs["sr_no"] = document.querySelector("#student-sr_no").value;
         if(document.querySelector("#student-prev_sr_no"))
@@ -707,7 +710,7 @@ if(document.querySelector("#get-student-sr-data"))
 
         if(objs["prev_sr_no"]==="No record")
         objs["prev_sr_no"]="";
-        else if(objs["prev_sr_no"]===NULL)
+        else if(objs["prev_sr_no"]===null)
         objs["prev_sr_no"]="";
 
 
@@ -836,7 +839,10 @@ if(document.querySelector("#get-student-sr-data"))
 
         console.log(objs);
 
-        if(document.querySelector("#get-student-sr-data").classList.contains("sr-update"))
+        // console.log(sr_temp,objs["sr"]);
+
+
+        if(document.querySelector("#get-student-sr-data").classList.contains("sr-update")&&(sr_temp!=="TEMPORARY"))
        {
            
         try{
@@ -863,7 +869,7 @@ window.alert(err.response.data.message);
 
         // console.log(document.querySelector("#get-student-sr-data").classList);
 
-        if(document.querySelector("#get-student-sr-data").classList.contains("sr-add"))
+        if(document.querySelector("#get-student-sr-data").classList.contains("sr-add")||(sr_temp!==objs["sr"]))
   {
       try{     const data= await axios({
             method:'POST',
@@ -871,7 +877,8 @@ window.alert(err.response.data.message);
             data:objs
 });
 
-        location.reload();}
+        location.reload();
+    }
         catch(err)
         {
 window.alert(err.response.data.message);
@@ -881,6 +888,7 @@ window.alert(err.response.data.message);
 
 if(document.querySelector(".student-sr-options"))
 {
+
 const prePrimary = document.querySelectorAll(".pre_primary");
 const primary = document.querySelectorAll(".primary")
 const upperPrimary = document.querySelectorAll(".upper_primary");
@@ -949,6 +957,22 @@ document.querySelector(".student-sr-options").addEventListener("change",(e)=>{
             el.classList.remove("invisible");
         });
     }
+    if(document.querySelector(".student-sr-options").value==="TEMPORARY")
+    {
+        prePrimary.forEach((el)=>{
+            el.classList.remove("invisible");
+        });
+        playGroup.forEach((el)=>{
+            el.classList.remove("invisible");
+        });
+        primary.forEach((el)=>{
+            el.classList.remove("invisible");
+        });
+        upperPrimary.forEach((el)=>{
+            el.classList.remove("invisible");
+        });
+    }
+
     })
 }
 

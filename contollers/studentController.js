@@ -7,6 +7,7 @@ const lkgToukg = require('./../model/lkgToukg');
 const pgTopg = require('./../model/pgTopg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
+const temporary = require('./../model/temporary');
 const { find, create } = require("lodash");
 
 
@@ -288,6 +289,14 @@ exports.addSr = async(req,res,next)=>{
 
        data = await sixToeight.create(req.body);
     }
+    else  if(req.body.sr==="TEMPORARY")
+    {
+        const count =await temporary.count();
+
+        req.body.sr_no=count*1+1;
+
+       data = await temporary.create(req.body);
+    }
 
     res.status(201).json({
         data
@@ -308,7 +317,8 @@ exports.srDelete=async(req,res,next)=>{
 
     if(req.params.id1==="6 TO 8")
     await sixToeight.findByIdAndDelete(req.params.id2);
-
+    if(req.params.id1==="TEMPORARY")
+    await temporary.findByIdAndDelete(req.params.id2);
     res.status(201).json({
         status:"success"
     });

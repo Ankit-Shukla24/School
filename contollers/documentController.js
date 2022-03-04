@@ -7,6 +7,7 @@ const lkgToukg = require('./../model/lkgToukg');
 const pgTopg = require('./../model/pgTopg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
+const temporary= require("./../model/temporary")
 const { google } = require('googleapis');
 const { Readable } = require('stream');
 
@@ -223,6 +224,8 @@ try{
         data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
         if(req.body.sr==="6 TO 8")
         data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
+        if(req.body.sr==="TEMPORARY")
+        data2 = await temporary.findByIdAndUpdate(req.body.student_id,{"image.img_link":req.body.link.webContentLink,"image.name":req.body.response.name,"image.img_id":req.body.response.id})
 
         console.log(data2);
 
@@ -277,6 +280,10 @@ try{
         data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
             new:true
         })
+        if(req.body.sr==="TEMPORARY")
+        data2 = await temporary.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+            new:true
+        })
 }
 catch(err)
 {
@@ -313,6 +320,10 @@ try{
     })
     if(req.body.student_sr==="6 TO 8")
     data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
+        new:true
+    })
+    if(req.body.student_sr==="TEMPORARY")
+    data2 = await temporary.findByIdAndUpdate(req.body.student_id,{$pull:{"documents":{doc_id:req.body.doc_id}}},{
         new:true
     })
 }

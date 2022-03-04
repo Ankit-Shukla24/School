@@ -16,7 +16,7 @@
       background-color: var(--primary-color);
   }
 
-  #back-btn{
+  .back-btn-header{
       position: absolute;
       top:20px;
       left:10px;

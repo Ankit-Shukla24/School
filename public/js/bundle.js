@@ -77981,7 +77981,7 @@ if (document.querySelector("#get-all-form")) document.querySelector("#get-all-fo
   var classSchool = document.getElementById("all-class").value;
   if (year === "") year = false;
   if (classSchool === "") classSchool = false;
-  window.open("/studentInfo/get-all/".concat(year, "/").concat(classSchool));
+  window.location.href = "/studentInfo/get-all/".concat(year, "/").concat(classSchool);
 });
 if (document.querySelector("#get-one-form")) document.querySelector("#get-one-form").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -77991,7 +77991,7 @@ if (document.querySelector("#get-one-form")) document.querySelector("#get-one-fo
   if (classSchool === "") classSchool = false;
   var name = document.getElementById("name").value.toUpperCase();
   if (name === "") name = false;
-  window.open("/studentInfo/get-one/".concat(year, "/").concat(classSchool, "/").concat(name, "/false"));
+  window.location.href = "/studentInfo/get-one/".concat(year, "/").concat(classSchool, "/").concat(name, "/false");
 });
 
 if (document.querySelector("#get-student-data")) {
@@ -78271,7 +78271,7 @@ if (document.querySelector(".download-form")) {
     var date = document.querySelector("#date").value;
     if (type === "") type = "NULL";
     if (date === "") date = "NULL";
-    window.open("/documentInfo/list/".concat(type, "/").concat(date));
+    window.location.href = "/documentInfo/list/".concat(type, "/").concat(date);
   });
 }
 
@@ -78644,7 +78644,7 @@ if (document.querySelector("#get-student-sr-data")) {
     var _ref11 = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee11(e) {
-      var objs, father, mother, address, obj1, _obj, _obj2, _obj3, _obj4, _obj5, _obj6, _obj7, _obj8, _obj9, _obj10, phone_nos, data, _data3;
+      var objs, sr_temp, father, mother, address, obj1, _obj, _obj2, _obj3, _obj4, _obj5, _obj6, _obj7, _obj8, _obj9, _obj10, phone_nos, data, _data3;
 
       return regeneratorRuntime.wrap(function _callee11$(_context11) {
         while (1) {
@@ -78653,6 +78653,7 @@ if (document.querySelector("#get-student-sr-data")) {
               e.preventDefault();
               objs = new Object();
               objs["sr"] = document.querySelector("#student-sr").value;
+              sr_temp = document.querySelector("#student-sr").name;
               if (document.querySelector("#student-sr_no")) objs["sr_no"] = document.querySelector("#student-sr_no").value;
               if (document.querySelector("#student-prev_sr_no")) objs["prev_sr_no"] = document.querySelector("#student-prev_sr_no").value;
               objs["name"] = document.querySelector("#student-sr-name").value;
@@ -78678,7 +78679,7 @@ if (document.querySelector("#get-student-sr-data")) {
               mother.name = document.querySelector("#student-sr-mother-name").value;
               father.age = document.querySelector("#student-sr-father-age").value;
               mother.age = document.querySelector("#student-sr-mother-age").value;
-              if (objs["prev_sr_no"] === "No record") objs["prev_sr_no"] = "";else if (objs["prev_sr_no"] === NULL) objs["prev_sr_no"] = "";
+              if (objs["prev_sr_no"] === "No record") objs["prev_sr_no"] = "";else if (objs["prev_sr_no"] === null) objs["prev_sr_no"] = "";
               if (father.age === "null") father.age = "";
               if (mother.age === "null") mother.age = "";
               father.qualification = document.querySelector("#student-sr-father-qualification").value;
@@ -78779,66 +78780,66 @@ if (document.querySelector("#get-student-sr-data")) {
               objs["remark"] = document.querySelector("#student-sr-remark").value;
               objs["leave_reason"] = document.querySelector("#student-sr-leave_reason").value;
               objs["brother_sister"] = document.querySelector("#student-sr-brother_sister").value;
-              console.log(objs);
+              console.log(objs); // console.log(sr_temp,objs["sr"]);
 
-              if (!document.querySelector("#get-student-sr-data").classList.contains("sr-update")) {
-                _context11.next = 74;
+              if (!(document.querySelector("#get-student-sr-data").classList.contains("sr-update") && sr_temp !== "TEMPORARY")) {
+                _context11.next = 75;
                 break;
               }
 
-              _context11.prev = 64;
-              _context11.next = 67;
+              _context11.prev = 65;
+              _context11.next = 68;
               return (0, _axios.default)({
                 method: 'PATCH',
                 url: "/api/v1/studentInfo/update-sr/".concat(objs.sr.toLowerCase().split(" ").join(""), "/").concat(window.location.href.split("/")[6]),
                 data: objs
               });
 
-            case 67:
+            case 68:
               data = _context11.sent;
               // console.log(data)
               setTimeout(function () {
                 location.reload();
               }, 500);
-              _context11.next = 74;
+              _context11.next = 75;
               break;
 
-            case 71:
-              _context11.prev = 71;
-              _context11.t0 = _context11["catch"](64);
+            case 72:
+              _context11.prev = 72;
+              _context11.t0 = _context11["catch"](65);
               window.alert(_context11.t0.response.data.message);
 
-            case 74:
-              if (!document.querySelector("#get-student-sr-data").classList.contains("sr-add")) {
-                _context11.next = 85;
+            case 75:
+              if (!(document.querySelector("#get-student-sr-data").classList.contains("sr-add") || sr_temp !== objs["sr"])) {
+                _context11.next = 86;
                 break;
               }
 
-              _context11.prev = 75;
-              _context11.next = 78;
+              _context11.prev = 76;
+              _context11.next = 79;
               return (0, _axios.default)({
                 method: 'POST',
                 url: "/api/v1/studentInfo/add-sr",
                 data: objs
               });
 
-            case 78:
+            case 79:
               _data3 = _context11.sent;
               location.reload();
-              _context11.next = 85;
+              _context11.next = 86;
               break;
 
-            case 82:
-              _context11.prev = 82;
-              _context11.t1 = _context11["catch"](75);
+            case 83:
+              _context11.prev = 83;
+              _context11.t1 = _context11["catch"](76);
               window.alert(_context11.t1.response.data.message);
 
-            case 85:
+            case 86:
             case "end":
               return _context11.stop();
           }
         }
-      }, _callee11, null, [[64, 71], [75, 82]]);
+      }, _callee11, null, [[65, 72], [76, 83]]);
     }));
 
     return function (_x12) {
@@ -78908,6 +78909,21 @@ if (document.querySelector(".student-sr-options")) {
       });
       primary.forEach(function (el) {
         el.classList.add("invisible");
+      });
+      upperPrimary.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+    }
+
+    if (document.querySelector(".student-sr-options").value === "TEMPORARY") {
+      prePrimary.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+      playGroup.forEach(function (el) {
+        el.classList.remove("invisible");
+      });
+      primary.forEach(function (el) {
+        el.classList.remove("invisible");
       });
       upperPrimary.forEach(function (el) {
         el.classList.remove("invisible");
@@ -79663,7 +79679,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53865" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57619" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

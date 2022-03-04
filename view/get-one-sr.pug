@@ -4,7 +4,7 @@ extend base
 block content
     if student    
         .form-div-data
-            a#sr-print(href=`/studentInfo/print-one-sr/${student.sr}/${student.id}` target="_blank")
+            a#sr-print(href=`/studentInfo/print-one-sr/${student.sr}/${student.id}` )
                 span Print  
             form#get-student-sr-data.get-form.left.sr-update
                 .image-block
@@ -16,7 +16,7 @@ block content
                     span.upload-pic-btn Upload Pic
                     input.upload-pic(type="file" name="pic" id="picUp" accept="image/*")
                 label.side-pic(for="sr") Sr
-                -let sr_="";
+                -let sr_="TEMPORARY";
                 -if(student.sr=="PG")
                     -sr_ = "PG"
                 -if(student.sr=="LKG TO UKG")
@@ -25,7 +25,15 @@ block content
                     -sr_ = "PRIMARY"
                 -if(student.sr=="6 TO 8")
                     -sr_ = "JUNIOR HIGHSCHOOL"
-                input.side-pic#student-sr(type="text" value=sr_ name="sr") 
+                if(sr_!="TEMPORARY")    
+                    input.side-pic#student-sr(type="text" value=sr_ name=sr_ disabled) 
+                else
+                    select#student-sr.student-sr-options.side-pic(name=sr_)
+                        option(value="TEMPORARY") TEMPORARY
+                        option(value="PG") PG
+                        option(value="LKG TO UKG") LKG TO UKG
+                        option(value="1 TO 5") 1 TO 5
+                        option(value="6 TO 8") 6 TO 8
                 label.side-pic(for="sr_no") Sr. No.
                 input.side-pic#student-sr_no(type="text" value=`${student.sr_no}` name="sr_no")
                 label.side-pic(for="prev_sr_no") Prev Sr. No.
@@ -55,9 +63,9 @@ block content
                 input#student-sr-nationality(type="text" name="nationality" value=student.nationality)
                 label(for="student-sr-category") Category
                 input#student-sr-category(type="text" name="category" value=student.category)
-                label(for="student-sr-father-name") Father's name
+                label(for="student-sr-father-name") Father's name (Please use MR. )
                 input#student-sr-father-name(type="text" name="father-name" value=`${student.father.name}`)
-                label(for="student-sr-mother-name") Mother's name
+                label(for="student-sr-mother-name") Mother's name (Please use MRS. )
                 input#student-sr-mother-name(type="text" name="mother-name" value=`${student.mother.name}`)
                 label(for="student-sr-father-age") Father's age
                 input#student-sr-father-age(type="text" name="father-age" value=`${student.father.age}`)
@@ -67,9 +75,9 @@ block content
                 input#student-sr-father-qualification(type="text" name="father-qualification" value=`${student.father.qualification}`)
                 label(for="student-sr-mother-qualification") Mother's Qualification
                 input#student-sr-mother-qualification(type="text" name="mother-qualification" value=`${student.mother.qualification}`)   
-                label(for="student-sr-father-occupation") Father's Occupation
+                label(for="student-sr-father-occupation") Father's Occupation (Please use MR. )
                 input#student-sr-father-occupation(type="text" name="father-occupation" value=`${student.father.occupation}`)
-                label(for="student-sr-mother-occupation") Mother's Occupation
+                label(for="student-sr-mother-occupation") Mother's Occupation (Please use MRS. )
                 input#student-sr-mother-occupation(type="text" name="mother-occupation" value=`${student.mother.occupation}`)                
                 label(for="student-sr-address-permanent") Permanent Address
                 input#student-sr-address-permanent(type="text" name="address-permanemt" value=student.address.permanent)
@@ -182,7 +190,7 @@ block content
             .doc-palette
                 for docs in student.documents
                     .docs.center
-                        a.download-doc-btn(href=docs.doc_link target="_blank")
+                        a.download-doc-btn(href=docs.doc_link )
                             if docs.description!=""
                                 span= docs.description
                             else 
@@ -222,6 +230,7 @@ block content
                     option(value="LKG TO UKG") LKG TO UKG
                     option(value="1 TO 5") 1 TO 5
                     option(value="6 TO 8") 6 TO 8
+                    option(value="TEMPORARY") TEMPORARY
                 label(for="student-sr-prev_sr_no") Prev Sr. No.
                 input#student-prev_sr_no(type="text" name="prev_sr_no" value=NULL placeholder="Enter prev Sr No")
                 label(for="student-sr-student") Student's name
@@ -248,9 +257,9 @@ block content
                 input#student-sr-father-name(type="text" name="father-name" placeholder="Enter Father's Name")
                 label(for="student-sr-mother-name") Mother's name
                 input#student-sr-mother-name(type="text" name="mother-name" placeholder="Enter Mother's Name")
-                label(for="student-sr-father-age") Father's age
+                label(for="student-sr-father-age") Father's age (Please add Mr. )
                 input#student-sr-father-age(type="text" name="father-age" placeholder="Enter Father's Age")
-                label(for="student-sr-mother-age") Mother's age
+                label(for="student-sr-mother-age") Mother's age (Please add Mrs. )
                 input#student-sr-mother-age(type="text" name="mother-age" placeholder="Enter Mothers's Age")  
                 label(for="student-sr-father-Qualification") Father's Qualification
                 input#student-sr-father-qualification(type="text" name="father-qualification" placeholder="Enter Father Qualification")

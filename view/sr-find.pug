@@ -29,4 +29,6 @@ block content
                             button.get-student-info Get student
                     -if (student.sr === "6 TO 8")
                         a(href=`/studentInfo/get-one-sr/6to8/${student._id}`)
+                    -if (student.sr === "TEMPORARY")
+                        a(href=`/studentInfo/get-one-sr/temporary/${student._id}`)
                             button.get-student-info Get student

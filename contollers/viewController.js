@@ -10,6 +10,7 @@ const pgTopg = require('./../model/pgTopg');
 const lkgToukg = require('./../model/lkgToukg');
 const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
+const temporary = require('./../model/temporary');
 const flatten = require("flat");
 const AppError=require("./../public/utils/appError");
 
@@ -483,6 +484,14 @@ data =  sixToeight.find({sr_no:req.params.id3});
     else
     data =  sixToeight.find({});
 
+    if(req.params.id1==="temporary")
+    if(req.params.id3!=="NULL")
+data =  temporary.find({sr_no:req.params.id3});
+    else if(req.params.id2!=="NULL")
+    data = temporary.find({name:{$regex:"^"+req.params.id2}});
+    else
+    data =  temporary.find({});
+
     data= await data.sort({sr_no:-1});
 
 res.status(201).render("sr-find",{
@@ -540,6 +549,9 @@ student = await sixToeight.findById(req.params.id2);
 
 if(req.params.id1==="pg")
 student = await pgTopg.findById(req.params.id2);
+
+if(req.params.id1==="temporary")
+student = await temporary.findById(req.params.id2);
 
 }
 

@@ -32,7 +32,7 @@ block content
                 option(value="10") 8th
             label(for="student-student") Student's name
             input#student-name(type="text" name="student" value=`${student.name}`)
-            label(for="student-father") Father's name
+            label(for="student-father") Father's name (Please use MR. )
             input#student-father(type="text" name="father" value=`${student.father_name}`)
             label(for="student-dob") Date of birth
             - const dob_=student.dob.toISOString().split('T')[0]
@@ -47,7 +47,7 @@ block content
             input#student-age(type="Date" name="age")
             button#discount.discount-btn Discount
             br.discount-option.invisible
-            label.invisible.discount-option(for="student-discount") Discount
+            label.invisible.discount-option(for="student-discount") Discount in %
             input.invisible#student-discount.discount-option(type="Number" name="discount" value=0)
             br
             if(!student.leave)
