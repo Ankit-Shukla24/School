@@ -85,7 +85,7 @@ req.body.response= response.data;
 
       const result = await drive.files.get({
         fileId: fileId,
-        fields: 'webViewLink',
+        fields: 'webContentLink',
       });
 
       req.body.link = result.data;
@@ -118,7 +118,7 @@ exports.uploadFile = async(req,res,next) =>{
     req.body.date =dateNow;
     req.body.name = req.body.response.name;
     req.body.doc_id=req.body.response.id;
-    req.body.doc_link=req.body.link.webViewLink;
+    req.body.doc_link=req.body.link.webContentLink;
 
     // console.log(req.body);
 
@@ -265,23 +265,23 @@ try{
 
         //  console.log(req);
         if(req.body.sr==="PG")
-        data2 = await pgTopg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+        data2 = await pgTopg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webContentLink}}},{
             new:true,
         })
         if(req.body.sr==="LKG TO UKG")
-        data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+        data2 = await lkgToukg.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webContentLink}}},{
             new:true,
         })
         if(req.body.sr==="1 TO 5")
-        data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+        data2 = await oneToFive.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webContentLink}}},{
             new:true
         })
         if(req.body.sr==="6 TO 8")
-        data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+        data2 = await sixToeight.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webContentLink}}},{
             new:true
         })
         if(req.body.sr==="TEMPORARY")
-        data2 = await temporary.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webViewLink}}},{
+        data2 = await temporary.findByIdAndUpdate(req.body.student_id,{$push:{"documents":{"description":req.body.desc,"name":req.body.response.name,"doc_id":req.body.response.id,"doc_link":req.body.link.webContentLink}}},{
             new:true
         })
 }
