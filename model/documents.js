@@ -8,12 +8,15 @@ const documentSchema = new mongoose.Schema({
     description:
     {
 type:String,
+uppercase:true
     },
     type:{
 type:String,
+uppercase:true
     },
     name:{
-        type:String
+        type:String,
+        uppercase:true
     },
     doc_link:{
         type:String
