@@ -33,10 +33,12 @@ block content
             label(for="student-student") Student's name
             input#student-name(type="text" name="student" value=`${student.name}`)
             label(for="student-father") Father's name (Please use MR. )
+                
             input#student-father(type="text" name="father" value=`${student.father_name}`)
             label(for="student-dob") Date of birth
-            - const dob_=student.dob.toISOString().split('T')[0]
-            input#student-dob(type="Date" name="dob" value=dob_)
+            if(student.dob)
+                - const dob_=student.dob.toISOString().split('T')[0]
+                input#student-dob(type="Date" name="dob" value=dob_)
             label(for="student-gender") Gender
             input#student-gender(type="text" name="gender" value=`${student.gender}`)
             label(for="student-religion") Religion
@@ -65,8 +67,12 @@ block content
         br
         br
         br
-        a(href=`/studentInfo/sr-find-fee/${student.name}/${student.father_name}/${dob_}`)
-            button.option--btn.option--btn--small Sr  
+        if(student.dob)
+            a(href=`/studentInfo/sr-find-fee/${student.name}/${student.father_name}/${dob_}`)
+                button.option--btn.option--btn--small Sr  
+        else 
+            a(href=`/studentInfo/sr-find-fee/${student.name}/${student.father_name}/NULL`)
+                button.option--btn.option--btn--small Sr 
         br
         br
         br

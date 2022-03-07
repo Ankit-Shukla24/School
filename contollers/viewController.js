@@ -504,6 +504,9 @@ exports.srFindFees= async(req,res,next)=>{
 
     req.params.id3 = moment(req.params.id3,"YYYY-MM-DD").format("L")+'Z';
 
+    if(req.params.id3==="Invalid dateZ")
+    return next(new AppError("Please check father name and date of birth"))
+
     console.log(req.params);
 
 let data1 = await pgTopg.find({name:req.params.id1,"father.name":req.params.id2,dob:req.params.id3});
