@@ -31,12 +31,12 @@ const studentSchema = new mongoose.Schema({
     },
     dob:{
 type:Date,
-required: [true,"Enter date of birth"]
+
     },
     gender:{
         type:String,
         uppercase:true,
-        enum:["MALE","FEMALE"]
+        enum:["MALE","FEMALE","UNDEFINED"]
     },
     religion:{
 type:String,
@@ -45,7 +45,7 @@ uppercase:true
     category:{
         type:String,
         uppercase:true,
-        enum:["GEN","OBC","SC","ST"]
+        enum:["GEN","OBC","SC","ST","UNDEFINED"]
     },
     january:
     {

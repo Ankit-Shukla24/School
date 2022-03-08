@@ -42,7 +42,7 @@ else
     })
     // console.log(data);
 }
-// location.reload();    
+location.reload();    
     }
     catch(err)
     {

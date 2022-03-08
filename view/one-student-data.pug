@@ -38,7 +38,7 @@ block content
             label(for="student-dob") Date of birth
             if(student.dob)
                 - const dob_=student.dob.toISOString().split('T')[0]
-                input#student-dob(type="Date" name="dob" value=dob_)
+            input#student-dob(type="Date" name="dob" value=dob_)
             label(for="student-gender") Gender
             input#student-gender(type="text" name="gender" value=`${student.gender}`)
             label(for="student-religion") Religion

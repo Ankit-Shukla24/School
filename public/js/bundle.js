@@ -76647,13 +76647,16 @@ var documentSchema = new mongoose.Schema({
     type: Date
   },
   description: {
-    type: String
+    type: String,
+    uppercase: true
   },
   type: {
-    type: String
+    type: String,
+    uppercase: true
   },
   name: {
-    type: String
+    type: String,
+    uppercase: true
   },
   doc_link: {
     type: String
@@ -77842,11 +77845,12 @@ function () {
             _data = _context.sent;
 
           case 10:
-            _context.next = 16;
+            location.reload();
+            _context.next = 17;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
             entries = Object.entries(_context.t0.response.data.err.errors);
             entries.forEach(function (el) {
@@ -77855,12 +77859,12 @@ function () {
               }
             });
 
-          case 16:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 12]]);
+    }, _callee, null, [[0, 13]]);
   }));
 
   return function StudentData(_x, _x2) {
@@ -79679,7 +79683,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57619" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65163" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
