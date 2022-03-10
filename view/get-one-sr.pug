@@ -203,9 +203,9 @@ block content
                 input#upload-doc(type="file" accept="*" name="docs") 
                 input(type="submit" value="Upload Document" name="submit")
         .margin5
-            -let prev_sr
-            -if(student.prev_sr_no=="No record")
-            -prev_sr= "NA"
+            -let prev_sr= student.prev_sr_no;
+            -if(!student.prev_sr_no)
+                -prev_sr= "NA"
             a#del-sr-record(href=`/api/v1/studentInfo/sr-delete/${student.sr}/${student.id}`)
                     button.option--btn.option--btn--small Delete Record
             if(student.sr==='LKG TO UKG')    
