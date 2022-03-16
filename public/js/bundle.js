@@ -78044,7 +78044,8 @@ function () {
             e.preventDefault();
             document.querySelector("#submit-all").value = "Updating";
             year = document.getElementById("student-year").value;
-            discount = document.getElementById("student-discount").value;
+            discount = "";
+            if (document.getElementById("student-discount")) document.getElementById("student-discount").value;
             name = document.getElementById("student-name").value;
             father = document.getElementById("student-father").value;
             studentClassCode = document.getElementById("student-class").value;
@@ -78071,44 +78072,44 @@ function () {
             console.log(student);
 
             if (!(document.querySelector("#submit-all").name === "add")) {
-              _context4.next = 31;
+              _context4.next = 32;
               break;
             }
 
             return _context4.abrupt("return", StudentData(student, "add"));
 
-          case 31:
-            _context4.prev = 31;
-            _context4.next = 34;
+          case 32:
+            _context4.prev = 32;
+            _context4.next = 35;
             return (0, _axios.default)({
               method: "GET",
               url: "/api/v1/collectionInfo/get-fees"
             });
 
-          case 34:
+          case 35:
             data1 = _context4.sent;
-            _context4.next = 40;
+            _context4.next = 41;
             break;
 
-          case 37:
-            _context4.prev = 37;
-            _context4.t0 = _context4["catch"](31);
+          case 38:
+            _context4.prev = 38;
+            _context4.t0 = _context4["catch"](32);
             window.alert(_context4.t0.response.data.message);
 
-          case 40:
+          case 41:
             fees = data1.data.fees; // console.log(fees);
 
             months = document.querySelectorAll(".month"); // const monthName = ['january','february','march','april','may','june','july','august','september','october','november','december']
 
             total = 0 * 1;
             _iterator = _createForOfIteratorHelper(months);
-            _context4.prev = 44;
+            _context4.prev = 45;
 
             _iterator.s();
 
-          case 46:
+          case 47:
             if ((_step = _iterator.n()).done) {
-              _context4.next = 77;
+              _context4.next = 78;
               break;
             }
 
@@ -78116,7 +78117,7 @@ function () {
             student["".concat(el.name)] = el.value; // // console.log("10");
 
             if (!(el.classList.contains('no_change') !== true && el.value !== "")) {
-              _context4.next = 62;
+              _context4.next = 63;
               break;
             }
 
@@ -78128,35 +78129,35 @@ function () {
             console.log(feesStudent); // console.log(Date.now(),dateNow);
 
             total = total + fees[studentClassCode] * 1 - fees[studentClassCode] * 1 * discount / 100;
-            _context4.next = 59;
+            _context4.next = 60;
             return (0, _axios.default)({
               method: 'POST',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 59:
+          case 60:
             data = _context4.sent;
-            _context4.next = 74;
+            _context4.next = 75;
             break;
 
-          case 62:
+          case 63:
             if (!(el.classList.contains('no_change') === true && el.value === "")) {
-              _context4.next = 74;
+              _context4.next = 75;
               break;
             }
 
             feesStudent['month'] = el.name; // console.log(Date.now(),dateNow);
 
-            _context4.prev = 64;
-            _context4.next = 67;
+            _context4.prev = 65;
+            _context4.next = 68;
             return (0, _axios.default)({
               method: 'DELETE',
               url: "/api/v1/studentInfo/feesStudent",
               data: feesStudent
             });
 
-          case 67:
+          case 68:
             _data2 = _context4.sent;
 
             if (_data2.status === 201) {
@@ -78165,49 +78166,49 @@ function () {
             } // console.log(total);
 
 
-            _context4.next = 74;
+            _context4.next = 75;
             break;
 
-          case 71:
-            _context4.prev = 71;
-            _context4.t1 = _context4["catch"](64);
+          case 72:
+            _context4.prev = 72;
+            _context4.t1 = _context4["catch"](65);
             window.alert(_context4.t1.response.data.message);
 
-          case 74:
+          case 75:
             ;
 
-          case 75:
-            _context4.next = 46;
+          case 76:
+            _context4.next = 47;
             break;
 
-          case 77:
-            _context4.next = 82;
+          case 78:
+            _context4.next = 83;
             break;
 
-          case 79:
-            _context4.prev = 79;
-            _context4.t2 = _context4["catch"](44);
+          case 80:
+            _context4.prev = 80;
+            _context4.t2 = _context4["catch"](45);
 
             _iterator.e(_context4.t2);
 
-          case 82:
-            _context4.prev = 82;
+          case 83:
+            _context4.prev = 83;
 
             _iterator.f();
 
-            return _context4.finish(82);
+            return _context4.finish(83);
 
-          case 85:
+          case 86:
             updateCollectiondata(total, dateNow);
             id = window.location.href.split("/")[5];
             StudentData(student, id);
 
-          case 88:
+          case 89:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[31, 37], [44, 79, 82, 85], [64, 71]]);
+    }, _callee4, null, [[32, 38], [45, 80, 83, 86], [65, 72]]);
   }));
 
   return function (_x5) {
@@ -79683,7 +79684,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65163" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60884" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

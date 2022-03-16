@@ -203,7 +203,9 @@ if(document.querySelector("#submit-all"))
         e.preventDefault();
         document.querySelector("#submit-all").value="Updating";
         const year = document.getElementById("student-year").value;
-        const discount = document.getElementById("student-discount").value;
+        const discount = "";
+        if(document.getElementById("student-discount"))
+        document.getElementById("student-discount").value;
         const name = document.getElementById("student-name").value;
         const father = document.getElementById("student-father").value;
         const studentClassCode= document.getElementById("student-class").value;

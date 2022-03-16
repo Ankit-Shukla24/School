@@ -15,7 +15,7 @@ html
 mixin datechanger(date_change)
     -let data = date_changer
     -if(date_change!=undefined)
-        -data=date_change.toLocaleString('en-us', {day:'numeric',month: 'long', year: 'numeric'})
+        -data=date_change.toLocaleString().split(',')[0];
         td=data
     -else
         td=data
@@ -44,7 +44,7 @@ mixin datechanger(date_change)
         th November
         th December
         th January
-        th Febraury 
+        th February 
         th March
             each student in students 
                 tr
@@ -64,6 +64,6 @@ mixin datechanger(date_change)
                 +datechanger(student.november)
                 +datechanger(student.december)
                 +datechanger(student.january)
-                +datechanger(student.febraury) 
+                +datechanger(student.february) 
                 +datechanger(student.march)
 script(src="/js/bundle.js") 

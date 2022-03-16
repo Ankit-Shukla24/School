@@ -219,6 +219,12 @@ block content
                     button.option--btn.option--btn--small Prev Sr 
             a(href=`/studentInfo/get-one/false/false/${student.name}/${student.father.name}`)
                 button.option--btn.option--btn--small Get Fee Record
+            if(student.dob)
+                a(href=`/studentInfo/sr-find-fee/${student.name}/${student.father.name}/${dob_}`)
+                    button.option--btn.option--btn--small All Sr  
+            else 
+                a(href=`/studentInfo/sr-find-fee/${student.name}/${student.father.name}/NULL`)
+                    button.option--btn.option--btn--small All Sr 
         span#student-sr-id= student.id
     else
         .form-div-data 

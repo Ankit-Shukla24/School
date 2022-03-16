@@ -285,10 +285,10 @@ exports.excelPrintData = async(req,res)=>{
     {
 
         if(req.body.sessionfilter!=="")
-    data = Student.find({session:req.body.sessionfilter});
-
+    data = data.find({year:req.body.sessionfilter*1});
+    // console.log(data)
     if(req.body.classfilter!=="")
-    data = Student.find({class:req.body.classfilter});
+    data = data.find({class:req.body.classfilter});
 
     let k=0;
 
