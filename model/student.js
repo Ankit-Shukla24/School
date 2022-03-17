@@ -36,7 +36,7 @@ type:Date,
     gender:{
         type:String,
         uppercase:true,
-        enum:["MALE","FEMALE","UNDEFINED"]
+        enum:["MALE","FEMALE","UNDEFINED",""]
     },
     religion:{
 type:String,
@@ -45,7 +45,7 @@ uppercase:true
     category:{
         type:String,
         uppercase:true,
-        enum:["GEN","OBC","SC","ST","UNDEFINED"]
+        enum:["GEN","OBC","SC","ST","UNDEFINED",""]
     },
     january:
     {
