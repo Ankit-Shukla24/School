@@ -16,6 +16,7 @@ router.route('/update-sr/:id1/:id2').patch(studentController.updateSr);
 router.route('/add-sr').post(studentController.addSr);
 router.route('/setFees').post(studentController.setFees);
 router.route("/sr-delete/:id1/:id2").delete(studentController.srDelete);
+router.route("/deleteStudent/:id").delete(studentController.deleteStudent);
 router.route("/promote-student-fees/:id1").post(studentController.promoteStudentFees);
 router.route("/promote-student/:id1/:id2/:id3/:id4/:id5").post(studentController.promoteStudent);
 module.exports = router;

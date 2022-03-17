@@ -86,8 +86,6 @@ if(document.querySelector(".del-doc-school"))
 {
     const delBtn =document.querySelectorAll(".del-doc-school");
 
-    
-
     delBtn.forEach((el)=>{
         el.addEventListener("click",async (e)=>{
 
@@ -113,6 +111,9 @@ window.alert(err.response.data.message);
     })
     }
     )}
+
+
+
 
 
 if(document.querySelector("#get-all-form"))
@@ -1474,3 +1475,33 @@ if(document.querySelector("#forgot-email"))
 
 }
 })};
+
+if(document.querySelector("#delete-fees"))
+{
+    const delBtn =document.querySelectorAll("#delete-fees");
+
+    delBtn.forEach((el)=>{
+        el.addEventListener("click",async (e)=>{
+
+        // console.log(el);
+
+        const randnum = Math.round(Math.random()*10000)+100000*1
+
+        const enteredNum = prompt(`Enter the code ${randnum}`,"");
+        const id = window.location.href.split("/")[5];
+        if(enteredNum*1!==randnum*1)
+       return  window.alert("Wrong Code");
+
+     try{   const data = await axios({
+            method:'DELETE',
+            url:`/api/v1/studentInfo/deleteStudent/${id}`
+        })
+        location.href="/studentInfo/get-one";
+}
+catch(err)
+{
+window.alert(err.response.data.message);
+}
+    })
+    }
+    )}

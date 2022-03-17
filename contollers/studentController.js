@@ -9,6 +9,7 @@ const oneToFive = require('./../model/oneTofive');
 const sixToeight = require('./../model/sixToeight');
 const temporary = require('./../model/temporary');
 const { find, create } = require("lodash");
+const Student = require("./../model/student");
 
 
 exports.getAll = async (req,res,next)=>{
@@ -732,3 +733,16 @@ catch(err)
     })
 
 }
+
+exports.deleteStudent = async (req,res,next) =>{
+
+    try
+    {const data = await Students.findByIdAndDelete(req.params.id);
+
+    res.status(201).json({});
+}
+catch(next)
+{
+    next(err);
+}
+} 
